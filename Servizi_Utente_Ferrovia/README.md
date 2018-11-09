@@ -1,8 +1,7 @@
-# Provider_di_Servizi_-PRV-
-Provider di Servizi (PRV) del Progetto della Regione Toscana SmarT INtelliGent RAilwaY (STINGRAY) BUR2017
+# Servizi per l’Utente e la Ferrovia (SUF)
+Servizi per l’Utente e la Ferrovia (SUF) del Progetto della Regione Toscana SmarT INtelliGent RAilwaY (STINGRAY) BUR2017
 
-
-## Partners of Stingray
+## Partners
 
 |  #  | Name                                         | Short name    | Country     | 
 | --- | -------------------------------------------- | ------------- | ----------- | 
@@ -10,9 +9,7 @@ Provider di Servizi (PRV) del Progetto della Regione Toscana SmarT INtelliGent R
 |  2  | CONSIGLIO NAZIONALE DELLE RICERCHE           | ISTI-CNR      | Pisa        | 
 |  3  | Dipartimento di Ingegneria dell'Informazione | UNIFI         | Firenze     | 
 |  4  | Dipartimento di Ingegneria dell'Informazione | UNIPI         | Pisa        | 
-|  5  | DMG Engineering s.r.l.                       | DMG           | Pistoia     | 
-|  6  | ELFI s.r.l.                                  | ELFI          | Pistoia     | 
-|  7  | C.T. Elettronica S.r.l.                      | CTE           | Firenze     | 
+
 
 # The platform
 ## Main Dependencies
