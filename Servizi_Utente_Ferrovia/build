@@ -40,12 +40,9 @@ do
 done
 
 cat ${COMPONENTS_LIST_FILE} | while read COMPONENT_NAME
-
-echo ${COMPONENT_NAME} 
-
 do
 	echo ${COMPONENT_NAME} | grep -q '^#' && continue;
-	if iscomponent ${COMPONENT_NAME}
+	if iscomponent "${COMPONENT_NAME}"
 	then
 		#prebuild "${COMPONENT_NAME}" ${__OPTIONS__}
 		build "${COMPONENT_NAME}" ${__OPTIONS__}
