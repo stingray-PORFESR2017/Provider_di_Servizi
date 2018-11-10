@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-  <display-name>TestHWCorrispettivi</display-name>
+  <display-name>ServizioSupervisioneStazione</display-name>
   <welcome-file-list>
 
-    <welcome-file>index.xhtml</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
     
   </welcome-file-list>
   
@@ -14,11 +14,11 @@
 		<servlet-name>jersey-serlvet</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
  
-<!--		<init-param>
+		<init-param>
 		     <param-name>jersey.config.server.provider.packages</param-name>
-		     <param-value>isti.cnr.sse.rest.impl,isti.cnr.sse.rest.impl.event,isti.cnr.sse.rest.impl.dispositivi</param-value>
+		     <param-value>isti.serviziosupervisionestazione.apirest.impl</param-value>
 		</init-param>
-		-->
+		
 
 	
       <init-param>
@@ -37,7 +37,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
-		<servlet>
+<!--		<servlet>
 		<servlet-name>faces-servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
@@ -46,26 +46,17 @@
 		<context-param>
 		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 		<param-value>true</param-value>
-	</context-param>
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>omega</param-value>
-	</context-param>
+	</context-param> -->
 
-	<context-param>
-		<param-name>primefaces.FONT_AWESOME</param-name>
-		<param-value>true</param-value>
-	</context-param>
  
 	<servlet-mapping>
 		<servlet-name>jersey-serlvet</servlet-name>
-		<url-pattern>/v1/dispositivi/*</url-pattern>
-		<url-pattern>/dispositivi/*</url-pattern>
+		<url-pattern>/serviziosupervisionestazione/*</url-pattern>
 	</servlet-mapping>
   
-  <servlet-mapping>
+<!--  <servlet-mapping>
 		<servlet-name>faces-servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping>-->
   
 </web-app>
