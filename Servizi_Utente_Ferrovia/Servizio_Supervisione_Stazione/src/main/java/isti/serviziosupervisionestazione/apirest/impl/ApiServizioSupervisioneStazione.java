@@ -58,6 +58,7 @@ public class ApiServizioSupervisioneStazione {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error(e);
 		}
 		//return "<html><body>OK</body></html>";
 	}
