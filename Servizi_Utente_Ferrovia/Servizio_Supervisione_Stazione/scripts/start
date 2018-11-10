@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+echo $( dirname "${BASH_SOURCE[0]}")
 cd $( dirname "${BASH_SOURCE[0]}")
 {
-	
+	cd ..
 	mvn jetty:run
 }&
 

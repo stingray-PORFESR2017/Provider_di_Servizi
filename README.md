@@ -23,7 +23,7 @@ Be sure the following tools have been installed on your system before to start :
  * curl
  * unzip
  * build-essential (in Ubuntu, or similar)
- * Java 7
+ * Java 8
  * Bash Shell
 
 ## Build

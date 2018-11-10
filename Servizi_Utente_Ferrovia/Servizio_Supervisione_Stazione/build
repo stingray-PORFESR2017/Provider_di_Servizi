@@ -37,10 +37,9 @@ function component_test() {
 ### INSTALL ###
 # This is where you need to publish material into the `out' directory
 function component_install() {
-    mkdir -p ${__OUT_PATH__}
-    
-    cp "scripts/stop" "${__OUT_STOP_FILE__}"
-    cp "scripts/start" "${__OUT_STOP_FILE__}"
+mkdir -p ${__OUT_PATH__}
+cp "scripts/start" "${__OUT_START_FILE__}"
+cp "scripts/stop" "${__OUT_STOP_FILE__}"
     #cp -r "target/lib/" "${__OUT_PATH__}/lib/"
     
     # There is no run dependencies for this component
