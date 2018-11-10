@@ -1,5 +1,5 @@
 language: java
-#script: bash build --debug
+script: bash build --debug
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
