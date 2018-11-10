@@ -23,3 +23,6 @@
 hs_err_pid*
 Servizi_Utente_Ferrovia/Servizio_Supervisione_Stazione/target/
 *target*
+.settings
+*out*
+*logs*
