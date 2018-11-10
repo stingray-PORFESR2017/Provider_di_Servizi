@@ -17,6 +17,18 @@ ASSE 1 - AZIONE 1.1.5 – Sub-azione a1 “Progetti strategici di ricerca e svil
 |  6  | ELFI s.r.l.                                  | ELFI          | Pistoia     | 
 |  7  | C.T. Elettronica S.r.l.                      | CTE           | Firenze     | 
 
+## Information
+
+Information   | Value
+------------- | --------
+Component     | Provider di Servizi (PRV)
+Partner       | ISTI-CNR
+WP            | 4
+Responsible   | Giorgio O. Spagnolo <spagnolo at isti.cnr.it>
+CoResponsible | Stefania Gnesi  <gnesi at isti.cnr.it>
+Roadmap       | 
+Wiki          | 
+
 # The platform
 ## Main Dependencies
 Be sure the following tools have been installed on your system before to start :

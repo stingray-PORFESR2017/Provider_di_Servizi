@@ -14,3 +14,16 @@ ASSE 1 - AZIONE 1.1.5 – Sub-azione a1 “Progetti strategici di ricerca e svil
 |  1  | ECM                                          | ECM           | Pistoia     | 
 |  2  | CONSIGLIO NAZIONALE DELLE RICERCHE           | ISTI-CNR      | Pisa        | 
 |  3  | Dipartimento di Ingegneria dell'Informazione | UNIFI         | Firenze     | 
+
+
+## Information
+
+Information   | Value
+------------- | --------
+Component     | Servizio InfoMobilita(SIM)
+Partner       | UNFI 
+WP            | 
+Responsible   | 
+CoResponsible | 
+Roadmap       | 
+Wiki          | 

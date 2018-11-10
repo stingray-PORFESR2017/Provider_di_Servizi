@@ -13,3 +13,14 @@ Servizio Manutenzione Predittiva del Progetto della Regione Toscana SmarT INtell
 |  3  | Dipartimento di Ingegneria dell'Informazione | UNIFI         | Firenze     | 
 |  4  | Dipartimento di Ingegneria dell'Informazione | UNIPI         | Pisa        | 
 
+## Information
+
+Information   | Value
+------------- | --------
+Component     | Servizio Efficientamento Energetico(PRV)
+Partner       | ISTI-CNR
+WP            | 4
+Responsible   | 
+CoResponsible |
+Roadmap       | 
+Wiki          | 
