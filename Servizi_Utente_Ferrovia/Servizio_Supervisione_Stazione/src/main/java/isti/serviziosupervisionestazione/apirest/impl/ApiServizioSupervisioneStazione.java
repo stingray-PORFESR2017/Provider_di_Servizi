@@ -23,7 +23,7 @@ import org.glassfish.grizzly.utils.Pair;
 //@Produces(MediaType.APPLICATION_JSON)
 @Path("/pis")
 public class ApiServizioSupervisioneStazione {
-	
+
 	// @Inject
 	// TokenPersistence em;
 
@@ -34,7 +34,7 @@ public class ApiServizioSupervisioneStazione {
 	private static Map<String, Pair<Integer, Date>> timediff = new HashMap<>();
 
 	private static Map<String, Integer> ricevuti = new HashMap<>();
-	
+
 	@Path("/test")
 	@GET
 	public String test() {
@@ -45,15 +45,17 @@ public class ApiServizioSupervisioneStazione {
 		log.info("Test OK\n\r");
 		return "<html><body>OK</body></html>";
 	}
-	
+
 	@Path("/viaggiatreno/{key:.*}")
 	@GET
 	public void viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/";
 		String url  = path + key;
-		
+
 		log.info(url+"\n\r");
-		 try {
+		try {
+			response.setStatus(response.SC_MOVED_TEMPORARILY);
+			response.setHeader("Location", url);
 			response.sendRedirect(url);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -62,7 +64,7 @@ public class ApiServizioSupervisioneStazione {
 		}
 		//return "<html><body>OK</body></html>";
 	}
-	
+
 
 
 }
