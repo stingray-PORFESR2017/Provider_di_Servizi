@@ -39,7 +39,7 @@
 
 	</repositories>
 
-		<dependencies>
+	<dependencies>
 
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
@@ -52,7 +52,7 @@
 			<artifactId>jersey-gf-cdi</artifactId>
 			<version>2.14</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
@@ -112,24 +112,24 @@
 			<version>2.19</version>
 		</dependency>
 
-	<dependency>
-		<groupId>org.glassfish.jersey.ext</groupId>
-		<artifactId>jersey-mvc-jsp</artifactId>
-		<version>2.19</version>
-	</dependency>
-	
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>javax.servlet-api</artifactId>
-		<version>4.0.0</version>
-		<scope>provided</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-mvc-jsp</artifactId>
+			<version>2.19</version>
+		</dependency>
 
-	<dependency>
-		<groupId>org.glassfish.jersey.containers</groupId>
-		<artifactId>jersey-container-servlet</artifactId>
-		<version>2.19</version>
-	</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.19</version>
+		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-simple</artifactId>
@@ -138,7 +138,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -152,29 +152,67 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			
-	<plugin>
+
+			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<!--<version>8.1.14.v20131031</version> -->
 				<version>9.4.8.v20171121</version>
 				<configuration>
 					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
-							<port>9090</port>
-						</connector>
-						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
-							<port>8443</port>
-							<keystore>${project.basedir}/src/main/config/jetty-server-ssl.jks</keystore>
-							<keyPassword>jetty8</keyPassword>
-							<protocol>TLSv1.2</protocol>
-							<password>jetty8</password>
-						</connector>
-					</connectors>
+
 				</configuration>
 			</plugin>
-
-	</plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>jersey-service-${project.version}</finalName>
+                    <archive>
+                        <manifest>
+                            <mainClass>isti.rest.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals><goal>copy-dependencies</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>isti.rest.Main</mainClass>
+                </configuration>
+            </plugin>
+		</plugins>
 	</build>
 </project>
