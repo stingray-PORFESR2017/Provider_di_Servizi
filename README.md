@@ -2,7 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-[![Sito Internet](https://img.shields.io/badge/ISTI-STINGRAY-blue.svg)](https:/stingray.isti.cnr.it)
+[![Sito Internet](https://img.shields.io/badge/ISTI-STINGRAY-blue.svg)](https://stingray.isti.cnr.it)
 
 [![SemVer](https://img.shields.io/badge/SemVer-0.0.1-ff69b4.svg)](https://semver.org/lang/it/)
 
