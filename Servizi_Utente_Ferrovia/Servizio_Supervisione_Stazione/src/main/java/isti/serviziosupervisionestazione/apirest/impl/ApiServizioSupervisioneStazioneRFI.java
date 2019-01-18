@@ -52,6 +52,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 	public void viaggiatreno(@PathParam("key") String key, 
 			@QueryParam("PlaceId") String PlaceId, 
 			@QueryParam("TrainNumber") String TrainNumber, 
+			@QueryParam("TrainId") String TrainId, 
 			@QueryParam("Time") String Time ,
 			@QueryParam("Limit") String Limit,
 			@Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -64,6 +65,8 @@ public class ApiServizioSupervisioneStazioneRFI {
 			key+="?Limit="+Limit;
 		if(TrainNumber!=null)
 			key+="?TrainNumber="+TrainNumber;
+		if(TrainId!=null)
+			key+="?TrainId="+TrainId;
 		String url  = path + key;
 
 		log.info(url+"\n\r");
