@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -48,8 +49,21 @@ public class ApiServizioSupervisioneStazioneRFI {
 
 	@Path("/FrontEnd/{key:.*}")
 	@GET
-	public void viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public void viaggiatreno(@PathParam("key") String key, 
+			@QueryParam("PlaceId") String PlaceId, 
+			@QueryParam("TrainNumber") String TrainNumber, 
+			@QueryParam("Time") String Time ,
+			@QueryParam("Limit") String Limit,
+			@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "https://stazionevirtuale.rfi.it/IECSV/IeC/SV/FrontEnd/";
+		if(PlaceId!=null)
+			key+="?PlaceId="+PlaceId;
+		if(Time!=null)
+			key+="?Time="+Time;
+		if(PlaceId!=null)
+			key+="?Limit="+Limit;
+		if(TrainNumber!=null)
+			key+="?TrainNumber="+TrainNumber;
 		String url  = path + key;
 
 		log.info(url+"\n\r");
