@@ -61,7 +61,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 			key+="?PlaceId="+PlaceId;
 		if(Time!=null)
 			key+="?Time="+Time;
-		if(PlaceId!=null)
+		if(Limit!=null)
 			key+="?Limit="+Limit;
 		if(TrainNumber!=null)
 			key+="?TrainNumber="+TrainNumber;
