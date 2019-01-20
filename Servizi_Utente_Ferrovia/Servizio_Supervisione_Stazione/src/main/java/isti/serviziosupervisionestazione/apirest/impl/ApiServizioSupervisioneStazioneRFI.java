@@ -52,6 +52,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 
 	@Path("/FrontEnd/{key:.*}")
 	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public String viaggiatreno(@PathParam("key") String key, 
 			@QueryParam("PlaceId") String PlaceId, 
 			@QueryParam("TrainNumber") String TrainNumber, 
