@@ -52,7 +52,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 
 	@Path("/FrontEnd/{key:.*}")
 	@GET
-	public Response viaggiatreno(@PathParam("key") String key, 
+	public String viaggiatreno(@PathParam("key") String key, 
 			@QueryParam("PlaceId") String PlaceId, 
 			@QueryParam("TrainNumber") String TrainNumber, 
 			@QueryParam("TrainId") String TrainId, 
@@ -80,8 +80,9 @@ public class ApiServizioSupervisioneStazioneRFI {
 			if(contenttype==null)
 				contenttype = "application/xml";
 			Response response = client.target(url).request().header("Content-Type", contenttype).get();
+			String responseAsString = response.readEntity(String.class);
 
-			return response;
+			return responseAsString;
 			/*response.setStatus(response.SC_MOVED_TEMPORARILY);
 			response.setHeader("Location", url);
 			response.sendRedirect(url);*/
@@ -91,7 +92,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 			log.error(e);
 		}
 		String err =  "<html><body>ERROR</body></html>";
-		return Response.status(200).entity(err).build();
+		return err;
 		
 	}
 
