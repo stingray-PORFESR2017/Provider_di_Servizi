@@ -14,8 +14,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.grizzly.utils.Pair;
 
@@ -49,13 +52,13 @@ public class ApiServizioSupervisioneStazioneRFI {
 
 	@Path("/FrontEnd/{key:.*}")
 	@GET
-	public void viaggiatreno(@PathParam("key") String key, 
+	public Response viaggiatreno(@PathParam("key") String key, 
 			@QueryParam("PlaceId") String PlaceId, 
 			@QueryParam("TrainNumber") String TrainNumber, 
 			@QueryParam("TrainId") String TrainId, 
 			@QueryParam("Time") String Time ,
 			@QueryParam("Limit") String Limit,
-			@Context HttpServletRequest request, @Context HttpServletResponse response) {
+			@Context HttpServletRequest request/*, @Context HttpServletResponse response*/) {
 		String path = "https://stazionevirtuale.rfi.it/IECSV/IeC/SV/FrontEnd/";
 		if(PlaceId!=null)
 			key+="?PlaceId="+PlaceId;
@@ -68,18 +71,28 @@ public class ApiServizioSupervisioneStazioneRFI {
 		if(TrainId!=null)
 			key+="?TrainId="+TrainId;
 		String url  = path + key;
-
+//Content-Type: application/xml;
+		String contenttype = request.getContentType();
 		log.info(url+"\n\r");
 		try {
-			response.setStatus(response.SC_MOVED_TEMPORARILY);
+
+			Client client = ClientBuilder.newClient();
+			if(contenttype==null)
+				contenttype = "application/xml";
+			Response response = client.target(url).request().header("Content-Type", contenttype).get();
+
+			return response;
+			/*response.setStatus(response.SC_MOVED_TEMPORARILY);
 			response.setHeader("Location", url);
-			response.sendRedirect(url);
-		} catch (IOException e) {
+			response.sendRedirect(url);*/
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			log.error(e);
 		}
-		//return "<html><body>OK</body></html>";
+		String err =  "<html><body>ERROR</body></html>";
+		return Response.status(200).entity(err).build();
+		
 	}
 
 
