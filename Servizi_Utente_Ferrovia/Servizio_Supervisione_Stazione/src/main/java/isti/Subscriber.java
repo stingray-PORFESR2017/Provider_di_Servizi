@@ -12,8 +12,11 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class Subscriber implements MqttCallback{
+	
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Subscriber.class);
+	
 	private final int qos = 1;
-    private String topic = "STINGRAY_PUBLFFFE00000007";
+    private String topic = "#";
     private IMqttClient publisher;
 	
 	public Subscriber(String uri) throws MqttException {
@@ -21,7 +24,7 @@ public class Subscriber implements MqttCallback{
 		publisher = new MqttClient("ssl://stingray.isti.cnr.it:8883",publisherId,new MemoryPersistence());
 		MqttConnectOptions options = new MqttConnectOptions();
 		
-		options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
+		options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
 
         
         publisher.setCallback(this);
@@ -57,19 +60,22 @@ public class Subscriber implements MqttCallback{
 	@Override
 	public void connectionLost(Throwable cause) {
 		// TODO Auto-generated method stub
-		System.out.println("Connection lost because: " + cause);
+		log.info("Connection lost because: " + cause);
 	}
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken cause) {
 		// TODO Auto-generated method stub
-		System.out.println("Connection lost because: " + cause);
+		log.info("Connection lost because: " + cause);
 		
 	}
 
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws MqttException {
-        System.out.println(String.format("[%s] %s", topic, new String(message.getPayload())));
+		if(topic.contains("STINGRAY_")){
+			log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
+		}
+        
     }
 
 }
