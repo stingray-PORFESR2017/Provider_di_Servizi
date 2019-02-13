@@ -74,6 +74,9 @@ public class Subscriber implements MqttCallback{
 	public void messageArrived(String topic, MqttMessage message) throws MqttException {
 		if(topic.contains("STINGRAY_")){
 			log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
+			if(message.getPayload().length>60){
+				MessageCMAD c = new MessageCMAD(message.getPayload());
+			}
 		}
         
     }
