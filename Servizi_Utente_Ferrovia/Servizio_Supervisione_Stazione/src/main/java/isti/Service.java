@@ -24,8 +24,8 @@ public class Service {
 		System.out.println("CRC16-CCITT = " + Integer.toHexString(crc));
 	}
 	
-	public static String CRC(byte[] bytes){
-		int crc = 0x0000;          // initial value
+	public static int CRC(byte[] bytes){
+		int crc = 0x00;          // initial value
 		int polynomial = 0x1021;   // 0001 0000 0010 0001  (0, 5, 12) 
 
 		// byte[] testBytes = "123456789".getBytes("ASCII");
@@ -42,18 +42,27 @@ public class Service {
 		}
 
 		crc &= 0xffff;
-		System.out.println("CRC16-CCITT = " + crc);
-		return Integer.toHexString(crc);
+		System.out.println("CRC16-CCITT = " + crc+ " "+Integer.toHexString(crc));
+		return crc;
 	}
 	
 	
+	public static byte[] intToBytes(int x) {
+	    byte[] bytes = new byte[2];
+
+	    for (int i = 0; x != 0; i++, x >>>= 8) {
+	        bytes[i] = (byte) (x & 0xFF);
+	    }
+
+	    return bytes;
+	}
 	
 	
 	
 	public static int CRCE(byte[] list){
 		int iCRC= 0x0000; 
 		for(int t=0;t<list.length;t++){
-			iCRC = CRCECM(iCRC,list[t]& 0xff);
+			iCRC = CRCECM(iCRC,list[t]);
 		}
 		
 		return iCRC;
