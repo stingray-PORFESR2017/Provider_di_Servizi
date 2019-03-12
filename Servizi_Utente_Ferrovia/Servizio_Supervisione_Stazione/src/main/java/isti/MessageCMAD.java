@@ -21,10 +21,13 @@ public class MessageCMAD {
 	short CMAD_DIGITAL_INFO;
 	byte[] CMAD_ANALOG_INFO;
 	byte[] CMAD_Dummy;
-	short CMAD_CRC;
+	int CMAD_CRC;
+	CMADAnalogInfo cCMAD_ANALOG_INFO;
+	byte[] mess;
+	
 	MessageCMAD(byte[] message) {
 
-		
+		mess = message;
 		
 		CMAD_HEADER = String.valueOf( (char)(message[0]));//1
 		byte[] CMAD_MAC = Arrays.copyOfRange(message, 1, 7);//6
@@ -56,24 +59,42 @@ public class MessageCMAD {
 		float TensioneL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 47, 49))/10;//2
 		float TensioneL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 49, 51))/10;//2
 		float TensioneL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
+		
+		L Tensione = new L(TensioneL1,TensioneL2,TensioneL3);
+		
 		float CorrenteL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 53, 55))/100;//2
 		float CorrenteL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 55, 57))/100;//2
 		float CorrenteL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 57, 59))/100;//2
+		
+		L Corrente = new L(CorrenteL1,CorrenteL2,CorrenteL3);
+		
 		float PotenzaL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 59, 61))/10;//2
 		float PotenzaL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 61, 63))/10;//2
 		float PotenzaL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 63, 65))/10;//2
+		
+		L Potenza = new L(PotenzaL1,PotenzaL2,PotenzaL3);
 		
 		float PotenzaRL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 65, 67))/10;//2
 		float PotenzaRL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 67, 69))/10;//2
 		float PotenzaRL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 69, 71))/10;//2
 		
+		L PotenzaR = new L(PotenzaRL1,PotenzaRL2,PotenzaRL3);
+		
 		float FattPotenzaL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 71, 73))/100;//2
 		float FattPotenzaL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 73, 75))/100;//2
 		float FattPotenzaL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 75, 77))/100;//2
 		
+		L FattPotenza = new L(FattPotenzaL1,FattPotenzaL2,FattPotenzaL3);
+		
 		float EnergiaA = (float) TwobytesToint(Arrays.copyOfRange(message, 77, 79))/10;//2
 		float EnergiaR = (float) TwobytesToint(Arrays.copyOfRange(message, 79, 81))/10;//2
 
+		
+		 cCMAD_ANALOG_INFO = new CMADAnalogInfo(TempEst,
+			    Lux,
+			    TempSuolo, Tensione,Corrente,Potenza,PotenzaR,FattPotenza,EnergiaA,EnergiaR);
+		
+		
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		
@@ -83,18 +104,41 @@ public class MessageCMAD {
 		var = Arrays.copyOfRange(message, 0, message.length-2);//2
 		
 		
-		int d = Service.CRC(var);
-		byte[] recCRC = intToBytes(d);
+		CMAD_CRC = Service.CRC(var);
+		byte[] recCRC = intToBytes(CMAD_CRC);
 		if(Arrays.equals(recCRC, CRC)){
 			System.out.println("CRC OK");
 		}else{
 			System.err.println("CRC KO");
 		}
-		System.out.println(d);
+		
+		System.out.println(CMAD_CRC);
  		System.out.println(CMAD_DESCRIPTION);
  		System.out.println(toString());
 		
 	}
+	
+	public JCMAD getJCMAD() {
+		JCMAD j = new JCMAD(CMAD_HEADER,
+				MAC_ADR,
+				CMAD_TYPE,
+				CMAD_REVISION,
+				new Short(CMAD_POSITION).toString(),
+				CMAD_DESCRIPTION,
+				new Long(CMAD_LONGITUDE).toString(),
+				new Long(CMAD_LATITUDE).toString(),
+				new Short(CMAD_DIGITAL_INFO).toString(),
+				new String(mess),
+				CMAD_CRC);
+		
+		
+		j.setCMAD_ANALOG_INFO(cCMAD_ANALOG_INFO);
+		
+		
+		
+		return j;
+	}
+	
 	/* Struttura	Bytes	Default	Descrizione
 CMAD_HEADER	1	BYTE	Header messaggio deve essere impostato a C
 CMAD_MAC	6	UBYTE	Mac address CMAD

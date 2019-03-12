@@ -2,6 +2,13 @@ package isti;
 
 import java.util.UUID;
 
+import javax.inject.Inject;
+import javax.persistence.EntityTransaction;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -11,6 +18,9 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
+
+
 public class Subscriber implements MqttCallback{
 	
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Subscriber.class);
@@ -18,6 +28,9 @@ public class Subscriber implements MqttCallback{
 	private final int qos = 1;
     private String topic = "#";
     private IMqttClient publisher;
+    
+    @Inject 
+    private TokenPersistence em;
 	
 	public Subscriber(String uri) throws MqttException {
 		String publisherId = UUID.randomUUID().toString();
@@ -38,10 +51,30 @@ public class Subscriber implements MqttCallback{
 		
 		try {
 			Subscriber s = new Subscriber("");
+			
 		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		/*JCMAD ff = new JCMAD("coia", 2);
+		try {
+		
+		JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
+		
+		
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		marshaller.marshal( ff, System.out );
+
+		
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 		/*try {
 			IMqttClient publisher = new MqttClient("tcp://stingray.isti.cnr.it:8883",publisherId);
 			MqttConnectOptions options = new MqttConnectOptions();
@@ -76,6 +109,30 @@ public class Subscriber implements MqttCallback{
 			log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
 			if(message.getPayload().length>60){
 				MessageCMAD c = new MessageCMAD(message.getPayload());
+				JCMAD ff = c.getJCMAD();
+				
+				
+				EntityTransaction trans = em.getTransaction();
+				trans.begin();
+				em.persist(ff);
+				trans.commit();
+				
+				try {
+					
+					JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
+					
+					
+					Marshaller marshaller = jaxbContext.createMarshaller();
+					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+					marshaller.marshal( ff, System.out );
+
+					
+					} catch (JAXBException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		}
         
