@@ -216,7 +216,7 @@
 				<!--<version>8.1.14.v20131031</version> -->
 				<version>9.4.8.v20171121</version>
 				<configuration>
-					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-env.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
+					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-env.xml,${project.basedir}/src/main/resources/jetty-context.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
 
 				</configuration>
 				 <dependencies>
