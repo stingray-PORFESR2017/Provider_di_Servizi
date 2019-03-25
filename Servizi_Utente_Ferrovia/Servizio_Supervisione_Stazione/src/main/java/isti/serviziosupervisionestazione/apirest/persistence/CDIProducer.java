@@ -10,7 +10,7 @@ public class CDIProducer {
 	
 	@Produces
 	EntityManagerFactory createFactory(){
-		return Persistence.createEntityManagerFactory("annotatedcca");
+		return Persistence.createEntityManagerFactory("jcmad_pers");
 	}
 
 }

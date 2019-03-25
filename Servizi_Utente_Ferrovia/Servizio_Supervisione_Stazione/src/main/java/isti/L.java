@@ -1,10 +1,13 @@
 package isti;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "L", propOrder = {
@@ -12,8 +15,7 @@ import javax.xml.bind.annotation.XmlType;
     "L2",
     "L3"
 })
-@Entity
-public class L {
+public class L implements Serializable{
 	
 	
 	@XmlElement(name = "L1", required = true)

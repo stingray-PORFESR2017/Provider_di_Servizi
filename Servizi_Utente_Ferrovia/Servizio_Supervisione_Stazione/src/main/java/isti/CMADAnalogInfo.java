@@ -1,5 +1,6 @@
 package isti;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,7 @@ import javax.xml.bind.annotation.XmlType;
     "EnergiaReattiva"
     
 })
-@Entity
-public class CMADAnalogInfo {
+public class CMADAnalogInfo implements Serializable{
 	
     @XmlElement(name = "TempEst", required = true)
 	float TempEst;
