@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	 <persistence-unit name="jcmad_pers-test" transaction-type="RESOURCE_LOCAL">
+	 <persistence-unit name="jcmad_pers" transaction-type="RESOURCE_LOCAL">
       <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
       <class>isti.JCMAD</class>
       <properties>
           <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-		<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test2;create=true" /><!-- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
+		<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;create=true" /><!-- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
         <property name="eclipselink.logging.level" value="WARNING" />
         <property name="javax.persistence.jdbc.user" value="" />
    	    <property name="javax.persistence.jdbc.password" value="" />
@@ -14,7 +14,7 @@
       <!--   <property name="eclipselink.target-database" value="Auto"/>  -->
       </properties>
     </persistence-unit>
-  <!--  <persistence-unit name="JEE6Demo-Persistence"org.jboss.jandex.Index
+  <!--  <persistence-unit name="JEE6Demo-Persistence"
         transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>isti.JCAMD</class>
