@@ -90,12 +90,12 @@
   <version>1.2.0</version>
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.h2database/h2 
+<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 <dependency>
     <groupId>com.h2database</groupId>
     <artifactId>h2</artifactId>
     <version>1.4.197</version>
-</dependency>-->
+</dependency>
 <dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
@@ -122,8 +122,21 @@
     <artifactId>weld-junit4</artifactId>
     <version>1.3.1.Final</version>
 </dependency>
-
-
+<dependency>
+    <groupId>org.reflections</groupId>
+    <artifactId>reflections</artifactId>
+    <version>0.9.11</version>
+</dependency>
+<dependency>
+    <groupId>javax.persistence</groupId>
+    <artifactId>javax.persistence-api</artifactId>
+    <version>2.2</version>
+</dependency>
+<dependency>
+    <groupId>org.eclipse.persistence</groupId>
+    <artifactId>eclipselink</artifactId>
+    <version>2.7.4</version>
+</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-grizzly2</artifactId>
@@ -151,13 +164,13 @@
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>2.19</version>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-mvc-jsp</artifactId>
 			<version>2.19</version>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
