@@ -278,7 +278,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>isti.Subscriber</mainClass>
+                    <mainClass>isti.Main</mainClass>
                 </configuration>
             </plugin>
 		</plugins>

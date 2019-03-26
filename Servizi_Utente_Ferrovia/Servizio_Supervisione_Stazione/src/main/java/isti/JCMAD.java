@@ -64,7 +64,7 @@ public class JCMAD  implements java.io.Serializable{
 	String CMAD_DIGITAL_INFO;
 	@XmlElement(name = "CMAD_ANALOG_INFO", required = true)
 	CMADAnalogInfo CMAD_ANALOG_INFO;
-	@XmlElement(name = "CMAD_RAW", required = true)
+	@XmlElement(name = "CMAD_RAW_BASE64", required = true)
 	String CMAD_RAW;
 	@XmlElement(name = "CMAD_CRC", required = true)
 	String CMAD_CRC;
