@@ -32,8 +32,13 @@ import javax.persistence.*;
     
     
 })
-@Entity 
+@Entity(name="Jcmad" )
 @Table(name = "CMAD") 
+@NamedQueries({
+    @NamedQuery(name="JCMAD.findAll",
+                query="SELECT c FROM Jcmad c"),
+   
+}) 
 public class JCMAD  implements java.io.Serializable{
 	
 	@XmlElement(name = "CMAD_HEADER", required = true)

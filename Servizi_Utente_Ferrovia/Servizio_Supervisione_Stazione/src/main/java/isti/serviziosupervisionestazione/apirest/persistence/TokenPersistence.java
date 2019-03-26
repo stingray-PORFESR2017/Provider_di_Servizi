@@ -22,7 +22,7 @@ void persist(JCMAD ar);
 JCMAD find(
 		Class<JCMAD> class1, String value);
 
-TypedQuery<String> createNamedQuery(String string, Class<String> class1);
+TypedQuery<JCMAD> createNamedQuery(String string, Class<JCMAD> class1);
 
 
 }

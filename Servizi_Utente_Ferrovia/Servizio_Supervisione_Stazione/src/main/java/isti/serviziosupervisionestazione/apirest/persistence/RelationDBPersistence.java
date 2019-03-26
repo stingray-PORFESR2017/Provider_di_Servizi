@@ -57,8 +57,8 @@ public class RelationDBPersistence implements TokenPersistence {
 	}
 
 	@Override
-	public TypedQuery<String> createNamedQuery(String string,
-			Class<String> class1) {
+	public TypedQuery<JCMAD> createNamedQuery(String string,
+			Class<JCMAD> class1) {
 		return em.createNamedQuery(string,class1);
 	}
 

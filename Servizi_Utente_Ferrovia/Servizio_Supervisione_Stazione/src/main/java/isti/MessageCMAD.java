@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Base64;
 
 
 
@@ -128,7 +129,7 @@ public class MessageCMAD {
 				new Long(CMAD_LONGITUDE).toString(),
 				new Long(CMAD_LATITUDE).toString(),
 				new Short(CMAD_DIGITAL_INFO).toString(),
-				new String(mess),
+				Base64.getEncoder().encodeToString(mess),
 				CMAD_CRC);
 		
 		

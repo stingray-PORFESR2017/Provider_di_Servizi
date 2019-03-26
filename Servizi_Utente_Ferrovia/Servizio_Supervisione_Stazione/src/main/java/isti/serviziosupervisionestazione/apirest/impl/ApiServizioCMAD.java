@@ -50,10 +50,10 @@ public class ApiServizioCMAD {
 	
 	@Path("/ALL/{key:.*}")
 	@GET
-	public List<String> alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public List<JCMAD> alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 	
-		TypedQuery<String>	r = 	em.createNamedQuery("JCMAD.findAll", String.class);
-		List<String> res = r.getResultList();
+		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAll", JCMAD.class);
+		List<JCMAD> res = r.getResultList();
 		return res;
 		//return new ArrayList<JCMAD>();
 	
