@@ -4,7 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
     "EnergiaReattiva"
     
 })
+@Embeddable
 public class CMADAnalogInfo implements Serializable{
 	
     @XmlElement(name = "TempEst", required = true)
@@ -34,19 +46,62 @@ public class CMADAnalogInfo implements Serializable{
 	float TempSuolo;
     
     @XmlElement(name = "Tensione", required = true)
-	List<L> Tensione;
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="Tensione1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="Tensione2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="Tensione3"))
+    })
+    @Embedded L Tensione;
 
+    
     @XmlElement(name = "Corrente", required = true)
-   	List<L> Corrente;
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="Corrente1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="Corrente2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="Corrente3"))
+    })
+    @Embedded L Corrente;
+    
     
     @XmlElement(name = "PotenzaAttiva", required = true)
-   	List<L> PotenzaAttiva;
-
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="PotenzaAttiva1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="PotenzaAttiva2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="PotenzaAttiva3"))
+    })
+    @Embedded L PotenzaAttiva;
+    
+    
     @XmlElement(name = "PotenzaReattiva", required = true)
-   	List<L> PotenzaReattiva;
-	
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="PotenzaReattiva1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="PotenzaReattiva2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="PotenzaReattiva3"))
+    })
+    @Embedded L PotenzaReattiva;
+    
     @XmlElement(name = "FattorePotenza", required = true)
-   	List<L> FattorePotenza;
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="FattorePotenza1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="FattorePotenza2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="FattorePotenza3"))
+    })
+    @Embedded L FattorePotenza;
 
     @XmlElement(name = "EnergiaAttiva", required = true)
 	float EnergiaAttiva;
@@ -54,7 +109,9 @@ public class CMADAnalogInfo implements Serializable{
 	float EnergiaReattiva;
     
     
-    
+    public CMADAnalogInfo(){
+    	
+    }
     
     
     
@@ -78,11 +135,11 @@ public class CMADAnalogInfo implements Serializable{
 		TempEst = tempEst;
 		Lux = lux;
 		TempSuolo = tempSuolo;
-		Tensione = set(tensione);
-		Corrente = set(corrente);
-		PotenzaAttiva = set(potenzaAttiva);
-		PotenzaReattiva = set(potenzaReattiva);
-		FattorePotenza = set(fattorePotenza);
+		Tensione = tensione;
+		Corrente = corrente;
+		PotenzaAttiva = potenzaAttiva;
+		PotenzaReattiva = potenzaReattiva;
+		FattorePotenza = fattorePotenza;
 		EnergiaAttiva = energiaAttiva;
 		EnergiaReattiva = energiaReattiva;
 	}
@@ -111,34 +168,34 @@ public class CMADAnalogInfo implements Serializable{
 	public void setTempSuolo(float tempSuolo) {
 		TempSuolo = tempSuolo;
 	}
-	public List<L> getTensione() {
+	public L getTensione() {
 		return Tensione;
 	}
-	public void setTensione(List<L> tensione) {
+	public void setTensione(L tensione) {
 		Tensione = tensione;
 	}
-	public List<L> getCorrente() {
+	public L getCorrente() {
 		return Corrente;
 	}
-	public void setCorrente(List<L> corrente) {
+	public void setCorrente(L corrente) {
 		Corrente = corrente;
 	}
-	public List<L> getPotenzaAttiva() {
+	public L getPotenzaAttiva() {
 		return PotenzaAttiva;
 	}
-	public void setPotenzaAttiva(List<L> potenzaAttiva) {
+	public void setPotenzaAttiva(L potenzaAttiva) {
 		PotenzaAttiva = potenzaAttiva;
 	}
-	public List<L> getPotenzaReattiva() {
+	public L getPotenzaReattiva() {
 		return PotenzaReattiva;
 	}
-	public void setPotenzaReattiva(List<L> potenzaReattiva) {
+	public void setPotenzaReattiva(L potenzaReattiva) {
 		PotenzaReattiva = potenzaReattiva;
 	}
-	public List<L> getFattorePotenza() {
+	public L getFattorePotenza() {
 		return FattorePotenza;
 	}
-	public void setFattorePotenza(List<L> fattorePotenza) {
+	public void setFattorePotenza(L fattorePotenza) {
 		FattorePotenza = fattorePotenza;
 	}
 	public float getEnergiaAttiva() {

@@ -1,5 +1,6 @@
 package isti;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
-import java.util.Date;
 import javax.persistence.*;
 
 @XmlRootElement(name = "DatiCMAD", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
@@ -19,6 +19,7 @@ import javax.persistence.*;
 @XmlType(name = "JCAMD", propOrder = {
     "CMAD_HEADER",
     "MAC_ADR",
+    "CMAD_DATE",
     "CMAD_TYPE",
     "CMAD_REVISION",
     "CMAD_POSITION",
@@ -37,8 +38,16 @@ import javax.persistence.*;
 @NamedQueries({
     @NamedQuery(name="JCMAD.findAll",
                 query="SELECT c FROM Jcmad c"),
+    
    
 }) 
+/*@NamedNativeQueries({
+    @NamedNativeQuery(
+            name    =   "updateCMAD",
+            query   =   "UPDATE c SET c = ?, c.CMAD_ANALOG_INFO= ?, c.CMAD_CRC= ?, c.CMAD_DESCRIPTION= ?, c.CMAD_DIGITAL_INFO= ?, c.CMAD_HEADER= ?, c.CMAD_LATITUDE= ?, c.CMAD_LONGITUDE= ?, c.CMAD_POSITION= ?, c.CMAD_RAW= ?, c.CMAD_REVISION= ?, c.CMAD_TYPE  WHERE c.MAC_ADR = ? FROM Jcmad c"
+            ,resultSetMapping = "updateResult"
+    )
+})*/
 public class JCMAD  implements java.io.Serializable{
 	
 	@XmlElement(name = "CMAD_HEADER", required = true)
@@ -47,6 +56,9 @@ public class JCMAD  implements java.io.Serializable{
 	@Id 
 	@XmlElement(name = "MAC_ADR", required = true)
 	String MAC_ADR;
+
+	@XmlElement(name = "CMAD_DATE", required = true)
+	LocalDateTime CMAD_DATE;
 	
 	@XmlElement(name = "CMAD_TYPE", required = true)
 	int CMAD_TYPE = 0;
@@ -62,8 +74,12 @@ public class JCMAD  implements java.io.Serializable{
 	String CMAD_LATITUDE;
 	@XmlElement(name = "CMAD_DIGITAL_INFO", required = true)
 	String CMAD_DIGITAL_INFO;
+	
+	
 	@XmlElement(name = "CMAD_ANALOG_INFO", required = true)
+	 @Embedded
 	CMADAnalogInfo CMAD_ANALOG_INFO;
+	
 	@XmlElement(name = "CMAD_RAW_BASE64", required = true)
 	String CMAD_RAW;
 	@XmlElement(name = "CMAD_CRC", required = true)
@@ -106,6 +122,9 @@ public class JCMAD  implements java.io.Serializable{
 		
 		CMAD_RAW = cCMAD_RAW;
 		CMAD_CRC = String.valueOf(cMAD_CRC);
+		//date = new Date();
+		CMAD_DATE = LocalDateTime.now();
+		System.out.print(CMAD_DATE);
 	}
 
 
@@ -182,6 +201,20 @@ public class JCMAD  implements java.io.Serializable{
 	}
 	public void setCMAD_CRC(String cMAD_CRC) {
 		CMAD_CRC = cMAD_CRC;
+	}
+
+
+
+
+	public LocalDateTime getDate() {
+		return CMAD_DATE;
+	}
+
+
+
+
+	public void setDate(LocalDateTime date) {
+		this.CMAD_DATE = date;
 	}
 	
 	
