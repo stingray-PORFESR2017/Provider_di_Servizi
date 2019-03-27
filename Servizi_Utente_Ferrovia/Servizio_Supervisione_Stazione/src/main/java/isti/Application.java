@@ -48,7 +48,7 @@ public void run() {
 
     publisher.subscribe(this.topic, qos);
 	}catch (Exception e) {
-		// TODO: handle exception
+		System.out.print(e);
 	}
  
 }
@@ -74,7 +74,7 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 			MessageCMAD c = new MessageCMAD(message.getPayload());
 			JCMAD ff = c.getJCMAD();
 			
-			JCMAD employee = em.find(JCMAD.class, ff.getMAC_ADR());
+			JCMAD employee = null;//em.find(JCMAD.class, ff.getId().getMAC_ADR());
 			if(employee==null){
 			
 			EntityTransaction trans = em.getTransaction();

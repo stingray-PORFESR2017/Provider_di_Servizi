@@ -3,6 +3,7 @@ package isti;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,9 +18,7 @@ import javax.persistence.*;
 @XmlRootElement(name = "DatiCMAD", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JCAMD", propOrder = {
-    "CMAD_HEADER",
-    "MAC_ADR",
-    "CMAD_DATE",
+    "Id",
     "CMAD_TYPE",
     "CMAD_REVISION",
     "CMAD_POSITION",
@@ -50,6 +49,10 @@ import javax.persistence.*;
 })*/
 public class JCMAD  implements java.io.Serializable{
 	
+	@XmlElement(/*name = "CMAD",*/ required = true)
+	@EmbeddedId
+	JCMADID Id;
+	/*
 	@XmlElement(name = "CMAD_HEADER", required = true)
 	String CMAD_HEADER;
 	
@@ -58,7 +61,7 @@ public class JCMAD  implements java.io.Serializable{
 	String MAC_ADR;
 
 	@XmlElement(name = "CMAD_DATE", required = true)
-	LocalDateTime CMAD_DATE;
+	LocalDateTime CMAD_DATE;*/
 	
 	@XmlElement(name = "CMAD_TYPE", required = true)
 	int CMAD_TYPE = 0;
@@ -110,8 +113,9 @@ public class JCMAD  implements java.io.Serializable{
 	public JCMAD(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
 			 String cCMAD_RAW, int cMAD_CRC) {
-		CMAD_HEADER = cMAD_HEADER;
-		MAC_ADR = mAC_ADR;
+		Id = new JCMADID(mAC_ADR,  new Date(), cMAD_HEADER);
+		//CMAD_HEADER = cMAD_HEADER;
+		//MAC_ADR = mAC_ADR;
 		CMAD_TYPE = cMAD_TYPE;
 		CMAD_REVISION = cMAD_REVISION;
 		CMAD_POSITION = cMAD_POSITION;
@@ -123,14 +127,14 @@ public class JCMAD  implements java.io.Serializable{
 		CMAD_RAW = cCMAD_RAW;
 		CMAD_CRC = String.valueOf(cMAD_CRC);
 		//date = new Date();
-		CMAD_DATE = LocalDateTime.now();
-		System.out.print(CMAD_DATE);
+		//CMAD_DATE = LocalDateTime.now();
+		//System.out.print(CMAD_DATE);
 	}
 
 
 
 
-	public String getCMAD_HEADER() {
+	/*public String getCMAD_HEADER() {
 		return CMAD_HEADER;
 	}
 	public void setCMAD_HEADER(String cMAD_HEADER) {
@@ -141,7 +145,7 @@ public class JCMAD  implements java.io.Serializable{
 	}
 	public void setMAC_ADR(String mAC_ADR) {
 		MAC_ADR = mAC_ADR;
-	}
+	}*/
 	public int getCMAD_TYPE() {
 		return CMAD_TYPE;
 	}
@@ -206,7 +210,21 @@ public class JCMAD  implements java.io.Serializable{
 
 
 
-	public LocalDateTime getDate() {
+	public JCMADID getId() {
+		return Id;
+	}
+
+
+
+
+	public void setId(JCMADID id) {
+		Id = id;
+	}
+
+
+
+
+	/*public LocalDateTime getDate() {
 		return CMAD_DATE;
 	}
 
@@ -215,7 +233,7 @@ public class JCMAD  implements java.io.Serializable{
 
 	public void setDate(LocalDateTime date) {
 		this.CMAD_DATE = date;
-	}
+	}*/
 	
 	
 	
