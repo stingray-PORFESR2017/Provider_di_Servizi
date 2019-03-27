@@ -251,7 +251,7 @@ CMAD_CRC	2	UWORD	Calcolo CRC16 esclusi i campi HEADER e CRC
         boolean isFirst = true;
         for (byte b : macAddress) {
           if (!isFirst) {
-            retval.append(":");
+            //retval.append(":");
           } else {
             isFirst = false;
           }

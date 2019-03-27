@@ -17,9 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JCMADID", propOrder = {
     "MAC_ADR",
-    "CMAD_DATE",
-    "CMAD_HEADER"
-    
+    "CMAD_DATE"    
 })
 @Embeddable
 public class JCMADID implements Serializable {
@@ -28,9 +26,9 @@ public class JCMADID implements Serializable {
 	@XmlElement(name = "MAC_ADR", required = true)
 	String MAC_ADR;
 	@XmlElement(name = "CMAD_DATE", required = true)
+	@Temporal(TemporalType.DATE)
 	Date CMAD_DATE;
-	@XmlElement(name = "CMAD_HEADER", required = true)
-	String CMAD_HEADER;
+
 	
 	/**
 	 * 
@@ -43,13 +41,11 @@ public class JCMADID implements Serializable {
 	/**
 	 * @param mAC_ADR
 	 * @param cMAD_DATE
-	 * @param cMAD_HEADER
 	 */
-	public JCMADID(String mAC_ADR, Date cMAD_DATE, String cMAD_HEADER) {
+	public JCMADID(String mAC_ADR, Date cMAD_DATE) {
 		super();
 		MAC_ADR = mAC_ADR;
 		CMAD_DATE = cMAD_DATE;
-		CMAD_HEADER = cMAD_HEADER;
 	}
 
 
@@ -65,12 +61,7 @@ public class JCMADID implements Serializable {
 	public void setCMAD_DATE(Date cMAD_DATE) {
 		CMAD_DATE = cMAD_DATE;
 	}
-	public String getCMAD_HEADER() {
-		return CMAD_HEADER;
-	}
-	public void setCMAD_HEADER(String cMAD_HEADER) {
-		CMAD_HEADER = cMAD_HEADER;
-	}
+
 	
 	@Override
 	public boolean equals(Object obj) {

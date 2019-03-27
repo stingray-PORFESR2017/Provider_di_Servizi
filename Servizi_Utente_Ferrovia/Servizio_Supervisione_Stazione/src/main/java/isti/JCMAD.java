@@ -21,6 +21,7 @@ import javax.persistence.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JCAMD", propOrder = {
     "Id",
+    "CMAD_HEADER",
     "CMAD_TYPE",
     "CMAD_REVISION",
     "CMAD_POSITION",
@@ -39,10 +40,15 @@ import javax.persistence.*;
 @NamedQueries({
     @NamedQuery(name="JCMAD.findAll",
                 query="SELECT c FROM Jcmad c"),
+    @NamedQuery(name="JCMAD.findAllMac",
+    query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1 ORDER BY c.Id.CMAD_DATE "),
+    @NamedQuery(name="JCMAD.findMacBetweenTime",
+    query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1  and c.Id.CMAD_DATE BETWEEN ?2 AND ?3 ORDER BY c.Id.CMAD_DATE "),
+    
     
    
 }) 
-/*@NamedNativeQueries({
+/*@NamedNativeQueries({ORDER BY c.CMAD_DATE  and c.CMAD_DATE BETWEEN ?2 AND ?3
     @NamedNativeQuery(
             name    =   "updateCMAD",
             query   =   "UPDATE c SET c = ?, c.CMAD_ANALOG_INFO= ?, c.CMAD_CRC= ?, c.CMAD_DESCRIPTION= ?, c.CMAD_DIGITAL_INFO= ?, c.CMAD_HEADER= ?, c.CMAD_LATITUDE= ?, c.CMAD_LONGITUDE= ?, c.CMAD_POSITION= ?, c.CMAD_RAW= ?, c.CMAD_REVISION= ?, c.CMAD_TYPE  WHERE c.MAC_ADR = ? FROM Jcmad c"
@@ -54,10 +60,10 @@ public class JCMAD  implements java.io.Serializable{
 	@XmlElement(/*name = "CMAD",*/ required = true)
 	@EmbeddedId
 	JCMADID Id;
-	/*
+	
 	@XmlElement(name = "CMAD_HEADER", required = true)
 	String CMAD_HEADER;
-	
+	/*
 	@Id 
 	@XmlElement(name = "MAC_ADR", required = true)
 	String MAC_ADR;
@@ -115,8 +121,8 @@ public class JCMAD  implements java.io.Serializable{
 	public JCMAD(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
 			 String cCMAD_RAW, int cMAD_CRC) {
-
-		Id = new JCMADID(mAC_ADR,  new Date(), cMAD_HEADER);
+		CMAD_HEADER = cMAD_HEADER;
+		Id = new JCMADID(mAC_ADR,  new Date());
 		//CMAD_HEADER = cMAD_HEADER;
 		//MAC_ADR = mAC_ADR;
 		CMAD_TYPE = cMAD_TYPE;
@@ -137,13 +143,13 @@ public class JCMAD  implements java.io.Serializable{
 
 
 
-	/*public String getCMAD_HEADER() {
+	public String getCMAD_HEADER() {
 		return CMAD_HEADER;
 	}
 	public void setCMAD_HEADER(String cMAD_HEADER) {
 		CMAD_HEADER = cMAD_HEADER;
 	}
-	public String getMAC_ADR() {
+	/*public String getMAC_ADR() {
 		return MAC_ADR;
 	}
 	public void setMAC_ADR(String mAC_ADR) {
