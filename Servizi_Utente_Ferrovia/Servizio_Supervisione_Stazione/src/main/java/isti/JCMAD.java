@@ -1,5 +1,7 @@
 package isti;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,6 +115,7 @@ public class JCMAD  implements java.io.Serializable{
 	public JCMAD(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
 			 String cCMAD_RAW, int cMAD_CRC) {
+
 		Id = new JCMADID(mAC_ADR,  new Date(), cMAD_HEADER);
 		//CMAD_HEADER = cMAD_HEADER;
 		//MAC_ADR = mAC_ADR;

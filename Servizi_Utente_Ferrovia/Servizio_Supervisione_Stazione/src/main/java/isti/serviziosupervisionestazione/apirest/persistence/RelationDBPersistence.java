@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import isti.JCMAD;
+import isti.JCMADID;
 
 @Singleton
 public class RelationDBPersistence implements TokenPersistence {
@@ -60,6 +61,12 @@ public class RelationDBPersistence implements TokenPersistence {
 	public TypedQuery<JCMAD> createNamedQuery(String string,
 			Class<JCMAD> class1) {
 		return em.createNamedQuery(string,class1);
+	}
+
+	@Override
+	public JCMAD findid(Class<JCMAD> class1, JCMADID value) {
+		// TODO Auto-generated method stub
+		return em.find(class1, value);
 	}
 
 }
