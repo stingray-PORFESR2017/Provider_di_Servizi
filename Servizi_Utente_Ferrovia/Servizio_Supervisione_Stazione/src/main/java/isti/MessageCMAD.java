@@ -33,8 +33,9 @@ public class MessageCMAD {
 		CMAD_HEADER = String.valueOf( (char)(message[0]));//1
 		byte[] CMAD_MAC = Arrays.copyOfRange(message, 1, 7);//6
 		MAC_ADR = getMacString(CMAD_MAC);
-		CMAD_REVISION  = message[7]& 0xff;;//1
-		CMAD_TYPE  = message[8]& 0xff;;//1
+		CMAD_TYPE  = message[7]& 0xff;;//1
+		CMAD_REVISION  = message[8]& 0xff;;//1
+		
 		byte[] var = Arrays.copyOfRange(message, 9, 11);//2
 		CMAD_POSITION =  bytesToShort(var); 
 		try {
@@ -56,6 +57,8 @@ public class MessageCMAD {
 		
 		float TempEst = (float) TwobytesToint(Arrays.copyOfRange(message, 41, 43))/10;//2
 		int Lux =  TwobytesToint(Arrays.copyOfRange(message, 43, 45));//2
+		
+		//byte[] var2 = Arrays.copyOfRange(message, 45, 47);
 		float TempSuolo = (float) TwobytesToint(Arrays.copyOfRange(message, 45, 47))/10;//2
 		float TensioneL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 47, 49))/10;//2
 		float TensioneL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 49, 51))/10;//2
