@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -73,11 +74,18 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 			MessageCMAD c = new MessageCMAD(message.getPayload());
 			JCMAD ff = c.getJCMAD();
 			
+			JCMAD employee = em.find(JCMAD.class, ff.getMAC_ADR());
+			if(employee==null){
 			
 			EntityTransaction trans = em.getTransaction();
 			trans.begin();
 			em.persist(ff);
 			trans.commit();/**/
+			}else{
+				/* Query query = em.createNativeQuery(
+					      "UPDATE Jcmad SET c  WHERE PUBLIC.MAC_ADR = :p Jcmad c");
+					  int updateCount = query.setParameter(ff.getMAC_ADR(), 100000).executeUpdate();*/
+			}
 			
 			try {
 				
