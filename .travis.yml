@@ -1,5 +1,7 @@
 language: java
-script: bash build --debug
+script: 
+    - bash build --debug
+    - bash travisafter.sh
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
@@ -21,4 +23,3 @@ before_script:
     - export MAVEN_SKIP_RC=true
     - export MAVEN_OPTS="-Xms1024m -Xmx2g -XX:MaxPermSize=512m"
 
-after_success: ./travisafter.sh
