@@ -3,11 +3,7 @@ package isti;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -64,13 +60,7 @@ public class JCMAD  implements java.io.Serializable{
 	
 	@XmlElement(name = "CMAD_HEADER", required = true)
 	String CMAD_HEADER;
-	/*
-	@Id 
-	@XmlElement(name = "MAC_ADR", required = true)
-	String MAC_ADR;
 
-	@XmlElement(name = "CMAD_DATE", required = true)
-	LocalDateTime CMAD_DATE;*/
 	
 	@XmlElement(name = "CMAD_TYPE", required = true)
 	int CMAD_TYPE = 0;
@@ -131,8 +121,7 @@ public class JCMAD  implements java.io.Serializable{
 			Date todayWithZeroTime = formatter.parse(formatter.format(today));
 		
 		Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
-		//CMAD_HEADER = cMAD_HEADER;
-		//MAC_ADR = mAC_ADR;
+		
 		CMAD_TYPE = cMAD_TYPE;
 		CMAD_REVISION = cMAD_REVISION;
 		CMAD_POSITION = cMAD_POSITION;
@@ -143,9 +132,7 @@ public class JCMAD  implements java.io.Serializable{
 		
 		CMAD_RAW = cCMAD_RAW;
 		CMAD_CRC = String.valueOf(cMAD_CRC);
-		//date = new Date();
-		//CMAD_DATE = LocalDateTime.now();
-		//System.out.print(CMAD_DATE);
+
 		} catch (ParseException e) {
 			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
 		}
@@ -280,20 +267,6 @@ public class JCMAD  implements java.io.Serializable{
 
 
 
-
-	/*public LocalDateTime getDate() {
-		return CMAD_DATE;
-	}
-
-
-
-
-	public void setDate(LocalDateTime date) {
-		this.CMAD_DATE = date;
-	}*/
-	
-	
-	
 	
 	
 }

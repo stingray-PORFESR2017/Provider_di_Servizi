@@ -6,16 +6,9 @@ import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;

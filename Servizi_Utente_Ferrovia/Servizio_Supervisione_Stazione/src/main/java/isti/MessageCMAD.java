@@ -3,7 +3,6 @@ package isti;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -11,6 +10,9 @@ import java.util.Base64;
 
 
 public class MessageCMAD {
+	
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MessageCMAD.class);
+	
 	String CMAD_HEADER;
 	String MAC_ADR;
 	int CMAD_TYPE = 0;
@@ -102,8 +104,8 @@ public class MessageCMAD {
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		
-		byte[] dymmy = Arrays.copyOfRange(message, 81, 100);//19
-	
+		byte[] dummy = Arrays.copyOfRange(message, 81, 100);//19
+		log.info(dummy);
 		byte [] CRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, message.length-2);//2
 		
@@ -111,14 +113,14 @@ public class MessageCMAD {
 		CMAD_CRC = Service.CRC(var);
 		byte[] recCRC = intToBytes(CMAD_CRC);
 		if(Arrays.equals(recCRC, CRC)){
-			System.out.println("CRC OK");
+			log.info("CRC OK");
 		}else{
-			System.err.println("CRC KO");
+			log.info("CRC KO");
 		}
 		
-		System.out.println(CMAD_CRC);
- 		System.out.println(CMAD_DESCRIPTION);
- 		System.out.println(toString());
+		log.info(CMAD_CRC);
+ 		log.info(CMAD_DESCRIPTION);
+ 		log.info(toString());
 		
 	}
 	
@@ -227,7 +229,7 @@ CMAD_CRC	2	UWORD	Calcolo CRC16 esclusi i campi HEADER e CRC
 	}
 	
 	public float TwobytesToLong(byte[] bytes) {
-		byte[] k = {bytes[0],bytes[1],0,0};
+		//byte[] k = {bytes[0],bytes[1],0,0};
 	 float l = ByteBuffer.wrap(bytes)
              .order(ByteOrder.LITTLE_ENDIAN).getFloat();
 	 return l;

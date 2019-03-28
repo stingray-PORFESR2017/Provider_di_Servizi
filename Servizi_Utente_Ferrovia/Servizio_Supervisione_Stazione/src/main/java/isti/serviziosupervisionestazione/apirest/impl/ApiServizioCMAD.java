@@ -2,14 +2,11 @@ package isti.serviziosupervisionestazione.apirest.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;

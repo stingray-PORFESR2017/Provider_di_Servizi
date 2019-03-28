@@ -1,11 +1,9 @@
 package isti;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;

@@ -5,7 +5,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
