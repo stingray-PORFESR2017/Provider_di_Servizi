@@ -74,8 +74,8 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 			MessageCMAD c = new MessageCMAD(message.getPayload());
 			JCMAD ff = c.getJCMAD();
 			
-			JCMAD employee = em.findid(JCMAD.class, ff.getId());
-			if(employee==null){
+			JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
+			if(elementRead==null){
 			
 			EntityTransaction trans = em.getTransaction();
 			trans.begin();
@@ -85,6 +85,9 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 				/* Query query = em.createNativeQuery(
 					      "UPDATE Jcmad SET c  WHERE PUBLIC.MAC_ADR = :p Jcmad c");
 					  int updateCount = query.setParameter(ff.getMAC_ADR(), 100000).executeUpdate();*/
+				if(elementRead.equals(ff)) {
+					System.out.println("Ritrasmissione");
+				}
 				System.out.println();
 			}
 			

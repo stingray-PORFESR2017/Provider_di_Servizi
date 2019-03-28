@@ -26,7 +26,7 @@ public class JCMADID implements Serializable {
 	@XmlElement(name = "MAC_ADR", required = true)
 	String MAC_ADR;
 	@XmlElement(name = "CMAD_DATE", required = true)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	Date CMAD_DATE;
 
 	
@@ -77,7 +77,7 @@ public class JCMADID implements Serializable {
 				return false;
 		} else if (!MAC_ADR.equals(other.MAC_ADR))
 			return false;
-		if (CMAD_DATE != other.CMAD_DATE)
+		if (CMAD_DATE.compareTo(other.CMAD_DATE) != 0)
 			return false;
 		return true;
 	}

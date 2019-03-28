@@ -1,6 +1,7 @@
 package isti;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -122,7 +123,14 @@ public class JCMAD  implements java.io.Serializable{
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
 			 String cCMAD_RAW, int cMAD_CRC) {
 		CMAD_HEADER = cMAD_HEADER;
-		Id = new JCMADID(mAC_ADR,  new Date());
+		try {
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+		Date today = new Date();
+
+			Date todayWithZeroTime = formatter.parse(formatter.format(today));
+		
+		Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
 		//CMAD_HEADER = cMAD_HEADER;
 		//MAC_ADR = mAC_ADR;
 		CMAD_TYPE = cMAD_TYPE;
@@ -138,6 +146,9 @@ public class JCMAD  implements java.io.Serializable{
 		//date = new Date();
 		//CMAD_DATE = LocalDateTime.now();
 		//System.out.print(CMAD_DATE);
+		} catch (ParseException e) {
+			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
+		}
 	}
 
 
@@ -228,6 +239,43 @@ public class JCMAD  implements java.io.Serializable{
 
 	public void setId(JCMADID id) {
 		Id = id;
+	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CMAD_ANALOG_INFO == null) ? 0 : CMAD_ANALOG_INFO.hashCode());
+		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		return result;
+	}
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JCMAD other = (JCMAD) obj;
+		if (CMAD_ANALOG_INFO == null) {
+			if (other.CMAD_ANALOG_INFO != null)
+				return false;
+		} else if (!CMAD_ANALOG_INFO.equals(other.CMAD_ANALOG_INFO))
+			return false;
+		if (Id == null) {
+			if (other.Id != null)
+				return false;
+		} else if (!Id.equals(other.Id))
+			return false;
+		return true;
 	}
 
 

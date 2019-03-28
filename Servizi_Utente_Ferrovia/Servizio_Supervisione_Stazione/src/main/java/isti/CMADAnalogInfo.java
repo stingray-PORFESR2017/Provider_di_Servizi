@@ -210,6 +210,76 @@ public class CMADAnalogInfo implements Serializable{
 	public void setEnergiaReattiva(float energiaReattiva) {
 		EnergiaReattiva = energiaReattiva;
 	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Corrente == null) ? 0 : Corrente.hashCode());
+		result = prime * result + Float.floatToIntBits(EnergiaAttiva);
+		result = prime * result + Float.floatToIntBits(EnergiaReattiva);
+		result = prime * result + ((FattorePotenza == null) ? 0 : FattorePotenza.hashCode());
+		result = prime * result + Lux;
+		result = prime * result + ((PotenzaAttiva == null) ? 0 : PotenzaAttiva.hashCode());
+		result = prime * result + ((PotenzaReattiva == null) ? 0 : PotenzaReattiva.hashCode());
+		result = prime * result + Float.floatToIntBits(TempEst);
+		result = prime * result + Float.floatToIntBits(TempSuolo);
+		result = prime * result + ((Tensione == null) ? 0 : Tensione.hashCode());
+		return result;
+	}
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CMADAnalogInfo other = (CMADAnalogInfo) obj;
+		if (Corrente == null) {
+			if (other.Corrente != null)
+				return false;
+		} else if (!Corrente.equals(other.Corrente))
+			return false;
+		if (Float.floatToIntBits(EnergiaAttiva) != Float.floatToIntBits(other.EnergiaAttiva))
+			return false;
+		if (Float.floatToIntBits(EnergiaReattiva) != Float.floatToIntBits(other.EnergiaReattiva))
+			return false;
+		if (FattorePotenza == null) {
+			if (other.FattorePotenza != null)
+				return false;
+		} else if (!FattorePotenza.equals(other.FattorePotenza))
+			return false;
+		if (Lux != other.Lux)
+			return false;
+		if (PotenzaAttiva == null) {
+			if (other.PotenzaAttiva != null)
+				return false;
+		} else if (!PotenzaAttiva.equals(other.PotenzaAttiva))
+			return false;
+		if (PotenzaReattiva == null) {
+			if (other.PotenzaReattiva != null)
+				return false;
+		} else if (!PotenzaReattiva.equals(other.PotenzaReattiva))
+			return false;
+		if (Float.floatToIntBits(TempEst) != Float.floatToIntBits(other.TempEst))
+			return false;
+		if (Float.floatToIntBits(TempSuolo) != Float.floatToIntBits(other.TempSuolo))
+			return false;
+		if (Tensione == null) {
+			if (other.Tensione != null)
+				return false;
+		} else if (!Tensione.equals(other.Tensione))
+			return false;
+		return true;
+	}
     
     
 
