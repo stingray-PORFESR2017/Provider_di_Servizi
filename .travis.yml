@@ -21,4 +21,4 @@ before_script:
     - export MAVEN_SKIP_RC=true
     - export MAVEN_OPTS="-Xms1024m -Xmx2g -XX:MaxPermSize=512m"
 
-#after_success: script: travisafter.sh
+after_success: ./travisafter.sh
