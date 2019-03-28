@@ -5,9 +5,9 @@
       <class>isti.JCMAD</class>
       <properties>
           <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-		<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test2;create=true" /><!-- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
+		<property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/./h2-2;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO;" /> <!-- value="jdbc:h2:mem:test2;create=true" /><!- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
         <property name="eclipselink.logging.level" value="WARNING" />
-        <property name="javax.persistence.jdbc.user" value="" />
+        <property name="javax.persistence.jdbc.user" value="sa" />
    	    <property name="javax.persistence.jdbc.password" value="" />
         <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
         <property name="eclipselink.ddl-generation.output-mode" value="database" />

@@ -37,7 +37,7 @@ public class ApiServizioCMAD {
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ApiServizioCMAD.class);
 
 
-	@Path("/MAC_ADR/{key:.*}")
+	@Path("/MAC_ADR_BT/{key:.*}")
 	@GET
 	public JCMAD daticmad(@PathParam("key") String key, @QueryParam("datei") String datei , @QueryParam("datef") String datef , @Context HttpServletRequest request, @Context HttpServletResponse response) throws ParseException {
 
@@ -71,7 +71,8 @@ public class ApiServizioCMAD {
 
 		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
 		r.setParameter(1, key);
-		JCMAD result = r.getSingleResult();
+		List<JCMAD> results = r.getResultList();
+		JCMAD result = results.get(0);
 
 		if(result!=null){
 			return result;

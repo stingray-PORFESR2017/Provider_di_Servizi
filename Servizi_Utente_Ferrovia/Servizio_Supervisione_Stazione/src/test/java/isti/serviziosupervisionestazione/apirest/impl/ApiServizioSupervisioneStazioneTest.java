@@ -97,6 +97,21 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 			 res = response.readEntity(new GenericType<String>() {
 			});
 			log.info(res);
+			
+			response = target("/CMAD/MAC_ADR_ALL/fffe00008807").request().get();
+			  x = response.getStatus();
+				//assertEquals(200, x);
+				 res = response.readEntity(new GenericType<String>() {
+				});
+				log.info(res);
+				
+				
+				response = target("/CMAD/MAC_ADR/fffe00008807").request().get();
+				  x = response.getStatus();
+					//assertEquals(200, x);
+					 res = response.readEntity(new GenericType<String>() {
+					});
+					log.info(res);
 		
 	}
 
