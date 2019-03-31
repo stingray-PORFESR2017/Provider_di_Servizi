@@ -69,14 +69,17 @@ public class ApiServizioCMAD {
 		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
 		r.setParameter(1, key);
 		List<JCMAD> results = r.getResultList();
-		JCMAD result = results.get(0);
+		if(results.size()>0) {
+			JCMAD result = results.get(0);
 
-		if(result!=null){
-			return result;
-		}else{
-			log.error("Element not found: "+key+";");
-			return null;
+			if(result!=null){
+				return result;
+			}
 		}
+
+		log.error("Element not found: "+key+";");
+		return null;
+		
 
 	}
 
