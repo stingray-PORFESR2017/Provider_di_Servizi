@@ -19,7 +19,10 @@
 		     <param-value>isti.serviziosupervisionestazione.apirest.impl</param-value>
 		</init-param>
 		
-
+        <init-param>
+            <param-name>jersey.config.server.wadl.disableWadl</param-name>
+            <param-value>false</param-value>
+        </init-param>
 	
       <init-param>
           <param-name>jersey.config.server.provider.classnames</param-name>
@@ -56,6 +59,8 @@
 		<servlet-name>jersey-serlvet</servlet-name>
 		<url-pattern>/serviziosupervisionestazione/*</url-pattern>
 	</servlet-mapping>
+	
+
 
   <!--     <listener>
         <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
