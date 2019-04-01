@@ -34,7 +34,7 @@ public class StartGrizzly {
 		host = Optional.ofNullable(System.getenv("HOSTNAME"));
 		port = Optional.ofNullable(System.getenv("PORT"));
 		path = "serviziosupervisionestazione";
-		BASEH_URI = "https://" + host.orElse("localhost") + ":" + port.orElse("8443") + "/" + path + "/";
+		BASEH_URI = "https://" + host.orElse("localhost") + ":" + port.orElse("443") + "/" + path + "/";
 		BASE_URI = protocol + host.orElse("localhost") + ":" + port.orElse("9090") + "/" + path + "/";
 		KEYSTORE_SERVER_FILE = "./src/main/config/jetty-server-ssl.jks";
 		KEYSTORE_SERVER_PWD = "jetty8";
@@ -54,8 +54,8 @@ public class StartGrizzly {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
 	}
 	
-    public static void starthttps() throws IOException {
-    	
+    public static void starthttps()  {
+    	try {
         // Grizzly ssl configuration
         SSLContextConfigurator sslContext = new SSLContextConfigurator();
 
@@ -79,6 +79,10 @@ public class StartGrizzly {
 				+ "%sapplication.wadl\nHit enter to stop it...", BASEH_URI));
         grizzlyServer.start();
 
+    	}catch (Exception e) {
+			// TODO: handle exception
+    		System.out.println(e.getMessage());
+		}
         //System.in.read();
         //grizzlyServer.stop();
     }

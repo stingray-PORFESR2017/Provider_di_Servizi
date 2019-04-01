@@ -13,8 +13,8 @@ public class Main {
 		   Application application = container.select(Application.class).get();
 		   application.run();
 		   
-		   //isti.rest.StartGrizzly mai = container.select(isti.rest.StartGrizzly.class).get();
-		   //mai.startServer();
+		   isti.rest.StartGrizzly mai = container.select(isti.rest.StartGrizzly.class).get();
+		   mai.starthttps();
 		   
 		   
 		 //  weld.shutdown();
