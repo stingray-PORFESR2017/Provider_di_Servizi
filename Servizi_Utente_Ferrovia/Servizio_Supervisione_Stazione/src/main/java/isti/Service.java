@@ -1,5 +1,8 @@
 package isti;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class Service {
 
 
@@ -89,9 +92,48 @@ public class Service {
 		    
 		  return iCRC;
 		}
-
-		
-
+	
+	
+	 public static String getMacString(byte[] macAddress) {
+	        StringBuilder retval = new StringBuilder(17);
+	        
+	        boolean isFirst = true;
+	        for (byte b : macAddress) {
+	          if (!isFirst) {
+	            //retval.append(":");
+	          } else {
+	            isFirst = false;
+	          }
+	          retval.append(String.format("%02x", b & 0xff));
+	        }
+	        return retval.toString();
+	      }
+	 public static short bytesToShort(byte[] bytes) {
+	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort() & 0xFF);
+	}
+	
+	public static short bytesToInt(byte[] bytes) {
+	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
+	}
+	
+	
+	public static long bytesToLong(byte[] bytes) {
+		return ByteBuffer.wrap(bytes)
+        .order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFFFFFFFFL;
+	
+	}
+	public static int TwobytesToint(byte[] bytes) {
+		byte[] k = {bytes[0],bytes[1],0,0};
+	 int l =(ByteBuffer.wrap(k).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
+	 return l;
+	}
+	
+	public static float TwobytesToLong(byte[] bytes) {
+		//byte[] k = {bytes[0],bytes[1],0,0};
+	 float l = ByteBuffer.wrap(bytes)
+             .order(ByteOrder.LITTLE_ENDIAN).getFloat();
+	 return l;
+	}
 	/*	for (byte b : bytes) {
 			for (int i = 0; i < 8; i++) {
 				boolean bit = ((b   >> (7-i) & 1) == 1);
