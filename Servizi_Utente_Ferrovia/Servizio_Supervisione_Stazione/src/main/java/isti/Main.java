@@ -1,5 +1,6 @@
 package isti;
 
+import org.glassfish.grizzly.http.server.HttpServer;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
@@ -11,7 +12,13 @@ public class Main {
 		   WeldContainer container = weld.initialize();
 		   Application application = container.select(Application.class).get();
 		   application.run();
-		   weld.shutdown();
+		   
+		   //isti.rest.StartGrizzly mai = container.select(isti.rest.StartGrizzly.class).get();
+		   //mai.startServer();
+		   
+		   
+		 //  weld.shutdown();
+		 
 		
 	}
 }

@@ -2,6 +2,10 @@ package isti.rest;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
+
+import isti.Application;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,7 +17,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 
-public class Main {
+public class StartGrizzly {
 	// Base URI the Grizzly HTTP server will listen on
 	public static final String BASE_URI;
 	public static final String BASEH_URI;
@@ -51,6 +55,7 @@ public class Main {
 	}
 	
     public static void starthttps() throws IOException {
+    	
         // Grizzly ssl configuration
         SSLContextConfigurator sslContext = new SSLContextConfigurator();
 
@@ -74,8 +79,8 @@ public class Main {
 				+ "%sapplication.wadl\nHit enter to stop it...", BASEH_URI));
         grizzlyServer.start();
 
-        System.in.read();
-        grizzlyServer.stop();
+        //System.in.read();
+        //grizzlyServer.stop();
     }
 
 
