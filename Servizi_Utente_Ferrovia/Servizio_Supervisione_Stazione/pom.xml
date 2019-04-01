@@ -47,17 +47,16 @@
 			<version>2.19</version>
 		</dependency>
 
-	 	<dependency>
-			<groupId>org.glassfish.jersey.containers.glassfish</groupId>
-			<artifactId>jersey-gf-cdi</artifactId>
-			<version>2.14</version>
-		</dependency>
+	 
 
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>2.0</version>
-		</dependency>
+		 <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+       
+   
 
 		<dependency>
 			<groupId>javax.transaction</groupId>
@@ -88,16 +87,7 @@
   <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
   <version>1.2.0</version>
 </dependency>
-<dependency>
-    <groupId>javax.persistence</groupId>
-    <artifactId>javax.persistence-api</artifactId>
-    <version>2.2</version>
-</dependency>
-<dependency>
-    <groupId>org.eclipse.persistence</groupId>
-    <artifactId>eclipselink</artifactId>
-    <version>2.7.4</version>
-</dependency>
+
 <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 <dependency>
     <groupId>com.h2database</groupId>
@@ -109,21 +99,13 @@
 			<artifactId>weld-servlet</artifactId>
 			<version>2.4.8.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-core</artifactId>
-			<version>2.4.8.Final</version>
-		</dependency>
+	
 		<dependency>
 	<groupId>org.jboss.weld.se</groupId>
 	<artifactId>weld-se-core</artifactId>
 	<version>2.4.8.Final</version>
 </dependency>
-	<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jandex</artifactId>
-			<version>2.0.2.Final</version>
-		</dependency>
+	
 <dependency>
     <groupId>org.glassfish.jersey.ext.cdi</groupId>
     <artifactId>jersey-cdi1x</artifactId>
@@ -138,6 +120,21 @@
     <groupId>org.reflections</groupId>
     <artifactId>reflections</artifactId>
     <version>0.9.11</version>
+</dependency>
+<dependency>
+    <groupId>javax.persistence</groupId>
+    <artifactId>javax.persistence-api</artifactId>
+    <version>2.2</version>
+</dependency>
+<dependency>
+    <groupId>org.eclipse.persistence</groupId>
+    <artifactId>eclipselink</artifactId>
+    <version>2.7.4</version>
+</dependency>
+<dependency>
+    <groupId>org.jboss</groupId>
+    <artifactId>jandex</artifactId>
+    <version>2.1.1.Final</version>
 </dependency>
 
 		<dependency>
@@ -163,7 +160,7 @@
 			<version>2.19</version>
 		</dependency>
 
-		<dependency>
+	<!-- --> 	<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>2.19</version>
@@ -182,6 +179,7 @@
 			<scope>provided</scope>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
@@ -193,6 +191,9 @@
 			<version>2.19</version>
 			<scope>test</scope>
 		</dependency>
+
+
+
 
 	</dependencies>
 
@@ -214,24 +215,20 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<!--<version>8.1.14.v20131031</version> -->
-				<version>9.4.8.v20171121</version>
+				<version>9.4.15.v20190215</version>
 				<configuration>
-					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-env.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
-
+					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
+				 	  <jettyEnvXml>${project.basedir}/src/main/resources/jetty-env.xml</jettyEnvXml>
+					<contextXml>${project.basedir}/src/main/resources/jetty-web.xml</contextXml>
 				</configuration>
 				 <dependencies>
-                            <dependency>
-                                <groupId>org.eclipse.sisu</groupId>
-                                <artifactId>org.eclipse.sisu.plexus</artifactId>
-                                <version>0.3.3</version>
-                                <exclusions>
-                                    <exclusion>
-                                        <groupId>javax.enterprise</groupId>
-                                        <artifactId>cdi-api</artifactId>
-                                    </exclusion>
-                                </exclusions>
-                            </dependency>
-                            
+                           <dependency>
+                        <groupId>org.jboss.weld.servlet</groupId>
+                        <artifactId>weld-servlet</artifactId>
+                        <version>2.2.7.Final</version>
+                    </dependency>
+                           
+
                         </dependencies>
 			</plugin>
 			<plugin>
@@ -281,9 +278,45 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>isti.Subscriber</mainClass>
+                    <mainClass>isti.Main</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.2</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>prepare-integration-test-agent</id>
+            <goals>
+               <goal>prepare-agent-integration</goal>
+            </goals>
+        </execution>
+        <execution>
+           <id>generate-integration-test-report</id>
+           <goals>
+               <goal>report-integration</goal>
+           </goals>
+       </execution>
+   </executions>
+</plugin>
+<plugin>
+    <groupId>org.eluder.coveralls</groupId>
+    <artifactId>coveralls-maven-plugin</artifactId>
+    <version>4.3.0</version>
+</plugin>
 		</plugins>
 	</build>
 </project>

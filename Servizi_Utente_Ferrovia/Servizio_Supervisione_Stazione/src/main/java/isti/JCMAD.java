@@ -1,8 +1,9 @@
 package isti;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,14 +12,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
-import java.util.Date;
 import javax.persistence.*;
 
 @XmlRootElement(name = "DatiCMAD", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JCAMD", propOrder = {
+    "Id",
     "CMAD_HEADER",
-    "MAC_ADR",
     "CMAD_TYPE",
     "CMAD_REVISION",
     "CMAD_POSITION",
@@ -32,16 +32,35 @@ import javax.persistence.*;
     
     
 })
-@Entity 
+@Entity(name="Jcmad" )
 @Table(name = "CMAD") 
+@NamedQueries({
+    @NamedQuery(name="JCMAD.findAll",
+                query="SELECT c FROM Jcmad c"),
+    @NamedQuery(name="JCMAD.findAllMac",
+    query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1 ORDER BY c.Id.CMAD_DATE "),
+    @NamedQuery(name="JCMAD.findMacBetweenTime",
+    query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1  and c.Id.CMAD_DATE BETWEEN ?2 AND ?3 ORDER BY c.Id.CMAD_DATE "),
+    
+    
+   
+}) 
+/*@NamedNativeQueries({ORDER BY c.CMAD_DATE  and c.CMAD_DATE BETWEEN ?2 AND ?3
+    @NamedNativeQuery(
+            name    =   "updateCMAD",
+            query   =   "UPDATE c SET c = ?, c.CMAD_ANALOG_INFO= ?, c.CMAD_CRC= ?, c.CMAD_DESCRIPTION= ?, c.CMAD_DIGITAL_INFO= ?, c.CMAD_HEADER= ?, c.CMAD_LATITUDE= ?, c.CMAD_LONGITUDE= ?, c.CMAD_POSITION= ?, c.CMAD_RAW= ?, c.CMAD_REVISION= ?, c.CMAD_TYPE  WHERE c.MAC_ADR = ? FROM Jcmad c"
+            ,resultSetMapping = "updateResult"
+    )
+})*/
 public class JCMAD  implements java.io.Serializable{
+	
+	@XmlElement(/*name = "CMAD",*/ required = true)
+	@EmbeddedId
+	JCMADID Id;
 	
 	@XmlElement(name = "CMAD_HEADER", required = true)
 	String CMAD_HEADER;
-	
-	@Id 
-	@XmlElement(name = "MAC_ADR", required = true)
-	String MAC_ADR;
+
 	
 	@XmlElement(name = "CMAD_TYPE", required = true)
 	int CMAD_TYPE = 0;
@@ -57,9 +76,13 @@ public class JCMAD  implements java.io.Serializable{
 	String CMAD_LATITUDE;
 	@XmlElement(name = "CMAD_DIGITAL_INFO", required = true)
 	String CMAD_DIGITAL_INFO;
+	
+	
 	@XmlElement(name = "CMAD_ANALOG_INFO", required = true)
+	 @Embedded
 	CMADAnalogInfo CMAD_ANALOG_INFO;
-	@XmlElement(name = "CMAD_RAW", required = true)
+	
+	@XmlElement(name = "CMAD_RAW_BASE64", required = true)
 	String CMAD_RAW;
 	@XmlElement(name = "CMAD_CRC", required = true)
 	String CMAD_CRC;
@@ -90,7 +113,15 @@ public class JCMAD  implements java.io.Serializable{
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
 			 String cCMAD_RAW, int cMAD_CRC) {
 		CMAD_HEADER = cMAD_HEADER;
-		MAC_ADR = mAC_ADR;
+		try {
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+		Date today = new Date();
+
+			Date todayWithZeroTime = formatter.parse(formatter.format(today));
+		
+		Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
+		
 		CMAD_TYPE = cMAD_TYPE;
 		CMAD_REVISION = cMAD_REVISION;
 		CMAD_POSITION = cMAD_POSITION;
@@ -101,6 +132,10 @@ public class JCMAD  implements java.io.Serializable{
 		
 		CMAD_RAW = cCMAD_RAW;
 		CMAD_CRC = String.valueOf(cMAD_CRC);
+
+		} catch (ParseException e) {
+			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
+		}
 	}
 
 
@@ -112,12 +147,12 @@ public class JCMAD  implements java.io.Serializable{
 	public void setCMAD_HEADER(String cMAD_HEADER) {
 		CMAD_HEADER = cMAD_HEADER;
 	}
-	public String getMAC_ADR() {
+	/*public String getMAC_ADR() {
 		return MAC_ADR;
 	}
 	public void setMAC_ADR(String mAC_ADR) {
 		MAC_ADR = mAC_ADR;
-	}
+	}*/
 	public int getCMAD_TYPE() {
 		return CMAD_TYPE;
 	}
@@ -178,9 +213,60 @@ public class JCMAD  implements java.io.Serializable{
 	public void setCMAD_CRC(String cMAD_CRC) {
 		CMAD_CRC = cMAD_CRC;
 	}
-	
-	
-	
+
+
+
+
+	public JCMADID getId() {
+		return Id;
+	}
+
+
+
+
+	public void setId(JCMADID id) {
+		Id = id;
+	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CMAD_ANALOG_INFO == null) ? 0 : CMAD_ANALOG_INFO.hashCode());
+		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		return result;
+	}
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JCMAD other = (JCMAD) obj;
+		if (CMAD_ANALOG_INFO == null) {
+			if (other.CMAD_ANALOG_INFO != null)
+				return false;
+		} else if (!CMAD_ANALOG_INFO.equals(other.CMAD_ANALOG_INFO))
+			return false;
+		if (Id == null) {
+			if (other.Id != null)
+				return false;
+		} else if (!Id.equals(other.Id))
+			return false;
+		return true;
+	}
+
+
+
 	
 	
 }

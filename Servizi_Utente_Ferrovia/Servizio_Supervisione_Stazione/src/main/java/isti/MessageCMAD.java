@@ -3,13 +3,16 @@ package isti;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Base64;
 
 
 
 
 public class MessageCMAD {
+	
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MessageCMAD.class);
+	
 	String CMAD_HEADER;
 	String MAC_ADR;
 	int CMAD_TYPE = 0;
@@ -31,11 +34,12 @@ public class MessageCMAD {
 		
 		CMAD_HEADER = String.valueOf( (char)(message[0]));//1
 		byte[] CMAD_MAC = Arrays.copyOfRange(message, 1, 7);//6
-		MAC_ADR = getMacString(CMAD_MAC);
-		CMAD_REVISION  = message[7]& 0xff;;//1
-		CMAD_TYPE  = message[8]& 0xff;;//1
+		MAC_ADR = Service.getMacString(CMAD_MAC);
+		CMAD_TYPE  = message[7]& 0xff;;//1
+		CMAD_REVISION  = message[8]& 0xff;;//1
+		
 		byte[] var = Arrays.copyOfRange(message, 9, 11);//2
-		CMAD_POSITION =  bytesToShort(var); 
+		CMAD_POSITION =  Service.bytesToShort(var); 
 		try {
 			CMAD_DESCRIPTION =  new String(Arrays.copyOfRange(message, 11, 31), "UTF-8");//20
 		} catch (UnsupportedEncodingException e) {
@@ -43,51 +47,53 @@ public class MessageCMAD {
 			e.printStackTrace();
 		}
 		byte[] LONGITUDE =    Arrays.copyOfRange(message, 31, 35);//4
-		CMAD_LONGITUDE = bytesToLong(LONGITUDE)/10000;
+		CMAD_LONGITUDE = Service.bytesToLong(LONGITUDE)/10000;
 		byte[]  LATITUDE =    Arrays.copyOfRange(message, 35, 39);//4
-		CMAD_LATITUDE = bytesToLong(LATITUDE)/10000;
+		CMAD_LATITUDE = Service.bytesToLong(LATITUDE)/10000;
 		
 		var = Arrays.copyOfRange(message, 39, 41);//2
-		CMAD_DIGITAL_INFO = bytesToShort(var); 
+		CMAD_DIGITAL_INFO = Service.bytesToShort(var); 
 		
 		CMAD_ANALOG_INFO =  Arrays.copyOfRange(message, 41, 81);//20
 		
 		
-		float TempEst = (float) TwobytesToint(Arrays.copyOfRange(message, 41, 43))/10;//2
-		int Lux =  TwobytesToint(Arrays.copyOfRange(message, 43, 45));//2
-		float TempSuolo = (float) TwobytesToint(Arrays.copyOfRange(message, 45, 47))/10;//2
-		float TensioneL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 47, 49))/10;//2
-		float TensioneL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 49, 51))/10;//2
-		float TensioneL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
+		float TempEst = (float) Service.TwobytesToint(Arrays.copyOfRange(message, 41, 43))/10;//2
+		int Lux =  Service.TwobytesToint(Arrays.copyOfRange(message, 43, 45));//2
+		
+		//byte[] var2 = Arrays.copyOfRange(message, 45, 47);
+		float TempSuolo = (float) Service.TwobytesToint(Arrays.copyOfRange(message, 45, 47))/10;//2
+		float TensioneL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 47, 49))/10;//2
+		float TensioneL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51))/10;//2
+		float TensioneL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
 		
 		L Tensione = new L(TensioneL1,TensioneL2,TensioneL3);
 		
-		float CorrenteL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 53, 55))/100;//2
-		float CorrenteL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 55, 57))/100;//2
-		float CorrenteL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 57, 59))/100;//2
+		float CorrenteL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 53, 55))/100;//2
+		float CorrenteL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 55, 57))/100;//2
+		float CorrenteL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 57, 59))/100;//2
 		
 		L Corrente = new L(CorrenteL1,CorrenteL2,CorrenteL3);
 		
-		float PotenzaL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 59, 61))/10;//2
-		float PotenzaL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 61, 63))/10;//2
-		float PotenzaL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 63, 65))/10;//2
+		float PotenzaL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 59, 61))/10;//2
+		float PotenzaL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 61, 63))/10;//2
+		float PotenzaL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 63, 65))/10;//2
 		
 		L Potenza = new L(PotenzaL1,PotenzaL2,PotenzaL3);
 		
-		float PotenzaRL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 65, 67))/10;//2
-		float PotenzaRL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 67, 69))/10;//2
-		float PotenzaRL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 69, 71))/10;//2
+		float PotenzaRL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 65, 67))/10;//2
+		float PotenzaRL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 67, 69))/10;//2
+		float PotenzaRL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 69, 71))/10;//2
 		
 		L PotenzaR = new L(PotenzaRL1,PotenzaRL2,PotenzaRL3);
 		
-		float FattPotenzaL1 = (float) TwobytesToint(Arrays.copyOfRange(message, 71, 73))/100;//2
-		float FattPotenzaL2 = (float) TwobytesToint(Arrays.copyOfRange(message, 73, 75))/100;//2
-		float FattPotenzaL3 = (float) TwobytesToint(Arrays.copyOfRange(message, 75, 77))/100;//2
+		float FattPotenzaL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 71, 73))/100;//2
+		float FattPotenzaL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 73, 75))/100;//2
+		float FattPotenzaL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 75, 77))/100;//2
 		
 		L FattPotenza = new L(FattPotenzaL1,FattPotenzaL2,FattPotenzaL3);
 		
-		float EnergiaA = (float) TwobytesToint(Arrays.copyOfRange(message, 77, 79))/10;//2
-		float EnergiaR = (float) TwobytesToint(Arrays.copyOfRange(message, 79, 81))/10;//2
+		float EnergiaA = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 77, 79))/10;//2
+		float EnergiaR = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 79, 81))/10;//2
 
 		
 		 cCMAD_ANALOG_INFO = new CMADAnalogInfo(TempEst,
@@ -98,23 +104,33 @@ public class MessageCMAD {
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		
-		byte[] dymmy = Arrays.copyOfRange(message, 81, 100);//19
-	
+		byte[] dummy = Arrays.copyOfRange(message, 81, 100);//19
+		log.info(dummy);
 		byte [] CRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, message.length-2);//2
 		
 		
 		CMAD_CRC = Service.CRC(var);
-		byte[] recCRC = intToBytes(CMAD_CRC);
+		byte[] recCRC = Service.intToBytes(CMAD_CRC);
 		if(Arrays.equals(recCRC, CRC)){
-			System.out.println("CRC OK");
+			log.info("CRC OK");
 		}else{
-			System.err.println("CRC KO");
+			log.info("CRC KO");
 		}
 		
-		System.out.println(CMAD_CRC);
- 		System.out.println(CMAD_DESCRIPTION);
- 		System.out.println(toString());
+		log.info(CMAD_CRC);
+ 		log.info(CMAD_DESCRIPTION);
+ 		log.info(toString());
+ 		
+ 		if(message.length>102) {
+ 			log.info(message.length);
+ 			String CMAD_HEADER2 = String.valueOf( (char)(message[103]));//1
+ 			//MAD-RED 92
+ 			
+ 			
+ 			//MAD-ILL 67
+ 		}
+ 		
 		
 	}
 	
@@ -128,7 +144,7 @@ public class MessageCMAD {
 				new Long(CMAD_LONGITUDE).toString(),
 				new Long(CMAD_LATITUDE).toString(),
 				new Short(CMAD_DIGITAL_INFO).toString(),
-				new String(mess),
+				Base64.getEncoder().encodeToString(mess),
 				CMAD_CRC);
 		
 		
@@ -201,33 +217,9 @@ CMAD_ANALOG_INFO
 CMAD_Dummy	19	BYTE	Bytes liberi
 CMAD_CRC	2	UWORD	Calcolo CRC16 esclusi i campi HEADER e CRC
 */
-	public short bytesToShort(byte[] bytes) {
-	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort() & 0xFF);
-	}
-	
-	public short bytesToInt(byte[] bytes) {
-	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
-	}
 	
 	
-	public long bytesToLong(byte[] bytes) {
-		return ByteBuffer.wrap(bytes)
-        .order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFFFFFFFFL;
-	
-	}
-	
-	public int TwobytesToint(byte[] bytes) {
-		byte[] k = {bytes[0],bytes[1],0,0};
-	 int l =(ByteBuffer.wrap(k).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
-	 return l;
-	}
-	
-	public float TwobytesToLong(byte[] bytes) {
-		byte[] k = {bytes[0],bytes[1],0,0};
-	 float l = ByteBuffer.wrap(bytes)
-             .order(ByteOrder.LITTLE_ENDIAN).getFloat();
-	 return l;
-	}
+
 
 	
 	  
@@ -241,20 +233,7 @@ CMAD_CRC	2	UWORD	Calcolo CRC16 esclusi i campi HEADER e CRC
         return k;
       }*/
     
-    public static String getMacString(byte[] macAddress) {
-        StringBuilder retval = new StringBuilder(17);
-        
-        boolean isFirst = true;
-        for (byte b : macAddress) {
-          if (!isFirst) {
-            retval.append(":");
-          } else {
-            isFirst = false;
-          }
-          retval.append(String.format("%02x", b & 0xff));
-        }
-        return retval.toString();
-      }
+   
     
 
    /*public static int fromByteArray(byte[] bytes) {

@@ -5,6 +5,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import isti.JCMAD;
+import isti.JCMADID;
 
 
 
@@ -22,7 +23,10 @@ void persist(JCMAD ar);
 JCMAD find(
 		Class<JCMAD> class1, String value);
 
-TypedQuery<String> createNamedQuery(String string, Class<String> class1);
+JCMAD findid(
+		Class<JCMAD> class1, JCMADID value);
+
+TypedQuery<JCMAD> createNamedQuery(String string, Class<JCMAD> class1);
 
 
 }

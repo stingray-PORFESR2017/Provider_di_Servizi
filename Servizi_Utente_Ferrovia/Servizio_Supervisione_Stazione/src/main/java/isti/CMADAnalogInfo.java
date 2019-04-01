@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
     "EnergiaReattiva"
     
 })
+@Embeddable
 public class CMADAnalogInfo implements Serializable{
 	
     @XmlElement(name = "TempEst", required = true)
@@ -34,19 +39,62 @@ public class CMADAnalogInfo implements Serializable{
 	float TempSuolo;
     
     @XmlElement(name = "Tensione", required = true)
-	List<L> Tensione;
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="Tensione1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="Tensione2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="Tensione3"))
+    })
+    @Embedded L Tensione;
 
+    
     @XmlElement(name = "Corrente", required = true)
-   	List<L> Corrente;
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="Corrente1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="Corrente2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="Corrente3"))
+    })
+    @Embedded L Corrente;
+    
     
     @XmlElement(name = "PotenzaAttiva", required = true)
-   	List<L> PotenzaAttiva;
-
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="PotenzaAttiva1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="PotenzaAttiva2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="PotenzaAttiva3"))
+    })
+    @Embedded L PotenzaAttiva;
+    
+    
     @XmlElement(name = "PotenzaReattiva", required = true)
-   	List<L> PotenzaReattiva;
-	
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="PotenzaReattiva1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="PotenzaReattiva2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="PotenzaReattiva3"))
+    })
+    @Embedded L PotenzaReattiva;
+    
     @XmlElement(name = "FattorePotenza", required = true)
-   	List<L> FattorePotenza;
+    @AttributeOverrides({
+        @AttributeOverride(name="L1",
+                           column=@Column(name="FattorePotenza1")),
+        @AttributeOverride(name="L2",
+                           column=@Column(name="FattorePotenza2")),
+        @AttributeOverride(name="L3",
+        column=@Column(name="FattorePotenza3"))
+    })
+    @Embedded L FattorePotenza;
 
     @XmlElement(name = "EnergiaAttiva", required = true)
 	float EnergiaAttiva;
@@ -54,7 +102,9 @@ public class CMADAnalogInfo implements Serializable{
 	float EnergiaReattiva;
     
     
-    
+    public CMADAnalogInfo(){
+    	
+    }
     
     
     
@@ -78,11 +128,11 @@ public class CMADAnalogInfo implements Serializable{
 		TempEst = tempEst;
 		Lux = lux;
 		TempSuolo = tempSuolo;
-		Tensione = set(tensione);
-		Corrente = set(corrente);
-		PotenzaAttiva = set(potenzaAttiva);
-		PotenzaReattiva = set(potenzaReattiva);
-		FattorePotenza = set(fattorePotenza);
+		Tensione = tensione;
+		Corrente = corrente;
+		PotenzaAttiva = potenzaAttiva;
+		PotenzaReattiva = potenzaReattiva;
+		FattorePotenza = fattorePotenza;
 		EnergiaAttiva = energiaAttiva;
 		EnergiaReattiva = energiaReattiva;
 	}
@@ -111,34 +161,34 @@ public class CMADAnalogInfo implements Serializable{
 	public void setTempSuolo(float tempSuolo) {
 		TempSuolo = tempSuolo;
 	}
-	public List<L> getTensione() {
+	public L getTensione() {
 		return Tensione;
 	}
-	public void setTensione(List<L> tensione) {
+	public void setTensione(L tensione) {
 		Tensione = tensione;
 	}
-	public List<L> getCorrente() {
+	public L getCorrente() {
 		return Corrente;
 	}
-	public void setCorrente(List<L> corrente) {
+	public void setCorrente(L corrente) {
 		Corrente = corrente;
 	}
-	public List<L> getPotenzaAttiva() {
+	public L getPotenzaAttiva() {
 		return PotenzaAttiva;
 	}
-	public void setPotenzaAttiva(List<L> potenzaAttiva) {
+	public void setPotenzaAttiva(L potenzaAttiva) {
 		PotenzaAttiva = potenzaAttiva;
 	}
-	public List<L> getPotenzaReattiva() {
+	public L getPotenzaReattiva() {
 		return PotenzaReattiva;
 	}
-	public void setPotenzaReattiva(List<L> potenzaReattiva) {
+	public void setPotenzaReattiva(L potenzaReattiva) {
 		PotenzaReattiva = potenzaReattiva;
 	}
-	public List<L> getFattorePotenza() {
+	public L getFattorePotenza() {
 		return FattorePotenza;
 	}
-	public void setFattorePotenza(List<L> fattorePotenza) {
+	public void setFattorePotenza(L fattorePotenza) {
 		FattorePotenza = fattorePotenza;
 	}
 	public float getEnergiaAttiva() {
@@ -152,6 +202,76 @@ public class CMADAnalogInfo implements Serializable{
 	}
 	public void setEnergiaReattiva(float energiaReattiva) {
 		EnergiaReattiva = energiaReattiva;
+	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Corrente == null) ? 0 : Corrente.hashCode());
+		result = prime * result + Float.floatToIntBits(EnergiaAttiva);
+		result = prime * result + Float.floatToIntBits(EnergiaReattiva);
+		result = prime * result + ((FattorePotenza == null) ? 0 : FattorePotenza.hashCode());
+		result = prime * result + Lux;
+		result = prime * result + ((PotenzaAttiva == null) ? 0 : PotenzaAttiva.hashCode());
+		result = prime * result + ((PotenzaReattiva == null) ? 0 : PotenzaReattiva.hashCode());
+		result = prime * result + Float.floatToIntBits(TempEst);
+		result = prime * result + Float.floatToIntBits(TempSuolo);
+		result = prime * result + ((Tensione == null) ? 0 : Tensione.hashCode());
+		return result;
+	}
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CMADAnalogInfo other = (CMADAnalogInfo) obj;
+		if (Corrente == null) {
+			if (other.Corrente != null)
+				return false;
+		} else if (!Corrente.equals(other.Corrente))
+			return false;
+		if (Float.floatToIntBits(EnergiaAttiva) != Float.floatToIntBits(other.EnergiaAttiva))
+			return false;
+		if (Float.floatToIntBits(EnergiaReattiva) != Float.floatToIntBits(other.EnergiaReattiva))
+			return false;
+		if (FattorePotenza == null) {
+			if (other.FattorePotenza != null)
+				return false;
+		} else if (!FattorePotenza.equals(other.FattorePotenza))
+			return false;
+		if (Lux != other.Lux)
+			return false;
+		if (PotenzaAttiva == null) {
+			if (other.PotenzaAttiva != null)
+				return false;
+		} else if (!PotenzaAttiva.equals(other.PotenzaAttiva))
+			return false;
+		if (PotenzaReattiva == null) {
+			if (other.PotenzaReattiva != null)
+				return false;
+		} else if (!PotenzaReattiva.equals(other.PotenzaReattiva))
+			return false;
+		if (Float.floatToIntBits(TempEst) != Float.floatToIntBits(other.TempEst))
+			return false;
+		if (Float.floatToIntBits(TempSuolo) != Float.floatToIntBits(other.TempSuolo))
+			return false;
+		if (Tensione == null) {
+			if (other.Tensione != null)
+				return false;
+		} else if (!Tensione.equals(other.Tensione))
+			return false;
+		return true;
 	}
     
     

@@ -1,5 +1,7 @@
 language: java
-script: bash build --debug
+script: 
+    - bash build --debug
+    - bash travisafter.sh
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
@@ -14,7 +16,7 @@ addons:
             - oracle-java8-installer
 
 cache:
-    directories:
+   directories:
         - $HOME/.m2
 
 before_script:

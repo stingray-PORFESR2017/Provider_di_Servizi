@@ -2,6 +2,10 @@ package isti.rest;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
+
+import isti.Application;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,7 +17,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 
-public class Main {
+public class StartGrizzly {
 	// Base URI the Grizzly HTTP server will listen on
 	public static final String BASE_URI;
 	public static final String BASEH_URI;
@@ -30,7 +34,7 @@ public class Main {
 		host = Optional.ofNullable(System.getenv("HOSTNAME"));
 		port = Optional.ofNullable(System.getenv("PORT"));
 		path = "serviziosupervisionestazione";
-		BASEH_URI = "https://" + host.orElse("localhost") + ":" + port.orElse("8443") + "/" + path + "/";
+		BASEH_URI = "https://" + host.orElse("localhost") + ":" + port.orElse("443") + "/" + path + "/";
 		BASE_URI = protocol + host.orElse("localhost") + ":" + port.orElse("9090") + "/" + path + "/";
 		KEYSTORE_SERVER_FILE = "./src/main/config/jetty-server-ssl.jks";
 		KEYSTORE_SERVER_PWD = "jetty8";
@@ -50,7 +54,8 @@ public class Main {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
 	}
 	
-    public static void starthttps() throws IOException {
+    public static void starthttps()  {
+    	try {
         // Grizzly ssl configuration
         SSLContextConfigurator sslContext = new SSLContextConfigurator();
 
@@ -74,8 +79,12 @@ public class Main {
 				+ "%sapplication.wadl\nHit enter to stop it...", BASEH_URI));
         grizzlyServer.start();
 
-        System.in.read();
-        grizzlyServer.stop();
+    	}catch (Exception e) {
+			// TODO: handle exception
+    		System.out.println(e.getMessage());
+		}
+        //System.in.read();
+        //grizzlyServer.stop();
     }
 
 
