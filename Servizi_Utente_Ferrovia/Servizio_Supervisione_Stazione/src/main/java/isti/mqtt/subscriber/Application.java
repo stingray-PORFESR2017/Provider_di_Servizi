@@ -1,4 +1,4 @@
-package isti;
+package isti.mqtt.subscriber;
 
 import java.util.UUID;
 
@@ -18,6 +18,8 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import isti.message.MessageCMAD;
+import isti.message.impl.cmad.JCMAD;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Singleton

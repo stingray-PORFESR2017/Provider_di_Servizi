@@ -1,4 +1,4 @@
-package isti;
+package isti.message.impl.cmad;
 
 import java.io.Serializable;
 import java.util.Date;

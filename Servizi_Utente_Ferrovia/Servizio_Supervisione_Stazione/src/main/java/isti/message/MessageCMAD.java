@@ -1,10 +1,15 @@
-package isti;
+package isti.message;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Base64;
+
+import isti.message.impl.cmad.CMADAnalogInfo;
+import isti.message.impl.cmad.JCMAD;
+import isti.message.impl.cmad.L;
+import isti.message.util.Service;
 
 
 

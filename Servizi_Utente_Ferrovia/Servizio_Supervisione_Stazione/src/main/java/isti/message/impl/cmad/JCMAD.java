@@ -1,4 +1,4 @@
-package isti;
+package isti.message.impl.cmad;
 
 import java.text.DateFormat;
 import java.text.ParseException;

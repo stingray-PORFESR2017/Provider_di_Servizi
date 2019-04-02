@@ -5,7 +5,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
-import isti.Application;
+import isti.mqtt.subscriber.Application;
 
 import java.io.IOException;
 import java.net.URI;

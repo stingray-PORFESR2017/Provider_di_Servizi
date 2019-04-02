@@ -1,4 +1,4 @@
-package isti;
+package isti.message.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

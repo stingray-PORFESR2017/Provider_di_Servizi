@@ -20,8 +20,8 @@ import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.Test;
 
-import isti.JCMAD;
-import isti.MessageCMAD;
+import isti.message.MessageCMAD;
+import isti.message.impl.cmad.JCMAD;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 
@@ -126,7 +126,8 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 		});
 		log.info(res);
 
-		response = target("/CMAD/MAC_ADR_ALL/fffe00008807").request().get();
+		response = target("/CMAD/MAC_ADR_ALL/ffff0506070").request().get();
+		response = target("/CMAD/MAC_ADR_ALL/ffff05060708").request().get();
 		x = response.getStatus();
 		//assertEquals(200, x);
 		res = response.readEntity(new GenericType<String>() {
@@ -134,7 +135,8 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 		log.info(res);
 
 
-		response = target("/CMAD/MAC_ADR/fffe00008807").request().get();
+		response = target("/CMAD/MAC_ADR/ffff0506070").request().get();
+		response = target("/CMAD/MAC_ADR/ffff05060708").request().get();
 		x = response.getStatus();
 		//assertEquals(200, x);
 		res = response.readEntity(new GenericType<String>() {

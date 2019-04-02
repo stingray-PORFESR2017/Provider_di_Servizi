@@ -1,7 +1,9 @@
-package isti;
+package isti.message;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+
+import isti.message.util.Service;
 
 public class MessageMADRED {
 	

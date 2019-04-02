@@ -19,7 +19,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import isti.JCMAD;
+import isti.message.impl.cmad.JCMAD;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Produces(MediaType.APPLICATION_XML)
@@ -94,7 +94,12 @@ public class ApiServizioCMAD {
 		List<JCMAD> result = r.getResultList();
 
 		if(result!=null){
-			return result;
+			if(!result.isEmpty()){	
+				return result;
+			}else{
+				log.error("Element not found: "+key+";");
+				return null;
+			}		
 		}else{
 			log.error("Element not found: "+key+";");
 			return null;
