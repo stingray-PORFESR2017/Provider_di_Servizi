@@ -101,15 +101,27 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 
 		MessageCMAD mCMAD = new MessageCMAD(decodedBytes);
 		JCMAD ff = mCMAD.getJCMAD();
+		
+		
 
 		PersistenceMemory pem = new PersistenceMemory();
 		TokenPersistence em = pem.provide();
 
+		JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
 
+		
 		EntityTransaction trans = em.getTransaction();
 		trans.begin();
 		em.persist(ff);
 		trans.commit();
+		
+		elementRead = em.findid(JCMAD.class, ff.getId());
+
+		if(elementRead==null){
+			if(elementRead.equals(ff)) {
+				System.out.println("Ritrasmissione");
+			}
+		}
 
 		Response response = target("/pis/viaggiatreno/regione/S12878").request().get();
 
