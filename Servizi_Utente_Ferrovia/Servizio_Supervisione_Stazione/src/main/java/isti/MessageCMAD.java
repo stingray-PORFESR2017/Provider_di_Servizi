@@ -28,7 +28,7 @@ public class MessageCMAD {
 	CMADAnalogInfo cCMAD_ANALOG_INFO;
 	byte[] mess;
 	
-	MessageCMAD(byte[] message) {
+	public MessageCMAD(byte[] message) {
 
 		mess = message;
 		
