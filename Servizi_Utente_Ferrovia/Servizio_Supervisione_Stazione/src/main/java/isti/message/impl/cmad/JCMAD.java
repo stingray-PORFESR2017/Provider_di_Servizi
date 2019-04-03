@@ -21,34 +21,34 @@ import javax.persistence.*;
 @XmlRootElement(name = "DatiCMAD", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JCAMD", propOrder = {
-    "Id",
-    "CMAD_HEADER",
-    "CMAD_TYPE",
-    "CMAD_REVISION",
-    "CMAD_POSITION",
-    "CMAD_DESCRIPTION",
-    "CMAD_LONGITUDE",
-    "CMAD_LATITUDE",
-    "CMAD_DIGITAL_INFO",
-    "CMAD_ANALOG_INFO",
-    "CMAD_RAW",
-    "CMAD_CRC",
-    "listred",
-    "listill"
-    
+		"Id",
+		"CMAD_HEADER",
+		"CMAD_TYPE",
+		"CMAD_REVISION",
+		"CMAD_POSITION",
+		"CMAD_DESCRIPTION",
+		"CMAD_LONGITUDE",
+		"CMAD_LATITUDE",
+		"CMAD_DIGITAL_INFO",
+		"CMAD_ANALOG_INFO",
+		"CMAD_RAW",
+		"CMAD_CRC",
+		"listred",
+		"listill"
+
 })
 @Entity(name="Jcmad" )
 @Table(name = "CMAD") 
 @NamedQueries({
-    @NamedQuery(name="JCMAD.findAll",
-                query="SELECT c FROM Jcmad c"),
-    @NamedQuery(name="JCMAD.findAllMac",
-    query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1 ORDER BY c.Id.CMAD_DATE "),
-    @NamedQuery(name="JCMAD.findMacBetweenTime",
-    query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1  and c.Id.CMAD_DATE BETWEEN ?2 AND ?3 ORDER BY c.Id.CMAD_DATE "),
-    
-    
-   
+	@NamedQuery(name="JCMAD.findAll",
+			query="SELECT c FROM Jcmad c"),
+	@NamedQuery(name="JCMAD.findAllMac",
+	query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1 ORDER BY c.Id.DATE "),
+	@NamedQuery(name="JCMAD.findMacBetweenTime",
+	query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1  and c.Id.DATE BETWEEN ?2 AND ?3 ORDER BY c.Id.DATE "),
+
+
+
 }) 
 /*@NamedNativeQueries({ORDER BY c.CMAD_DATE  and c.CMAD_DATE BETWEEN ?2 AND ?3
     @NamedNativeQuery(
@@ -58,15 +58,15 @@ import javax.persistence.*;
     )
 })*/
 public class JCMAD  implements java.io.Serializable{
-	
+
 	@XmlElement(/*name = "CMAD",*/ required = true)
 	@EmbeddedId
 	JCMADID Id;
-	
+
 	@XmlElement(name = "CMAD_HEADER", required = true)
 	String CMAD_HEADER;
 
-	
+
 	@XmlElement(name = "CMAD_TYPE", required = true)
 	int CMAD_TYPE = 0;
 	@XmlElement(name = "CMAD_REVISION", required = true)
@@ -81,31 +81,41 @@ public class JCMAD  implements java.io.Serializable{
 	String CMAD_LATITUDE;
 	@XmlElement(name = "CMAD_DIGITAL_INFO", required = true)
 	String CMAD_DIGITAL_INFO;
-	
-	
+
+
 	@XmlElement(name = "CMAD_ANALOG_INFO", required = true)
-	 @Embedded
+	@Embedded
 	CMADAnalogInfo CMAD_ANALOG_INFO;
-	
+
 	@XmlElement(name = "CMAD_RAW_BASE64", required = true)
 	String CMAD_RAW;
 	@XmlElement(name = "CMAD_CRC", required = true)
 	String CMAD_CRC;
-	
+
 	@XmlElementWrapper(name="ListMadRed")
 	@XmlElement(name="DatiMadRed")
+	@OneToMany(cascade = CascadeType.ALL,
+	orphanRemoval = true, targetEntity=isti.message.impl.red.JMadRed.class)
+	@JoinColumns({@JoinColumn(name = "MAC_CAMD", referencedColumnName = "MAC_ADR"),
+		@JoinColumn(name = "DATE_CMAD", referencedColumnName = "DATE")	
+	})
 	List<JMadRed> listred;
-	
+
 	@XmlElementWrapper(name="ListMadIll")
 	@XmlElement(name="DatiMadIll")
+	@OneToMany(cascade = CascadeType.ALL,
+	orphanRemoval = true, targetEntity=isti.message.impl.ill.JMADILL.class)
+	@JoinColumns({@JoinColumn(name = "MAC_CAMD", referencedColumnName = "MAC_ADR"),
+		@JoinColumn(name = "DATE_CMAD", referencedColumnName = "DATE")	
+	})
 	List<JMADILL> listill;
 
 	public JCMAD() {
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @param cMAD_HEADER
 	 * @param mAC_ADR
@@ -122,34 +132,61 @@ public class JCMAD  implements java.io.Serializable{
 	 */
 	public JCMAD(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
-			 String cCMAD_RAW, int cMAD_CRC) {
+			String cCMAD_RAW, int cMAD_CRC) {
 		CMAD_HEADER = cMAD_HEADER;
 		try {
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-		Date today = new Date();
+			Date today = new Date();
 
 			Date todayWithZeroTime = formatter.parse(formatter.format(today));
-		
-		Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
-		
-		CMAD_TYPE = cMAD_TYPE;
-		CMAD_REVISION = cMAD_REVISION;
-		CMAD_POSITION = cMAD_POSITION;
-		CMAD_DESCRIPTION = cMAD_DESCRIPTION;
-		CMAD_LONGITUDE = cMAD_LONGITUDE;
-		CMAD_LATITUDE = cMAD_LATITUDE;
-		CMAD_DIGITAL_INFO = cMAD_DIGITAL_INFO;
-		
-		CMAD_RAW = cCMAD_RAW;
-		CMAD_CRC = String.valueOf(cMAD_CRC);
+
+			Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
+
+			CMAD_TYPE = cMAD_TYPE;
+			CMAD_REVISION = cMAD_REVISION;
+			CMAD_POSITION = cMAD_POSITION;
+			CMAD_DESCRIPTION = cMAD_DESCRIPTION;
+			CMAD_LONGITUDE = cMAD_LONGITUDE;
+			CMAD_LATITUDE = cMAD_LATITUDE;
+			CMAD_DIGITAL_INFO = cMAD_DIGITAL_INFO;
+
+			CMAD_RAW = cCMAD_RAW;
+			CMAD_CRC = String.valueOf(cMAD_CRC);
 
 		} catch (ParseException e) {
 			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
 		}
 	}
 
+	public void Init(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
+			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
+			String cCMAD_RAW, int cMAD_CRC) {
+		CMAD_HEADER = cMAD_HEADER;
+		try {
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
+			Date today = new Date();
+
+			Date todayWithZeroTime = formatter.parse(formatter.format(today));
+
+			Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
+
+			CMAD_TYPE = cMAD_TYPE;
+			CMAD_REVISION = cMAD_REVISION;
+			CMAD_POSITION = cMAD_POSITION;
+			CMAD_DESCRIPTION = cMAD_DESCRIPTION;
+			CMAD_LONGITUDE = cMAD_LONGITUDE;
+			CMAD_LATITUDE = cMAD_LATITUDE;
+			CMAD_DIGITAL_INFO = cMAD_DIGITAL_INFO;
+
+			CMAD_RAW = cCMAD_RAW;
+			CMAD_CRC = String.valueOf(cMAD_CRC);
+
+		} catch (ParseException e) {
+			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
+		}
+	}
 
 
 	public String getCMAD_HEADER() {
@@ -277,7 +314,7 @@ public class JCMAD  implements java.io.Serializable{
 	}
 
 
-	
+
 
 	public List<JMadRed> getListred() {
 		return listred;
@@ -304,13 +341,13 @@ public class JCMAD  implements java.io.Serializable{
 		this.listill = listill;
 	}
 
+	 
 
 
 
-	
 
 
 
-	
-	
+
+
 }

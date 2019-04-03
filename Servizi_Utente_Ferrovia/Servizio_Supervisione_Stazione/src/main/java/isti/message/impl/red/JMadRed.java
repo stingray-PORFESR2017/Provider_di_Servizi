@@ -56,7 +56,14 @@ public class JMadRed  implements java.io.Serializable {
 	String RAW;
 	@XmlElement(required = true)
 	String CRC;
-
+	
+	/*@XmlTransient
+	 @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({@JoinColumn(name = "MAC_CAMD", referencedColumnName = "MAC_ADR"),
+		@JoinColumn(name = "DATE_CMAD", referencedColumnName = "DATE")	
+	})
+	     JCMAD localJCMAD;
+*/
 
 	public JMadRed(){
 
@@ -79,7 +86,7 @@ public class JMadRed  implements java.io.Serializable {
 	 */
 	public JMadRed( String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
 			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, String wIRE_DIGITAL_INFO,
-			String mess, String cRC) {
+			String rAW, String cRC) {
 		Id = new JCMADID(cmAC,  new Date());
 		HEADER = hEADER;
 		TYPE = tYPE;
@@ -90,7 +97,7 @@ public class JMadRed  implements java.io.Serializable {
 		LATITUDE = lATITUDE;
 		DIGITAL_INFO = dIGITAL_INFO;
 		WIRE_DIGITAL_INFO = wIRE_DIGITAL_INFO;
-
+		RAW = rAW;
 		CRC = cRC;
 	}
 	public JCMADID getId() {
@@ -172,6 +179,16 @@ public class JMadRed  implements java.io.Serializable {
 		CRC = cRC;
 	}
 
+/*
+	public JCMAD getLocalJCMAD() {
+		return localJCMAD;
+	}
 
+
+	public void setLocalJCMAD(JCMAD localJCMAD) {
+		this.localJCMAD = localJCMAD;
+	}
+
+*/
 
 }

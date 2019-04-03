@@ -23,9 +23,9 @@ public class JCMADID implements Serializable {
 
 	@XmlElement(name = "MAC_ADR", required = true)
 	String MAC_ADR;
-	@XmlElement(name = "CMAD_DATE", required = true)
+	@XmlElement(name = "DATE", required = true)
 	@Temporal(TemporalType.TIMESTAMP)
-	Date CMAD_DATE;
+	Date DATE;
 
 	
 	/**
@@ -43,7 +43,7 @@ public class JCMADID implements Serializable {
 	public JCMADID(String mAC_ADR, Date cMAD_DATE) {
 		super();
 		MAC_ADR = mAC_ADR;
-		CMAD_DATE = cMAD_DATE;
+		DATE = cMAD_DATE;
 	}
 
 
@@ -54,10 +54,10 @@ public class JCMADID implements Serializable {
 		MAC_ADR = mAC_ADR;
 	}
 	public Date getCMAD_DATE() {
-		return CMAD_DATE;
+		return DATE;
 	}
 	public void setCMAD_DATE(Date cMAD_DATE) {
-		CMAD_DATE = cMAD_DATE;
+		DATE = cMAD_DATE;
 	}
 
 	
@@ -65,7 +65,7 @@ public class JCMADID implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((CMAD_DATE == null) ? 0 : CMAD_DATE.hashCode());
+		result = prime * result + ((DATE == null) ? 0 : DATE.hashCode());
 		result = prime * result + ((MAC_ADR == null) ? 0 : MAC_ADR.hashCode());
 		return result;
 	}
@@ -85,7 +85,7 @@ public class JCMADID implements Serializable {
 				return false;
 		} else if (!MAC_ADR.equals(other.MAC_ADR))
 			return false;
-		if (CMAD_DATE.compareTo(other.CMAD_DATE) != 0)
+		if (DATE.compareTo(other.DATE) != 0)
 			return false;
 		return true;
 	}

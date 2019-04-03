@@ -40,7 +40,7 @@ public class AnalogInfo implements Serializable {
 	@XmlElement(required = true)
 	int SCORTA;
 
-	AnalogInfo(){
+	public AnalogInfo(){
 		
 	}
 

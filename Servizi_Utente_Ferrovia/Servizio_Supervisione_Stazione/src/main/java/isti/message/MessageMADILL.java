@@ -27,7 +27,7 @@ public class MessageMADILL {
 	
 	byte[] mess;
 	
-	AnalogInfo dinfo;
+	AnalogInfo dinfo = new AnalogInfo();
 	
 	MessageMADILL(byte[] message) {
 
