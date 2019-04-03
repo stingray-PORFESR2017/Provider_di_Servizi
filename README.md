@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi.svg?branch=master)](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi)
+[![Build Status](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi.svg?branch=vDevel)](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -6,6 +6,7 @@
 
 [![SemVer](https://img.shields.io/badge/SemVer-0.0.1-ff69b4.svg)](https://semver.org/lang/it/)
 
+[![Coverage Status](https://coveralls.io/repos/github/stingray-PORFESR2017/Provider_di_Servizi/badge.svg?branch=vDevel)](https://coveralls.io/github/stingray-PORFESR2017/Provider_di_Servizi?branch=vDevel)
 
 
 # Provider_di_Servizi_-PRV-
