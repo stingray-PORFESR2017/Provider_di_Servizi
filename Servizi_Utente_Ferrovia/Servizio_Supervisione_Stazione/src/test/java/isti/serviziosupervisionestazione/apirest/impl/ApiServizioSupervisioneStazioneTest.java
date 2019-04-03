@@ -2,12 +2,16 @@ package isti.serviziosupervisionestazione.apirest.impl;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.Base64;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -87,6 +91,23 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 	//@Inject 
 	//private TokenPersistence em;
 
+	@Test
+	public void test1() throws JAXBException, IOException {
+		
+String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAAAg0AjQAvALAAKgFAnJABQJyIE4gTiBOIE3AXcBdg6mDqYOpwF3AXAAAAAAAAAAAAAAAAAAAAAAAAAGxmUgAAACIAAAEAAABNQURSRUQgREkgVEVTVCAgICAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAAAAAA0AgAAAE1BRElMTCBESSBURVNUICAgICAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		
+		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+
+		MessageCMAD mCMAD = new MessageCMAD(decodedBytes);
+		JCMAD ff = mCMAD.getJCMAD();
+		JAXBContext jaxbCtx = javax.xml.bind.JAXBContext.newInstance(JCMAD.class);
+		Marshaller marshaller = jaxbCtx.createMarshaller();
+		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		 marshaller.marshal( ff, System.out );
+		
+	}
 
 
 	@Test
@@ -95,8 +116,10 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 		//PersistenceMemory ema = weld.select(PersistenceMemory.class).get();
 		//isti.Application applica = weld.select(isti.Application.class).get();
 		//applica.run();<
-		String encodedString = "Q///BQYHCAAZCgBDTUFEIEdJT1JHSU8gICAgICAgIEBLTACA8PoCAQARAEkAIgBgAL0A1QAHAQAA5AF/ACYAEAHQAeABvAKfAAAAeQFOAVYAAAAAAAAAAAAAAAAAAAAAAAAAAFYt";
+		//String encodedString = "Q///BQYHCAAZCgBDTUFEIEdJT1JHSU8gICAgICAgIEBLTACA8PoCAQARAEkAIgBgAL0A1QAHAQAA5AF/ACYAEAHQAeABvAKfAAAAeQFOAVYAAAAAAAAAAAAAAAAAAAAAAAAAAFYt";
 
+		String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAAAg0AjQAvALAAKgFAnJABQJyIE4gTiBOIE3AXcBdg6mDqYOpwF3AXAAAAAAAAAAAAAAAAAAAAAAAAAGxmUgAAACIAAAEAAABNQURSRUQgREkgVEVTVCAgICAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAAAAAA0AgAAAE1BRElMTCBESSBURVNUICAgICAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
 
 		MessageCMAD mCMAD = new MessageCMAD(decodedBytes);
@@ -139,7 +162,7 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 		log.info(res);
 
 		response = target("/CMAD/MAC_ADR_ALL/ffff0506070").request().get();
-		response = target("/CMAD/MAC_ADR_ALL/ffff05060708").request().get();
+		response = target("/CMAD/MAC_ADR_ALL/aaaeffa08807").request().get();
 		x = response.getStatus();
 		//assertEquals(200, x);
 		res = response.readEntity(new GenericType<String>() {
@@ -148,7 +171,7 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 
 
 		response = target("/CMAD/MAC_ADR/ffff0506070").request().get();
-		response = target("/CMAD/MAC_ADR/ffff05060708").request().get();
+		response = target("/CMAD/MAC_ADR/aaaeffa08807").request().get();
 		x = response.getStatus();
 		//assertEquals(200, x);
 		res = response.readEntity(new GenericType<String>() {

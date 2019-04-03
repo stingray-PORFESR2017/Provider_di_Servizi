@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
     
 })
 @Embeddable
-public class WireAnalogInfo {
+public class WireAnalogInfo implements java.io.Serializable {
 
 	@XmlElement(required = true)
 	int Temperatura1=0;
@@ -259,6 +259,21 @@ public class WireAnalogInfo {
 		if (ValoreCorrenteCavo9 != other.ValoreCorrenteCavo9)
 			return false;
 		return true;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Temperatura1: " + Temperatura1 + ";  \\n Temperatura2: " + Temperatura2 + ";  \\n ValoreCorrenteCavo1: "
+				+ ValoreCorrenteCavo1 + ";  \\n ValoreCorrenteCavo2: " + ValoreCorrenteCavo2
+				+ ";  \\n ValoreCorrenteCavo3: " + ValoreCorrenteCavo3 + ";  \\n ValoreCorrenteCavo4: "
+				+ ValoreCorrenteCavo4 + ";  \\n ValoreCorrenteCavo5: " + ValoreCorrenteCavo5
+				+ ";  \\n ValoreCorrenteCavo6: " + ValoreCorrenteCavo6 + ";  \\n ValoreCorrenteCavo7: "
+				+ ValoreCorrenteCavo7 + ";  \\n ValoreCorrenteCavo8: " + ValoreCorrenteCavo8
+				+ ";  \\n ValoreCorrenteCavo9: " + ValoreCorrenteCavo9 + ";  \\n ValoreCorrenteCavo10: "
+				+ ValoreCorrenteCavo10 + ";  \\n ValoreCorrenteCavo11: " + ValoreCorrenteCavo11
+				+ ";  \\n ValoreCorrenteCavo12: " + ValoreCorrenteCavo12;
 	}
 
 	

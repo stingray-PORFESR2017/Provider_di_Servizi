@@ -2,7 +2,10 @@ package isti.message;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Base64;
 
+import isti.message.impl.ill.AnalogInfo;
+import isti.message.impl.ill.JMADILL;
 import isti.message.util.Service;
 
 public class MessageMADILL {
@@ -23,6 +26,8 @@ public class MessageMADILL {
 	int CRC;
 	
 	byte[] mess;
+	
+	AnalogInfo dinfo = new AnalogInfo();
 	
 	MessageMADILL(byte[] message) {
 
@@ -66,7 +71,7 @@ public class MessageMADILL {
 		int CorrenteLampada = Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51));//2
 		int SCORTA =  Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
 		
-	
+		dinfo = new AnalogInfo(ComandoLampada, PotenzaLampada, VitaLampada, TensioneLampada, CorrenteLampada, SCORTA);
 		
 		/*
 		 * 2	INT	Comando lampada
@@ -99,6 +104,23 @@ public class MessageMADILL {
 				+ "\\n, POSITION: " + POSITION + "\\n, DESCRIPTION: " + DESCRIPTION + "\\n, LONGITUDE: " + LONGITUDE
 				+ "\\n, LATITUDE: " + LATITUDE + "\\n, DIGITAL_INFO: " + DIGITAL_INFO + "\\n, ANALOG_INFO: "
 				+ Arrays.toString(ANALOG_INFO) + "\\n, Dummy: " + Arrays.toString(Dummy) + "\\n, CRC: " + CRC;
+	}
+	
+	public JMADILL getMadILL() {
+		
+		JMADILL madill = new JMADILL(MAC,HEADER,
+				TYPE,
+				REVISION,
+				new Short(POSITION).toString(),
+				DESCRIPTION,
+				new Long(LONGITUDE).toString(),
+				new Long(LATITUDE).toString(),
+				new Short(DIGITAL_INFO).toString(),
+				dinfo ,
+				Base64.getEncoder().encodeToString(mess),
+				String.valueOf(CRC));
+		
+		return madill;
 	}
 	
 	

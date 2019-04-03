@@ -3,12 +3,16 @@ package isti.message;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 import isti.message.impl.cmad.CMADAnalogInfo;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.L;
+import isti.message.impl.ill.JMADILL;
+import isti.message.impl.red.JMadRed;
 import isti.message.util.Service;
 
 
@@ -32,6 +36,8 @@ public class MessageCMAD {
 	int CMAD_CRC;
 	CMADAnalogInfo cCMAD_ANALOG_INFO;
 	byte[] mess;
+	List<JMadRed> listred = new ArrayList<>();
+	List<JMADILL> listill = new ArrayList<>();
 	
 	public MessageCMAD(byte[] message) {
 
@@ -111,8 +117,8 @@ public class MessageCMAD {
 		
 		byte[] dummy = Arrays.copyOfRange(message, 81, 100);//19
 		log.info(dummy);
-		byte [] CRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
-		var = Arrays.copyOfRange(message, 0, message.length-2);//2
+		byte [] CRC = Arrays.copyOfRange(message, 100,102);// message.length-2, message.length) ;
+		var = Arrays.copyOfRange(message, 0, 100);//2
 		
 		
 		CMAD_CRC = Service.CRC(var);
@@ -129,9 +135,27 @@ public class MessageCMAD {
  		
  		if(message.length>102) {
  			log.info(message.length);
- 			String CMAD_HEADER2 = String.valueOf( (char)(message[103]));//1
- 			//MAD-RED 92
+ 			String CMAD_HEADER2 = String.valueOf( (char)(message[102]));//1
  			
+ 			//MAD-RED 92
+ 			if(CMAD_HEADER2.equals("R")) {
+ 				
+ 				var = Arrays.copyOfRange(message, 102, 194);//2
+ 				MessageMADRED messmadred = new MessageMADRED(var);
+ 				JMadRed madred = messmadred.getMadRed();
+ 				listred.add(madred);
+ 				log.info(madred);
+ 				
+ 				
+ 			}
+ 			 CMAD_HEADER2 = String.valueOf( (char)(message[194]));//1
+ 			if(CMAD_HEADER2.equals("L")) {
+ 				var = Arrays.copyOfRange(message, 194, 260);//2
+ 				MessageMADILL messmadill = new MessageMADILL(var);
+ 				JMADILL madill = messmadill.getMadILL();
+ 				listill.add(madill);
+ 				log.info(message.length);
+ 			}
  			
  			//MAD-ILL 67
  		}
@@ -152,7 +176,8 @@ public class MessageCMAD {
 				Base64.getEncoder().encodeToString(mess),
 				CMAD_CRC);
 		
-		
+		j.setListred(listred);
+		j.setListill(listill);
 		j.setCMAD_ANALOG_INFO(cCMAD_ANALOG_INFO);
 		
 		
