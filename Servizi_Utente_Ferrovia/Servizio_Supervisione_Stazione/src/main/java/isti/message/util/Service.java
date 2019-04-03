@@ -1,7 +1,8 @@
-package isti;
+package isti.message.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Base64;
 
 public class Service {
 
@@ -133,6 +134,13 @@ public class Service {
 	 float l = ByteBuffer.wrap(bytes)
              .order(ByteOrder.LITTLE_ENDIAN).getFloat();
 	 return l;
+	}
+	
+	public static byte[] getBytefromBase64(String in) {
+		
+		
+		return Base64.getDecoder().decode(in);
+		
 	}
 	/*	for (byte b : bytes) {
 			for (int i = 0; i < 8; i++) {

@@ -4,8 +4,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import isti.JCMAD;
-import isti.JCMADID;
+import isti.message.impl.cmad.JCMAD;
+import isti.message.impl.cmad.JCMADID;
 
 
 
