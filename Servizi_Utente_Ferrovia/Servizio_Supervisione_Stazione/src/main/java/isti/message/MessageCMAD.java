@@ -11,6 +11,7 @@ import java.util.List;
 import isti.message.impl.cmad.CMADAnalogInfo;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.L;
+import isti.message.impl.ill.JMADILL;
 import isti.message.impl.red.JMadRed;
 import isti.message.util.Service;
 
@@ -36,6 +37,7 @@ public class MessageCMAD {
 	CMADAnalogInfo cCMAD_ANALOG_INFO;
 	byte[] mess;
 	List<JMadRed> listred = new ArrayList<>();
+	List<JMADILL> listill = new ArrayList<>();
 	
 	public MessageCMAD(byte[] message) {
 
@@ -147,10 +149,11 @@ public class MessageCMAD {
  				
  			}
  			 CMAD_HEADER2 = String.valueOf( (char)(message[194]));//1
- 			if(CMAD_HEADER2.equals("R")) {
+ 			if(CMAD_HEADER2.equals("L")) {
  				var = Arrays.copyOfRange(message, 194, 260);//2
  				MessageMADILL messmadill = new MessageMADILL(var);
- 				
+ 				JMADILL madill = messmadill.getMadILL();
+ 				listill.add(madill);
  				log.info(message.length);
  			}
  			
@@ -174,6 +177,7 @@ public class MessageCMAD {
 				CMAD_CRC);
 		
 		j.setListred(listred);
+		j.setListill(listill);
 		j.setCMAD_ANALOG_INFO(cCMAD_ANALOG_INFO);
 		
 		

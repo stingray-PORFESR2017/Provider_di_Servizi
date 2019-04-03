@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import isti.message.impl.ill.JMADILL;
 import isti.message.impl.red.JMadRed;
 
 import javax.persistence.*;
@@ -32,7 +33,8 @@ import javax.persistence.*;
     "CMAD_ANALOG_INFO",
     "CMAD_RAW",
     "CMAD_CRC",
-    "listred"
+    "listred",
+    "listill"
     
 })
 @Entity(name="Jcmad" )
@@ -93,6 +95,10 @@ public class JCMAD  implements java.io.Serializable{
 	@XmlElementWrapper(name="ListMadRed")
 	@XmlElement(name="DatiMadRed")
 	List<JMadRed> listred;
+	
+	@XmlElementWrapper(name="ListMadIll")
+	@XmlElement(name="DatiMadIll")
+	List<JMADILL> listill;
 
 	public JCMAD() {
 	}
@@ -282,6 +288,20 @@ public class JCMAD  implements java.io.Serializable{
 
 	public void setListred(List<JMadRed> listred) {
 		this.listred = listred;
+	}
+
+
+
+
+	public List<JMADILL> getListill() {
+		return listill;
+	}
+
+
+
+
+	public void setListill(List<JMADILL> listill) {
+		this.listill = listill;
 	}
 
 

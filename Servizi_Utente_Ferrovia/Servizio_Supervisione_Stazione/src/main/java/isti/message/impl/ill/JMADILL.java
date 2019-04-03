@@ -1,6 +1,7 @@
-package isti.message.impl.red;
+package isti.message.impl.ill;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
@@ -13,16 +14,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import isti.message.impl.cmad.JCMADID;
+import isti.message.impl.red.WireAnalogInfo;
 
-@XmlRootElement(name = "DatiMadRed", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
+
+@XmlRootElement(name = "DatiMadIll", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MadRed", propOrder = {
-		"Id","HEADER","TYPE","REVISION","POSITION","DESCRIPTION","LONGITUDE","LATITUDE","DIGITAL_INFO","WIRE_DIGITAL_INFO","WIRE_ANALOG_INFO","RAW","CRC"
+@XmlType(name = "MadIll", propOrder = {
+		"Id","HEADER","TYPE","REVISION","POSITION","DESCRIPTION","LONGITUDE","LATITUDE","DIGITAL_INFO","ANALOG_INFO","RAW","CRC"
 })
-@Entity(name="JMadRed" )
-@Table(name = "MadRed") 
-public class JMadRed  implements java.io.Serializable {
-
+@Entity(name="JMadIll" )
+@Table(name = "MadIll")
+public class JMADILL {
+	
+	
 	@XmlElement(/*name = "CMAD",*/ required = true)
 	@EmbeddedId
 	JCMADID Id;
@@ -44,25 +48,17 @@ public class JMadRed  implements java.io.Serializable {
 	String LATITUDE;
 	@XmlElement(required = true)
 	String DIGITAL_INFO;
-	@XmlElement(required = true)
-	String WIRE_DIGITAL_INFO;
+	
 
 
 	@XmlElement(required = true)
-	@Embedded WireAnalogInfo WIRE_ANALOG_INFO;
+	@Embedded AnalogInfo ANALOG_INFO;
 
 
 	@XmlElement(name = "RAW_BASE64", required = true)
 	String RAW;
 	@XmlElement(required = true)
 	String CRC;
-
-
-	public JMadRed(){
-
-	}
-
-
 	/**
 	 * @param id
 	 * @param hEADER
@@ -73,13 +69,12 @@ public class JMadRed  implements java.io.Serializable {
 	 * @param lONGITUDE
 	 * @param lATITUDE
 	 * @param dIGITAL_INFO
-	 * @param wIRE_DIGITAL_INFO
-	 * @param wIRE_ANALOG_INFO
+	 * @param aNALOG_INFO
+	 * @param rAW
 	 * @param cRC
 	 */
-	public JMadRed( String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
-			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, String wIRE_DIGITAL_INFO,
-			String mess, String cRC) {
+	public JMADILL(String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
+			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, AnalogInfo aNALOG_INFO, String rAW, String cRC) {
 		Id = new JCMADID(cmAC,  new Date());
 		HEADER = hEADER;
 		TYPE = tYPE;
@@ -89,9 +84,32 @@ public class JMadRed  implements java.io.Serializable {
 		LONGITUDE = lONGITUDE;
 		LATITUDE = lATITUDE;
 		DIGITAL_INFO = dIGITAL_INFO;
-		WIRE_DIGITAL_INFO = wIRE_DIGITAL_INFO;
-
+		ANALOG_INFO = aNALOG_INFO;
+		RAW = rAW;
 		CRC = cRC;
+	}
+	public JMADILL() {
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(ANALOG_INFO, CRC, DESCRIPTION, DIGITAL_INFO, HEADER, Id, LATITUDE, LONGITUDE, POSITION, RAW,
+				REVISION, TYPE);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JMADILL other = (JMADILL) obj;
+		return Objects.equals(ANALOG_INFO, other.ANALOG_INFO) && Objects.equals(CRC, other.CRC)
+				&& Objects.equals(DESCRIPTION, other.DESCRIPTION) && Objects.equals(DIGITAL_INFO, other.DIGITAL_INFO)
+				&& Objects.equals(HEADER, other.HEADER) && Objects.equals(Id, other.Id)
+				&& Objects.equals(LATITUDE, other.LATITUDE) && Objects.equals(LONGITUDE, other.LONGITUDE)
+				&& Objects.equals(POSITION, other.POSITION) && Objects.equals(RAW, other.RAW)
+				&& REVISION == other.REVISION && TYPE == other.TYPE;
 	}
 	public JCMADID getId() {
 		return Id;
@@ -147,17 +165,11 @@ public class JMadRed  implements java.io.Serializable {
 	public void setDIGITAL_INFO(String dIGITAL_INFO) {
 		DIGITAL_INFO = dIGITAL_INFO;
 	}
-	public String getWIRE_DIGITAL_INFO() {
-		return WIRE_DIGITAL_INFO;
+	public AnalogInfo getANALOG_INFO() {
+		return ANALOG_INFO;
 	}
-	public void setWIRE_DIGITAL_INFO(String wIRE_DIGITAL_INFO) {
-		WIRE_DIGITAL_INFO = wIRE_DIGITAL_INFO;
-	}
-	public WireAnalogInfo getWIRE_ANALOG_INFO() {
-		return WIRE_ANALOG_INFO;
-	}
-	public void setWIRE_ANALOG_INFO(WireAnalogInfo wIRE_ANALOG_INFO) {
-		WIRE_ANALOG_INFO = wIRE_ANALOG_INFO;
+	public void setANALOG_INFO(AnalogInfo aNALOG_INFO) {
+		ANALOG_INFO = aNALOG_INFO;
 	}
 	public String getRAW() {
 		return RAW;
@@ -171,7 +183,10 @@ public class JMadRed  implements java.io.Serializable {
 	public void setCRC(String cRC) {
 		CRC = cRC;
 	}
-
+	
+	
+	
+	
 
 
 }
