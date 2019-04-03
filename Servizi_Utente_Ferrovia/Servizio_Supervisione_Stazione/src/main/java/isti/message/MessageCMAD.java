@@ -9,6 +9,7 @@ import java.util.Base64;
 import isti.message.impl.cmad.CMADAnalogInfo;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.L;
+import isti.message.impl.red.JMadRed;
 import isti.message.util.Service;
 
 
@@ -111,8 +112,8 @@ public class MessageCMAD {
 		
 		byte[] dummy = Arrays.copyOfRange(message, 81, 100);//19
 		log.info(dummy);
-		byte [] CRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
-		var = Arrays.copyOfRange(message, 0, message.length-2);//2
+		byte [] CRC = Arrays.copyOfRange(message, 100,102);// message.length-2, message.length) ;
+		var = Arrays.copyOfRange(message, 0, 100);//2
 		
 		
 		CMAD_CRC = Service.CRC(var);
@@ -129,9 +130,25 @@ public class MessageCMAD {
  		
  		if(message.length>102) {
  			log.info(message.length);
- 			String CMAD_HEADER2 = String.valueOf( (char)(message[103]));//1
- 			//MAD-RED 92
+ 			String CMAD_HEADER2 = String.valueOf( (char)(message[102]));//1
  			
+ 			//MAD-RED 92
+ 			if(CMAD_HEADER2.equals("R")) {
+ 				
+ 				var = Arrays.copyOfRange(message, 102, 194);//2
+ 				MessageMADRED messmadred = new MessageMADRED(var);
+ 				JMadRed madred = messmadred.getMadRed();
+ 				log.info(madred);
+ 				
+ 				
+ 			}
+ 			 CMAD_HEADER2 = String.valueOf( (char)(message[194]));//1
+ 			if(CMAD_HEADER2.equals("R")) {
+ 				var = Arrays.copyOfRange(message, 194, 260);//2
+ 				MessageMADILL messmadill = new MessageMADILL(var);
+ 				
+ 				log.info(message.length);
+ 			}
  			
  			//MAD-ILL 67
  		}
