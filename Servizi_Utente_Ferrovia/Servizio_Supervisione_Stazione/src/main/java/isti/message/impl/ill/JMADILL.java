@@ -1,5 +1,6 @@
 package isti.message.impl.ill;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ import isti.message.impl.red.WireAnalogInfo;
 })
 @Entity(name="JMadIll" )
 @Table(name = "MadIll")
-public class JMADILL {
+public class JMADILL  implements Serializable{
 	
 	
 	@XmlElement(/*name = "CMAD",*/ required = true)
