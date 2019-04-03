@@ -4,13 +4,16 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import isti.message.impl.red.JMadRed;
 
 import javax.persistence.*;
 
@@ -29,7 +32,7 @@ import javax.persistence.*;
     "CMAD_ANALOG_INFO",
     "CMAD_RAW",
     "CMAD_CRC",
-    
+    "listred"
     
 })
 @Entity(name="Jcmad" )
@@ -87,7 +90,9 @@ public class JCMAD  implements java.io.Serializable{
 	@XmlElement(name = "CMAD_CRC", required = true)
 	String CMAD_CRC;
 	
-	
+	@XmlElementWrapper(name="ListMadRed")
+	@XmlElement(name="DatiMadRed")
+	List<JMadRed> listred;
 
 	public JCMAD() {
 	}
@@ -264,6 +269,25 @@ public class JCMAD  implements java.io.Serializable{
 			return false;
 		return true;
 	}
+
+
+	
+
+	public List<JMadRed> getListred() {
+		return listred;
+	}
+
+
+
+
+	public void setListred(List<JMadRed> listred) {
+		this.listred = listred;
+	}
+
+
+
+
+	
 
 
 

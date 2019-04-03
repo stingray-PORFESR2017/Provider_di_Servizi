@@ -3,8 +3,10 @@ package isti.message;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 import isti.message.impl.cmad.CMADAnalogInfo;
 import isti.message.impl.cmad.JCMAD;
@@ -33,6 +35,7 @@ public class MessageCMAD {
 	int CMAD_CRC;
 	CMADAnalogInfo cCMAD_ANALOG_INFO;
 	byte[] mess;
+	List<JMadRed> listred = new ArrayList<>();
 	
 	public MessageCMAD(byte[] message) {
 
@@ -138,6 +141,7 @@ public class MessageCMAD {
  				var = Arrays.copyOfRange(message, 102, 194);//2
  				MessageMADRED messmadred = new MessageMADRED(var);
  				JMadRed madred = messmadred.getMadRed();
+ 				listred.add(madred);
  				log.info(madred);
  				
  				
@@ -169,7 +173,7 @@ public class MessageCMAD {
 				Base64.getEncoder().encodeToString(mess),
 				CMAD_CRC);
 		
-		
+		j.setListred(listred);
 		j.setCMAD_ANALOG_INFO(cCMAD_ANALOG_INFO);
 		
 		

@@ -13,10 +13,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "JCMADID", propOrder = {
+/*@XmlType(name = "JCMADID", propOrder = {
     "MAC_ADR",
     "CMAD_DATE"    
-})
+})*/
 @Embeddable
 public class JCMADID implements Serializable {
 
@@ -61,6 +61,16 @@ public class JCMADID implements Serializable {
 	}
 
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CMAD_DATE == null) ? 0 : CMAD_DATE.hashCode());
+		result = prime * result + ((MAC_ADR == null) ? 0 : MAC_ADR.hashCode());
+		return result;
+	}
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

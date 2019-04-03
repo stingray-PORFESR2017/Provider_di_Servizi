@@ -15,14 +15,17 @@ import isti.message.impl.cmad.JCMADID;
 
 @XmlRootElement(name = "DatiMadRed", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "MadRed", propOrder = {
+		"Id","HEADER","TYPE","REVISION","POSITION","DESCRIPTION","LONGITUDE","LATITUDE","DIGITAL_INFO","WIRE_DIGITAL_INFO","WIRE_ANALOG_INFO","RAW","CRC"
+})
 @Entity(name="JMadRed" )
 @Table(name = "MadRed") 
 public class JMadRed  implements java.io.Serializable {
-	
+
 	@XmlElement(/*name = "CMAD",*/ required = true)
 	@EmbeddedId
 	JCMADID Id;
-	
+
 	@XmlElement(required = true)
 	String HEADER;
 
@@ -42,23 +45,23 @@ public class JMadRed  implements java.io.Serializable {
 	String DIGITAL_INFO;
 	@XmlElement(required = true)
 	String WIRE_DIGITAL_INFO;
-	
-	
+
+
 	@XmlElement(required = true)
 	WireAnalogInfo WIRE_ANALOG_INFO;
-	
-	
+
+
 	@XmlElement(name = "RAW_BASE64", required = true)
 	String RAW;
 	@XmlElement(required = true)
 	String CRC;
-	
-	
+
+
 	public JMadRed(){
-		
+
 	}
-	
-	
+
+
 	/**
 	 * @param id
 	 * @param hEADER
@@ -75,7 +78,7 @@ public class JMadRed  implements java.io.Serializable {
 	 */
 	public JMadRed( String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
 			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, String wIRE_DIGITAL_INFO,
-			 String mess, String cRC) {
+			String mess, String cRC) {
 		Id = new JCMADID(cmAC,  new Date());
 		HEADER = hEADER;
 		TYPE = tYPE;
@@ -86,7 +89,7 @@ public class JMadRed  implements java.io.Serializable {
 		LATITUDE = lATITUDE;
 		DIGITAL_INFO = dIGITAL_INFO;
 		WIRE_DIGITAL_INFO = wIRE_DIGITAL_INFO;
-		
+
 		CRC = cRC;
 	}
 	public JCMADID getId() {
@@ -167,7 +170,7 @@ public class JMadRed  implements java.io.Serializable {
 	public void setCRC(String cRC) {
 		CRC = cRC;
 	}
-	
-	
+
+
 
 }
