@@ -57,19 +57,22 @@ public class MessageMADILL {
 		
 		ANALOG_INFO =  Arrays.copyOfRange(message, 41, 53);//12
 		
+		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 53, 57));//4
 		
-		byte[] dummy = Arrays.copyOfRange(message, 53, 65);//12
+
+		
+		byte[] dummy = Arrays.copyOfRange(message, 57, 65);//8
 		log.info(dummy);
 		byte [] bCRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, message.length-2);//2
 		
 		
-		int ComandoLampada = Service.TwobytesToint(Arrays.copyOfRange(message, 41, 43));//2
-		int PotenzaLampada =  Service.TwobytesToint(Arrays.copyOfRange(message, 43, 45));//2
-		int VitaLampada = Service.TwobytesToint(Arrays.copyOfRange(message, 45, 47));//2
-		int TensioneLampada = Service.TwobytesToint(Arrays.copyOfRange(message, 47, 49));//2
-		int CorrenteLampada = Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51));//2
-		int SCORTA =  Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
+		int ComandoLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 0, 2));//2
+		int PotenzaLampada =  Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 2, 4));//2
+		int VitaLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 4, 6));//2
+		int TensioneLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 6, 8));//2
+		int CorrenteLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 8, 10));//2
+		int SCORTA =  Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 10, 12));//2
 		
 		dinfo = new AnalogInfo(ComandoLampada, PotenzaLampada, VitaLampada, TensioneLampada, CorrenteLampada, SCORTA);
 		

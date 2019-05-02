@@ -59,8 +59,12 @@ public class MessageMADRED {
 
 		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 48, 76);//28
 
+		
+		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 76, 80));//4
+		
+		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 80, 81));//1
 
-		byte[] dummy = Arrays.copyOfRange(message, 76, 90);//14
+		byte[] dummy = Arrays.copyOfRange(message, 81, 90);//9
 		log.info(dummy);
 		byte [] bCRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, message.length-2);//2
@@ -95,6 +99,8 @@ public class MessageMADRED {
 
 
 		 */
+		
+
 
 		CRC = Service.CRC(var);
 		byte[] recCRC = Service.intToBytes(CRC);

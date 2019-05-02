@@ -1,6 +1,7 @@
 package isti.message;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -70,12 +71,17 @@ public class MessageCMAD {
 		
 		float TempEst = (float) Service.TwobytesToint(Arrays.copyOfRange(message, 41, 43))/10;//2
 		int Lux =  Service.TwobytesToint(Arrays.copyOfRange(message, 43, 45));//2
+		 float jj = Service.TwobytesToLong(Arrays.copyOfRange(message, 43, 45));
 		
 		//byte[] var2 = Arrays.copyOfRange(message, 45, 47);
 		float TempSuolo = (float) Service.TwobytesToint(Arrays.copyOfRange(message, 45, 47))/10;//2
 		float TensioneL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 47, 49))/10;//2
 		float TensioneL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51))/10;//2
 		float TensioneL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
+		
+		byte[] k = Arrays.copyOfRange(message, 43, 45);
+		byte[] k1 = {k[0],k[1],0,0};
+		int l =(ByteBuffer.wrap(k1).order(ByteOrder.LITTLE_ENDIAN).getInt());
 		
 		L Tensione = new L(TensioneL1,TensioneL2,TensioneL3);
 		
@@ -114,8 +120,12 @@ public class MessageCMAD {
 		
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
+		 
+		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
 		
-		byte[] dummy = Arrays.copyOfRange(message, 81, 100);//19
+		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
+		
+		byte[] dummy = Arrays.copyOfRange(message, 86, 100);//9
 		log.info(dummy);
 		byte [] CRC = Arrays.copyOfRange(message, 100,102);// message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, 100);//2
