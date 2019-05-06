@@ -285,6 +285,8 @@ public class JCMAD  implements java.io.Serializable{
 		int result = 1;
 		result = prime * result + ((CMAD_ANALOG_INFO == null) ? 0 : CMAD_ANALOG_INFO.hashCode());
 		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		result = prime * result + ((listill == null) ? 0 : listill.hashCode());
+		result = prime * result + ((listred == null) ? 0 : listred.hashCode());
 		return result;
 	}
 
@@ -310,9 +312,20 @@ public class JCMAD  implements java.io.Serializable{
 				return false;
 		} else if (!Id.equals(other.Id))
 			return false;
+		if (listill == null) {
+			if (other.listill != null)
+				return false;
+		} else if (!listill.containsAll(other.listill))
+			return false;
+		if (listred == null) {
+			if (other.listred != null)
+				return false;
+		} else if (!listred.containsAll(other.listred))
+			return false;
 		return true;
 	}
 
+	
 
 
 

@@ -85,8 +85,8 @@ public class JCMADID implements Serializable {
 				return false;
 		} else if (!MAC_ADR.equals(other.MAC_ADR))
 			return false;
-		if (DATE.compareTo(other.DATE) != 0)
-			return false;
+		/*if (DATE.compareTo(other.DATE) != 0)
+			return false;*/
 		return true;
 	}
 	
