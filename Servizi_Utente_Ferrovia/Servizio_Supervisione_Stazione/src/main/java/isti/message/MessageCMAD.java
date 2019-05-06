@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -121,7 +123,7 @@ public class MessageCMAD {
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		 
-		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
+		long   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
 		
 		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
 		
@@ -140,6 +142,12 @@ public class MessageCMAD {
 		}
 		
 		log.info(CMAD_CRC);
+		
+		 Timestamp ts=new Timestamp(Timestamp);  
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+         System.out.println(formatter.format(ts)); 
+		
+		log.info(Timestamp);
  		log.info(CMAD_DESCRIPTION);
  		log.info(toString());
  		
@@ -158,13 +166,15 @@ public class MessageCMAD {
  				
  				
  			}
+ 			if(message.length>194) {
  			 CMAD_HEADER2 = String.valueOf( (char)(message[194]));//1
  			if(CMAD_HEADER2.equals("L")) {
- 				var = Arrays.copyOfRange(message, 194, 260);//2
+ 				var = Arrays.copyOfRange(message, 194, 261);//2
  				MessageMADILL messmadill = new MessageMADILL(var);
  				JMADILL madill = messmadill.getMadILL();
  				listill.add(madill);
  				log.info(message.length);
+ 			}
  			}
  			
  			//MAD-ILL 67

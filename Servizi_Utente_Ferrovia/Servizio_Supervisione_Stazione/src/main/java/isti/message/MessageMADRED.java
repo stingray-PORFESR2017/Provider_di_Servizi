@@ -112,6 +112,7 @@ public class MessageMADRED {
 
 		log.info(CRC);
 		log.info(DESCRIPTION);
+		log.info(Timestamp);
 		log.info(toString());
 
 
