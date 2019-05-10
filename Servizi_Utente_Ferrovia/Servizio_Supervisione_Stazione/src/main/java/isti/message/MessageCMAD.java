@@ -150,8 +150,36 @@ public class MessageCMAD {
 		log.info(Timestamp);
  		log.info(CMAD_DESCRIPTION);
  		log.info(toString());
+ 		int bandiera = 102;
+ 		while(bandiera<message.length) {
+ 			log.info(message.length);
+ 			String CMAD_HEADER2 = String.valueOf( (char)(message[bandiera]));//1
+ 			//MAD-RED 92
+ 			if(CMAD_HEADER2.equals("R")) {
+ 				
+ 				var = Arrays.copyOfRange(message, bandiera, bandiera+92);//92
+ 				MessageMADRED messmadred = new MessageMADRED(var);
+ 				JMadRed madred = messmadred.getMadRed();
+ 				listred.add(madred);
+ 				log.info(madred);
+ 				
+ 				bandiera+=92;
+ 			}
+ 			
+ 			if(CMAD_HEADER2.equals("L")) {
+ 				var = Arrays.copyOfRange(message, bandiera, bandiera+67);//67
+ 				MessageMADILL messmadill = new MessageMADILL(var);
+ 				JMADILL madill = messmadill.getMadILL();
+ 				listill.add(madill);
+ 				log.info(message.length);
+ 				bandiera+=67;
+ 			}
+ 			
+ 			
+ 			//MAD-ILL 67
+ 		}
  		
- 		if(message.length>102) {
+ 		/*if(message.length>102) {
  			log.info(message.length);
  			String CMAD_HEADER2 = String.valueOf( (char)(message[102]));//1
  			
@@ -178,7 +206,7 @@ public class MessageCMAD {
  			}
  			
  			//MAD-ILL 67
- 		}
+ 		}*/
  		
 		
 	}
