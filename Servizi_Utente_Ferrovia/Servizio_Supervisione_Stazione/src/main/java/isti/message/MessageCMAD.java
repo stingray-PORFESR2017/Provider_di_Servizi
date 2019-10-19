@@ -1,8 +1,11 @@
 package isti.message;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -70,12 +73,17 @@ public class MessageCMAD {
 		
 		float TempEst = (float) Service.TwobytesToint(Arrays.copyOfRange(message, 41, 43))/10;//2
 		int Lux =  Service.TwobytesToint(Arrays.copyOfRange(message, 43, 45));//2
+		 float jj = Service.TwobytesToLong(Arrays.copyOfRange(message, 43, 45));
 		
 		//byte[] var2 = Arrays.copyOfRange(message, 45, 47);
 		float TempSuolo = (float) Service.TwobytesToint(Arrays.copyOfRange(message, 45, 47))/10;//2
 		float TensioneL1 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 47, 49))/10;//2
 		float TensioneL2 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51))/10;//2
 		float TensioneL3 = (float)Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53))/10;//2
+		
+		byte[] k = Arrays.copyOfRange(message, 43, 45);
+		byte[] k1 = {k[0],k[1],0,0};
+		int l =(ByteBuffer.wrap(k1).order(ByteOrder.LITTLE_ENDIAN).getInt());
 		
 		L Tensione = new L(TensioneL1,TensioneL2,TensioneL3);
 		
@@ -114,8 +122,12 @@ public class MessageCMAD {
 		
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
+		 
+		long   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
 		
-		byte[] dummy = Arrays.copyOfRange(message, 81, 100);//19
+		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
+		
+		byte[] dummy = Arrays.copyOfRange(message, 86, 100);//9
 		log.info(dummy);
 		byte [] CRC = Arrays.copyOfRange(message, 100,102);// message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, 100);//2
@@ -130,10 +142,44 @@ public class MessageCMAD {
 		}
 		
 		log.info(CMAD_CRC);
+		
+		 Timestamp ts=new Timestamp(Timestamp);  
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+         System.out.println(formatter.format(ts)); 
+		
+		log.info(Timestamp);
  		log.info(CMAD_DESCRIPTION);
  		log.info(toString());
+ 		int bandiera = 102;
+ 		while(bandiera<message.length) {
+ 			log.info(message.length);
+ 			String CMAD_HEADER2 = String.valueOf( (char)(message[bandiera]));//1
+ 			//MAD-RED 92
+ 			if(CMAD_HEADER2.equals("R")) {
+ 				
+ 				var = Arrays.copyOfRange(message, bandiera, bandiera+92);//92
+ 				MessageMADRED messmadred = new MessageMADRED(var);
+ 				JMadRed madred = messmadred.getMadRed();
+ 				listred.add(madred);
+ 				log.info(madred);
+ 				
+ 				bandiera+=92;
+ 			}
+ 			
+ 			if(CMAD_HEADER2.equals("L")) {
+ 				var = Arrays.copyOfRange(message, bandiera, bandiera+67);//67
+ 				MessageMADILL messmadill = new MessageMADILL(var);
+ 				JMADILL madill = messmadill.getMadILL();
+ 				listill.add(madill);
+ 				log.info(message.length);
+ 				bandiera+=67;
+ 			}
+ 			
+ 			
+ 			//MAD-ILL 67
+ 		}
  		
- 		if(message.length>102) {
+ 		/*if(message.length>102) {
  			log.info(message.length);
  			String CMAD_HEADER2 = String.valueOf( (char)(message[102]));//1
  			
@@ -148,17 +194,19 @@ public class MessageCMAD {
  				
  				
  			}
+ 			if(message.length>194) {
  			 CMAD_HEADER2 = String.valueOf( (char)(message[194]));//1
  			if(CMAD_HEADER2.equals("L")) {
- 				var = Arrays.copyOfRange(message, 194, 260);//2
+ 				var = Arrays.copyOfRange(message, 194, 261);//2
  				MessageMADILL messmadill = new MessageMADILL(var);
  				JMADILL madill = messmadill.getMadILL();
  				listill.add(madill);
  				log.info(message.length);
  			}
+ 			}
  			
  			//MAD-ILL 67
- 		}
+ 		}*/
  		
 		
 	}

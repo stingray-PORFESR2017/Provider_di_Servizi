@@ -55,33 +55,37 @@ public class MessageMADRED {
 		var = Arrays.copyOfRange(message, 39, 41);//2
 		DIGITAL_INFO = Service.bytesToShort(var); 
 
-		WIRE_DIGITAL_INFO = Arrays.copyOfRange(message, 41, 48);//7
+		WIRE_DIGITAL_INFO = Arrays.copyOfRange(message, 41, 49);//8
 
-		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 48, 76);//28
+		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 49, 77);//28
 
+		
+		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
+		
+		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
 
-		byte[] dummy = Arrays.copyOfRange(message, 76, 90);//14
+		byte[] dummy = Arrays.copyOfRange(message, 82, 90);//9
 		log.info(dummy);
 		byte [] bCRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
 		var = Arrays.copyOfRange(message, 0, message.length-2);//2
 
 
-		int Temperatura1 = Service.TwobytesToint(Arrays.copyOfRange(message, 48, 50));//2
-		int Temperatura2 =  Service.TwobytesToint(Arrays.copyOfRange(message, 50, 52));//2
-		int ValoreCorrenteCavo1 = Service.TwobytesToint(Arrays.copyOfRange(message, 52, 54));//2
-		int ValoreCorrenteCavo2 = Service.TwobytesToint(Arrays.copyOfRange(message, 54, 56));//2
-		int ValoreCorrenteCavo3 = Service.TwobytesToint(Arrays.copyOfRange(message, 56, 58));//2
-		int ValoreCorrenteCavo4 =  Service.TwobytesToint(Arrays.copyOfRange(message, 58, 60));//2
+		int Temperatura1 = Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51));//2
+		int Temperatura2 =  Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53));//2
+		int ValoreCorrenteCavo1 = Service.TwobytesToint(Arrays.copyOfRange(message, 53, 55));//2
+		int ValoreCorrenteCavo2 = Service.TwobytesToint(Arrays.copyOfRange(message, 55, 57));//2
+		int ValoreCorrenteCavo3 = Service.TwobytesToint(Arrays.copyOfRange(message, 57, 59));//2
+		int ValoreCorrenteCavo4 =  Service.TwobytesToint(Arrays.copyOfRange(message, 59, 61));//2
 
-		int ValoreCorrenteCavo5 = Service.TwobytesToint(Arrays.copyOfRange(message, 60, 62));//2
-		int ValoreCorrenteCavo6 = Service.TwobytesToint(Arrays.copyOfRange(message, 62, 64));//2
-		int ValoreCorrenteCavo7 = Service.TwobytesToint(Arrays.copyOfRange(message, 64, 66));//2
-		int ValoreCorrenteCavo8 =  Service.TwobytesToint(Arrays.copyOfRange(message, 66, 68));//2
+		int ValoreCorrenteCavo5 = Service.TwobytesToint(Arrays.copyOfRange(message, 61, 63));//2
+		int ValoreCorrenteCavo6 = Service.TwobytesToint(Arrays.copyOfRange(message, 63, 65));//2
+		int ValoreCorrenteCavo7 = Service.TwobytesToint(Arrays.copyOfRange(message, 65, 67));//2
+		int ValoreCorrenteCavo8 =  Service.TwobytesToint(Arrays.copyOfRange(message, 67, 69));//2
 
-		int ValoreCorrenteCavo9 = Service.TwobytesToint(Arrays.copyOfRange(message, 68, 70));//2
-		int ValoreCorrenteCavo10 = Service.TwobytesToint(Arrays.copyOfRange(message, 70, 72));//2
-		int ValoreCorrenteCavo11 = Service.TwobytesToint(Arrays.copyOfRange(message, 72, 74));//2
-		int ValoreCorrenteCavo12 =  Service.TwobytesToint(Arrays.copyOfRange(message, 74, 76));//2
+		int ValoreCorrenteCavo9 = Service.TwobytesToint(Arrays.copyOfRange(message, 69, 71));//2
+		int ValoreCorrenteCavo10 = Service.TwobytesToint(Arrays.copyOfRange(message, 71, 73));//2
+		int ValoreCorrenteCavo11 = Service.TwobytesToint(Arrays.copyOfRange(message, 73, 75));//2
+		int ValoreCorrenteCavo12 =  Service.TwobytesToint(Arrays.copyOfRange(message, 75, 77));//2
 
 		wire = new WireAnalogInfo(Temperatura1,  Temperatura2,  ValoreCorrenteCavo1,  ValoreCorrenteCavo2,
 				ValoreCorrenteCavo3,  ValoreCorrenteCavo4,  ValoreCorrenteCavo5,  ValoreCorrenteCavo6,
@@ -95,6 +99,8 @@ public class MessageMADRED {
 
 
 		 */
+		
+
 
 		CRC = Service.CRC(var);
 		byte[] recCRC = Service.intToBytes(CRC);
@@ -106,6 +112,7 @@ public class MessageMADRED {
 
 		log.info(CRC);
 		log.info(DESCRIPTION);
+		log.info(Timestamp);
 		log.info(toString());
 
 

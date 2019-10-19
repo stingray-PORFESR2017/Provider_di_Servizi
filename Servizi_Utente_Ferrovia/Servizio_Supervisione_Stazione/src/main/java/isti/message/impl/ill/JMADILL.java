@@ -109,7 +109,7 @@ public class JMADILL  implements Serializable{
 				&& Objects.equals(DESCRIPTION, other.DESCRIPTION) && Objects.equals(DIGITAL_INFO, other.DIGITAL_INFO)
 				&& Objects.equals(HEADER, other.HEADER) && Objects.equals(Id, other.Id)
 				&& Objects.equals(LATITUDE, other.LATITUDE) && Objects.equals(LONGITUDE, other.LONGITUDE)
-				&& Objects.equals(POSITION, other.POSITION) && Objects.equals(RAW, other.RAW)
+				&& Objects.equals(POSITION, other.POSITION) 
 				&& REVISION == other.REVISION && TYPE == other.TYPE;
 	}
 	public JCMADID getId() {

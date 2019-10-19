@@ -179,6 +179,94 @@ public class JMadRed  implements java.io.Serializable {
 		CRC = cRC;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CRC == null) ? 0 : CRC.hashCode());
+		result = prime * result + ((DESCRIPTION == null) ? 0 : DESCRIPTION.hashCode());
+		result = prime * result + ((DIGITAL_INFO == null) ? 0 : DIGITAL_INFO.hashCode());
+		result = prime * result + ((HEADER == null) ? 0 : HEADER.hashCode());
+		result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+		result = prime * result + ((LATITUDE == null) ? 0 : LATITUDE.hashCode());
+		result = prime * result + ((LONGITUDE == null) ? 0 : LONGITUDE.hashCode());
+		result = prime * result + ((POSITION == null) ? 0 : POSITION.hashCode());
+		result = prime * result + ((RAW == null) ? 0 : RAW.hashCode());
+		result = prime * result + REVISION;
+		result = prime * result + TYPE;
+		result = prime * result + ((WIRE_ANALOG_INFO == null) ? 0 : WIRE_ANALOG_INFO.hashCode());
+		result = prime * result + ((WIRE_DIGITAL_INFO == null) ? 0 : WIRE_DIGITAL_INFO.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JMadRed other = (JMadRed) obj;
+		if (CRC == null) {
+			if (other.CRC != null)
+				return false;
+		} else if (!CRC.equals(other.CRC))
+			return false;
+		if (DESCRIPTION == null) {
+			if (other.DESCRIPTION != null)
+				return false;
+		} else if (!DESCRIPTION.equals(other.DESCRIPTION))
+			return false;
+		if (DIGITAL_INFO == null) {
+			if (other.DIGITAL_INFO != null)
+				return false;
+		} else if (!DIGITAL_INFO.equals(other.DIGITAL_INFO))
+			return false;
+		if (HEADER == null) {
+			if (other.HEADER != null)
+				return false;
+		} else if (!HEADER.equals(other.HEADER))
+			return false;
+		if (Id == null) {
+			if (other.Id != null)
+				return false;
+		} else if (!Id.equals(other.Id))
+			return false;
+		if (LATITUDE == null) {
+			if (other.LATITUDE != null)
+				return false;
+		} else if (!LATITUDE.equals(other.LATITUDE))
+			return false;
+		if (LONGITUDE == null) {
+			if (other.LONGITUDE != null)
+				return false;
+		} else if (!LONGITUDE.equals(other.LONGITUDE))
+			return false;
+		if (POSITION == null) {
+			if (other.POSITION != null)
+				return false;
+		} else if (!POSITION.equals(other.POSITION))
+			return false;
+		if (REVISION != other.REVISION)
+			return false;
+		if (TYPE != other.TYPE)
+			return false;
+		if (WIRE_ANALOG_INFO == null) {
+			if (other.WIRE_ANALOG_INFO != null)
+				return false;
+		} else if (!WIRE_ANALOG_INFO.equals(other.WIRE_ANALOG_INFO))
+			return false;
+		if (WIRE_DIGITAL_INFO == null) {
+			if (other.WIRE_DIGITAL_INFO != null)
+				return false;
+		} else if (!WIRE_DIGITAL_INFO.equals(other.WIRE_DIGITAL_INFO))
+			return false;
+		return true;
+	}
+
 /*
 	public JCMAD getLocalJCMAD() {
 		return localJCMAD;
@@ -190,5 +278,6 @@ public class JMadRed  implements java.io.Serializable {
 	}
 
 */
+	
 
 }

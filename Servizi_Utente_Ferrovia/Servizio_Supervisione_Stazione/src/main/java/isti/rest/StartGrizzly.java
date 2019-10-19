@@ -31,11 +31,11 @@ public class StartGrizzly {
 
 	static{
 		protocol = "http://";
-		host = Optional.ofNullable(System.getenv("HOSTNAME"));
-		port = Optional.ofNullable(System.getenv("PORT"));
+		host = Optional.ofNullable(System.getenv("HOSTNAME_STINGRAY"));
+		port = Optional.ofNullable(System.getenv("PORT_STINGRAY"));
 		path = "serviziosupervisionestazione";
-		BASEH_URI = "https://" + host.orElse("localhost") + ":" + port.orElse("8443") + "/" + path + "/";
-		BASE_URI = protocol + host.orElse("localhost") + ":" + port.orElse("9090") + "/" + path + "/";
+		BASEH_URI = "https://" + host.orElse("0.0.0.0") + ":" + port.orElse("8443") + "/" + path + "/";
+		BASE_URI = protocol + host.orElse("0.0.0.0") + ":" + port.orElse("9090") + "/" + path + "/";
 		KEYSTORE_SERVER_FILE = "./src/main/config/jetty-server-ssl.jks";
 		KEYSTORE_SERVER_PWD = "jetty8";
 	}

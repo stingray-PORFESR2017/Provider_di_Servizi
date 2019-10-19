@@ -26,3 +26,5 @@ Servizi_Utente_Ferrovia/Servizio_Supervisione_Stazione/target/
 .settings
 *out*
 *logs*
+.DS_Store
+.idea

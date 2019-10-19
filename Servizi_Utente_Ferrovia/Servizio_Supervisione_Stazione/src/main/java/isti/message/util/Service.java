@@ -4,6 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Base64;
 
+import javax.xml.bind.DatatypeConverter;
+
 public class Service {
 
 
@@ -117,21 +119,33 @@ public class Service {
 	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
 	}
 	
+	public static short byteToInt(byte[] byt) {
+		byte[] bytes = {byt[0],0,0,0};
+	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
+	}
+	
 	
 	public static long bytesToLong(byte[] bytes) {
 		return ByteBuffer.wrap(bytes)
         .order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFFFFFFFFL;
 	
 	}
+	
+	public static float bytesToFloat(byte[] bytes) {
+		return ByteBuffer.wrap(bytes)
+        .order(ByteOrder.LITTLE_ENDIAN).getFloat();
+	
+	}
+	
 	public static int TwobytesToint(byte[] bytes) {
 		byte[] k = {bytes[0],bytes[1],0,0};
-	 int l =(ByteBuffer.wrap(k).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFF);
+	 int l =(ByteBuffer.wrap(k).order(ByteOrder.LITTLE_ENDIAN).getInt() /*& 0xFF*/);
 	 return l;
 	}
 	
 	public static float TwobytesToLong(byte[] bytes) {
-		//byte[] k = {bytes[0],bytes[1],0,0};
-	 float l = ByteBuffer.wrap(bytes)
+		byte[] k = {bytes[0],bytes[1],0,0};
+	 float l = ByteBuffer.wrap(k)
              .order(ByteOrder.LITTLE_ENDIAN).getFloat();
 	 return l;
 	}
@@ -141,6 +155,10 @@ public class Service {
 		
 		return Base64.getDecoder().decode(in);
 		
+	}
+	
+	public static byte[] toByteArray(String s) {
+	    return DatatypeConverter.parseHexBinary(s);
 	}
 	/*	for (byte b : bytes) {
 			for (int i = 0; i < 8; i++) {
