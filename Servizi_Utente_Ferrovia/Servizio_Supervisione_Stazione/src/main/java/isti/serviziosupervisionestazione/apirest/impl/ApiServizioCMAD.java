@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import isti.message.impl.cmad.JCMAD;
+import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Produces(MediaType.APPLICATION_XML)
@@ -117,6 +119,15 @@ public class ApiServizioCMAD {
 		return res;
 		//return new ArrayList<JCMAD>();
 
+	}
+	
+	
+	@Path("/update/{key:.*}")
+	@POST
+	public void receiveCommand(byte[] message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		Publisher p = new Publisher();
+		p.send(message);
+		
 	}
 
 }

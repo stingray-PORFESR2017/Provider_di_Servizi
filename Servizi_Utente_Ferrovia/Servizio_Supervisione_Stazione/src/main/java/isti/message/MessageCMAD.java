@@ -345,7 +345,12 @@ CMAD_CRC	2	UWORD	Calcolo CRC16 esclusi i campi HEADER e CRC
 				+ "; \n CMAD_ANALOG_INFO: " + Arrays.toString(CMAD_ANALOG_INFO) + "; \n CMAD_Dummy: "
 				+ Arrays.toString(CMAD_Dummy) + "; \n CMAD_CRC: " + CMAD_CRC;
 	}
-	
+	public byte[] toByte() {
+		
+		
+		
+		return null;
+	}
     
     
     
