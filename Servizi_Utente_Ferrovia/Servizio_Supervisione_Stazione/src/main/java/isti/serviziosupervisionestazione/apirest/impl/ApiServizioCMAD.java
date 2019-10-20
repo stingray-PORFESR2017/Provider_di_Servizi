@@ -20,6 +20,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import isti.message.MessageCMAD;
 import isti.message.impl.cmad.JCMAD;
 import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
@@ -122,11 +123,19 @@ public class ApiServizioCMAD {
 	}
 	
 	
+	@Path("/updateByte/{key:.*}")
+	@POST
+	public void receiveCommandByte(byte[] message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		Publisher p = new Publisher();
+		p.send(message,key);
+		
+	}
+	
 	@Path("/update/{key:.*}")
 	@POST
-	public void receiveCommand(byte[] message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public void receiveCommand(JCMAD message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 		Publisher p = new Publisher();
-		p.send(message);
+		p.send(message,key);
 		
 	}
 

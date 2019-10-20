@@ -354,10 +354,12 @@ public class JCMAD  implements java.io.Serializable{
 		this.listill = listill;
 	}
 
-	 
 
 
 
+	public byte[] toByte() {
+		return null;
+	}
 
 
 

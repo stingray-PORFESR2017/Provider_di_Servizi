@@ -14,6 +14,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
+import isti.message.impl.cmad.JCMAD;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMDecryptorProvider;
 import org.bouncycastle.openssl.PEMEncryptedKeyPair;
@@ -26,6 +27,8 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import isti.message.MessageCMAD;
+
 
 
 
@@ -34,7 +37,7 @@ public class Publisher {
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Publisher.class);
 
 	
-	public void send(byte[] message)  {
+	public void send(byte[] message, String key)  {
 		
 		try {
 
@@ -72,7 +75,7 @@ public class Publisher {
 			Thread.sleep(1000);
 
 			client.subscribe(
-					"/u/56ca327d17531d08e76bddd4a215e37f5fd6082f7442151c4d3f1d100a0ffd4e",
+					"/"+key+"/",
 					0);
 			client.disconnect();
 			log.trace("disconnected!");
@@ -154,6 +157,13 @@ public class Publisher {
 		context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
 		return context.getSocketFactory();
+	}
+
+
+
+	public void send(JCMAD message, String key) {
+		byte [] messageByte = message.toByte();
+		send(messageByte,key);
 	}
 
 }
