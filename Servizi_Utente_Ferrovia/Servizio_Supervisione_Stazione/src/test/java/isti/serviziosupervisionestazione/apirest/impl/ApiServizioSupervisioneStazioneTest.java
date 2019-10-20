@@ -64,7 +64,7 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 
 			}
 		};
-		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class, ApiServizioCMAD.class);
+		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class,ApiServizioSupervisioneStazioneRFI.class, ApiServizioCMAD.class);
 		r.register(binder);
 
 		return ServletDeploymentContext.forServlet(new ServletContainer(r))
@@ -86,7 +86,7 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 
 			}
 		};
-		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class, ApiServizioCMAD.class);
+		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class,ApiServizioSupervisioneStazioneRFI.class, ApiServizioCMAD.class);
 		r.register(binder);
 		return r;
 	}
@@ -117,6 +117,21 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 		 marshaller.marshal( ff, System.out );
+		
+	}
+	
+	@Test
+	public void test2() throws JAXBException, IOException {
+		
+		//https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/rfi/FrontEnd/Train/GetArrivals?PlaceId=2156
+		
+		Response response = target("/rfi/FrontEnd/Train/GetArrivals").queryParam("PlaceId", "2156").request().get();
+
+		int x = response.getStatus();
+		assertEquals(200, x);
+		String res = response.readEntity(new GenericType<String>() {
+		});
+		log.info(res);
 		
 	}
 
