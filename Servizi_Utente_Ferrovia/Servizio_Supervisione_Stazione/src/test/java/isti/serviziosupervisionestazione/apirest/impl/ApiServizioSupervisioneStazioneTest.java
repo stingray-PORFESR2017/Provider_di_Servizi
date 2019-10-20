@@ -117,14 +117,22 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		//isti.Application applica = weld.select(isti.Application.class).get();
 		//applica.run();<
 		//String encodedString = "Q///BQYHCAAZCgBDTUFEIEdJT1JHSU8gICAgICAgIEBLTACA8PoCAQARAEkAIgBgAL0A1QAHAQAA5AF/ACYAEAHQAeABvAKfAAAAeQFOAVYAAAAAAAAAAAAAAAAAAAAAAAAAAFYt";
-
 		String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAAAg0AjQAvALAAKgFAnJABQJyIE4gTiBOIE3AXcBdg6mDqYOpwF3AXAAAAAAAAAAAAAAAAAAAAAAAAAGxmUgAAACIAAAEAAABNQURSRUQgREkgVEVTVCAgICAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAAAAAA0AgAAAE1BRElMTCBESSBURVNUICAgICAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+		String encodedString2 = "Q6qu/6CIBwABWABDTUFE1ERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAAAg0AjQAvALAAKgFAnJABQJyIE4gTiBOIE3AXcBdg6mDqYOpwF3AXAAAAAAAAAAAAAAAAAAAAAAAAAGxmUgAAACIAAAEA1ABNQURSRUQgREkgVEVTVCAgICAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1AABMAAAAAAA0AgAAAE1BRElMTCBESSBURVNUICAgICAgAAAAAAAAAAAAA1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 		
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+		
+		byte[] decodedBytes2 = Base64.getDecoder().decode(encodedString2);
 
 		MessageCMAD mCMAD = new MessageCMAD(decodedBytes);
+		
+		MessageCMAD mCMAD2 = new MessageCMAD(decodedBytes2);
+		
 		JCMAD ff = mCMAD.getJCMAD();
 		
+		JCMAD ff2 = mCMAD2.getJCMAD();
+		boolean d = ff.equals(ff2);
 		
 
 		PersistenceMemory pem = new PersistenceMemory();
@@ -132,7 +140,7 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 
 		JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
 
-		boolean d = ff.equals(elementRead);
+		
 		elementRead.hashCode();
 		
 		EntityTransaction trans = em.getTransaction();
@@ -174,6 +182,14 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 
 		response = target("/CMAD/MAC_ADR/ffff0506070").request().get();
 		response = target("/CMAD/MAC_ADR/aaaeffa08807").request().get();
+		x = response.getStatus();
+		//assertEquals(200, x);
+		res = response.readEntity(new GenericType<String>() {
+		});
+		log.info(res);
+		
+		response = target("/CMAD/MAC_ADR_BT/ffff0506070").queryParam("datei", "2019-10-10").queryParam("datef", "2019-10-10").request().get();
+		response = target("/CMAD/MAC_ADR_BT/aaaeffa08807").request().get();
 		x = response.getStatus();
 		//assertEquals(200, x);
 		res = response.readEntity(new GenericType<String>() {
