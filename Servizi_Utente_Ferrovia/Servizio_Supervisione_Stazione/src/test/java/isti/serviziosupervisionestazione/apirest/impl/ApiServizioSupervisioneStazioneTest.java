@@ -158,6 +158,10 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 
 		MessageCMAD mCMAD = new MessageCMAD(decodedBytes);
 		
+		mCMAD.getJCMAD().getCMAD_ANALOG_INFO().toString();
+		
+		log.info(mCMAD.toString());
+		
 		MessageCMAD mCMAD2 = new MessageCMAD(decodedBytes2);
 		
 		JCMAD ff = mCMAD.getJCMAD();
@@ -171,12 +175,18 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		List<JMadRed> lmred1 = ff2.getListred();
 		
 		if(lmill!=null & lmill1!=null)
-			if(!lmill.isEmpty() & !lmill1.isEmpty())
+			if(!lmill.isEmpty() & !lmill1.isEmpty()) {
 				lmill.equals(lmill1);
+				lmill.get(0).getANALOG_INFO().equals(lmill1.get(0).getANALOG_INFO());
+				lmill.get(0).getANALOG_INFO().toString();
+			}
 		
 		if(lmred!=null & lmred1!=null)
-			if(!lmred.isEmpty() & !lmred1.isEmpty())
+			if(!lmred.isEmpty() & !lmred1.isEmpty()) {
 				lmred.equals(lmred1);
+				lmred.get(0).getWIRE_ANALOG_INFO().equals(lmred1.get(0).getWIRE_ANALOG_INFO());
+				lmred.get(0).getWIRE_ANALOG_INFO().toString();
+			}
 		
 
 		PersistenceMemory pem = new PersistenceMemory();
