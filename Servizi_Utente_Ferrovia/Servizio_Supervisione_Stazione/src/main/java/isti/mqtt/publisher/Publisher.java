@@ -3,6 +3,7 @@ package isti.mqtt.publisher;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.security.KeyPair;
 import java.security.KeyStore;
 import java.security.Security;
@@ -49,27 +50,27 @@ public class Publisher {
 	    log.trace("== START PUBLISHER ==");
 	    
 	    String serverUrl = "ssl://stingray.isti.cnr.it:8883";
-		String caFilePath = "/your_ssl/cacert.pem";
+		//String caFilePath = "/Users/spagnolo/github/stingray_ssl/combo2.pem";
 		String clientCrtFilePath = "/your_ssl/client.pem";
 		String clientKeyFilePath = "/your_ssl/client.key";
 		String mqttUserName = "guest";
 		String mqttPassword = "123123";
-
+ 
 		MqttClient client;
 		try {
 			String publisherId = UUID.randomUUID().toString();
 
 			client = new MqttClient(serverUrl, publisherId, new MemoryPersistence());
 			MqttConnectOptions options = new MqttConnectOptions();
-			options.setUserName(mqttUserName);
-			options.setPassword(mqttPassword.toCharArray());
+			//options.setUserName(mqttUserName);
+			//options.setPassword(mqttPassword.toCharArray());
 			
 			options.setConnectionTimeout(60);
 			options.setKeepAliveInterval(60);
 			options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
 
 			
-			SSLSocketFactory socketFactory = getSocketFactory(caFilePath,
+			SSLSocketFactory socketFactory = getSocketFactory(//caFilePath,
 					clientCrtFilePath, clientKeyFilePath, "");
 			options.setSocketFactory(socketFactory);
 
@@ -95,23 +96,25 @@ public class Publisher {
 
 	
 
-	private static SSLSocketFactory getSocketFactory(final String caCrtFile,
+	private static SSLSocketFactory getSocketFactory(//final String caCrtFile,
 			final String crtFile, final String keyFile, final String password)
 			throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
 
 		// load CA certificate
 		X509Certificate caCert = null;
+		
+		InputStream is2 = Publisher.class.getClassLoader().getResourceAsStream("combo2.pem");
 
-		FileInputStream fis = new FileInputStream(caCrtFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
+		//FileInputStream fis = new FileInputStream(caCrtFile);
+		BufferedInputStream bis = new BufferedInputStream(is2);
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
 		while (bis.available() > 0) {
 			caCert = (X509Certificate) cf.generateCertificate(bis);
 			// log.trace(caCert.toString());
 		}
-
+/*
 		// load client certificate
 		bis = new BufferedInputStream(new FileInputStream(crtFile));
 		X509Certificate cert = null;
@@ -137,7 +140,7 @@ public class Publisher {
 			key = converter.getKeyPair((PEMKeyPair) object);
 		}
 		pemParser.close();
-
+*/
 		// CA certificate is used to authenticate server
 		KeyStore caKs = KeyStore.getInstance(KeyStore.getDefaultType());
 		caKs.load(null, null);
@@ -147,18 +150,19 @@ public class Publisher {
 
 		// client key and certificates are sent to server so it can authenticate
 		// us
-		KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+		/*KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
 		ks.load(null, null);
 		ks.setCertificateEntry("certificate", cert);
 		ks.setKeyEntry("private-key", key.getPrivate(), password.toCharArray(),
-				new java.security.cert.Certificate[] { cert });
-		KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory
-				.getDefaultAlgorithm());
-		kmf.init(ks, password.toCharArray());
+				new java.security.cert.Certificate[] { cert });*/
+		//KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory
+		//		.getDefaultAlgorithm());
+		//kmf.init(ks, password.toCharArray());
 
 		// finally, create SSL socket factory
 		SSLContext context = SSLContext.getInstance("TLSv1.2");
-		context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+		//context.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+		context.init(null, tmf.getTrustManagers(), null);
 
 		return context.getSocketFactory();
 	}
