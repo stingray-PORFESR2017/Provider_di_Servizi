@@ -9,7 +9,9 @@
       <class></class>
       <properties>
           <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-		<property name="javax.persistence.jdbc.url"  value="jdbc:h2:tcp://localhost/./h2-2;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO;" /><!-- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
+		<property name="javax.persistence.jdbc.url"  value="jdbc:h2:mem:test2;create=true;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO;" /><!-- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
+
+<!--		<property name="javax.persistence.jdbc.url"  value="jdbc:h2:tcp://localhost/./h2-2;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO;" /><!- TRACE_LEVEL_FILE=1;MV_STORE=FALSE jdbc:sqlite::memory: -->
         <property name="eclipselink.logging.level" value="ALL" />
         <property name="javax.persistence.jdbc.user" value="sa" />
    	    <property name="javax.persistence.jdbc.password" value="" />

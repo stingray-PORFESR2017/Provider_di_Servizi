@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi.svg?branch=vDevel)](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi)
+[![Build Status](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi.svg?branch=master)](https://travis-ci.org/stingray-PORFESR2017/Provider_di_Servizi)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -7,7 +7,6 @@
 [![SemVer](https://img.shields.io/badge/SemVer-0.0.1-ff69b4.svg)](https://semver.org/lang/it/)
 
 [![Coverage Status](https://coveralls.io/repos/github/stingray-PORFESR2017/Provider_di_Servizi/badge.svg?branch=vDevel)](https://coveralls.io/github/stingray-PORFESR2017/Provider_di_Servizi?branch=vDevel)
-
 
 # Provider_di_Servizi_-PRV-
 Provider di Servizi (PRV) del Progetto della Regione Toscana **SmarT INtelliGent RAilwaY (STINGRAY)** POR FESR Toscana 2014-2020
@@ -18,15 +17,15 @@ ASSE 1 - AZIONE 1.1.5 – Sub-azione a1 “Progetti strategici di ricerca e svil
 
 ## Partners of Stingray
 
-|  #  | Name                                         | Short name    | Country     | 
-| --- | -------------------------------------------- | ------------- | ----------- | 
-|  1  | ECM                                          | ECM           | Pistoia     | 
-|  2  | CONSIGLIO NAZIONALE DELLE RICERCHE           | ISTI-CNR      | Pisa        | 
-|  3  | Dipartimento di Ingegneria dell'Informazione | UNIFI         | Firenze     | 
-|  4  | Dipartimento di Ingegneria dell'Informazione | UNIPI         | Pisa        | 
-|  5  | DMG Engineering s.r.l.                       | DMG           | Pistoia     | 
-|  6  | ELFI s.r.l.                                  | ELFI          | Pistoia     | 
-|  7  | C.T. Elettronica S.r.l.                      | CTE           | Firenze     | 
+|  #  | Name                                         | Short name    | Country     |
+| --- | -------------------------------------------- | ------------- | ----------- |
+|  1  | ECM                                          | ECM           | Pistoia     |
+|  2  | CONSIGLIO NAZIONALE DELLE RICERCHE           | ISTI-CNR      | Pisa        |
+|  3  | Dipartimento di Ingegneria dell'Informazione | UNIFI         | Firenze     |
+|  4  | Dipartimento di Ingegneria dell'Informazione | UNIPI         | Pisa        |
+|  5  | DMG Engineering s.r.l.                       | DMG           | Pistoia     |
+|  6  | ELFI s.r.l.                                  | ELFI          | Pistoia     |
+|  7  | C.T. Elettronica S.r.l.                      | CTE           | Firenze     |
 
 ## Information
 
@@ -37,8 +36,8 @@ Partner       | ISTI-CNR
 WP            | 4
 Responsible   | Giorgio O. Spagnolo <spagnolo at isti.cnr.it>
 CoResponsible | Stefania Gnesi  <gnesi at isti.cnr.it>
-Roadmap       | 
-Wiki          | 
+Roadmap       |
+Wiki          |
 
 # The platform
 ## Main Dependencies

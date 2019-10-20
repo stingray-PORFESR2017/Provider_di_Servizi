@@ -134,8 +134,11 @@ public class JCMAD  implements java.io.Serializable{
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
 			String cCMAD_RAW, int cMAD_CRC) {
 		CMAD_HEADER = cMAD_HEADER;
-		try {
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		//try {
+			Init(cMAD_HEADER,  mAC_ADR,  cMAD_TYPE,  cMAD_REVISION,  cMAD_POSITION,
+					 cMAD_DESCRIPTION,  cMAD_LONGITUDE,  cMAD_LATITUDE,  cMAD_DIGITAL_INFO,
+					 cCMAD_RAW,  cMAD_CRC);
+			/*DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 			Date today = new Date();
 
@@ -145,7 +148,7 @@ public class JCMAD  implements java.io.Serializable{
 
 			CMAD_TYPE = cMAD_TYPE;
 			CMAD_REVISION = cMAD_REVISION;
-			CMAD_POSITION = cMAD_POSITION;
+			CMAD_POSITION = cMAD_POSITION; 
 			CMAD_DESCRIPTION = cMAD_DESCRIPTION;
 			CMAD_LONGITUDE = cMAD_LONGITUDE;
 			CMAD_LATITUDE = cMAD_LATITUDE;
@@ -156,7 +159,7 @@ public class JCMAD  implements java.io.Serializable{
 
 		} catch (ParseException e) {
 			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
-		}
+		}*/
 	}
 
 	public void Init(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
@@ -354,10 +357,12 @@ public class JCMAD  implements java.io.Serializable{
 		this.listill = listill;
 	}
 
-	 
 
 
 
+	public byte[] toByte() {
+		return null;
+	}
 
 
 

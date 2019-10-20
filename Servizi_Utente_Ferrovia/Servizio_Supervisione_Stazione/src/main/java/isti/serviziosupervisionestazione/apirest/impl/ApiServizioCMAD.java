@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,7 +20,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import isti.message.MessageCMAD;
 import isti.message.impl.cmad.JCMAD;
+import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Produces(MediaType.APPLICATION_XML)
@@ -49,14 +52,16 @@ public class ApiServizioCMAD {
 		r.setParameter(1, key);
 		r.setParameter(2, dateini, TemporalType.DATE);
 		r.setParameter(3, datefinal, TemporalType.DATE);
-		JCMAD result = r.getSingleResult();
+		List<JCMAD> result = r.getResultList();
 
 		if(result!=null){
-			return result;
+			if(!result.isEmpty())
+				return result.get(0);
 		}else{
 			log.error("Element not found: "+key+";");
 			return null;
 		}
+		return null;
 
 	}
 
@@ -117,6 +122,23 @@ public class ApiServizioCMAD {
 		return res;
 		//return new ArrayList<JCMAD>();
 
+	}
+	
+	
+	@Path("/updateByte/{key:.*}")
+	@POST
+	public void receiveCommandByte(byte[] message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		Publisher p = new Publisher();
+		p.send(message,key);
+		
+	}
+	
+	@Path("/update/{key:.*}")
+	@POST
+	public void receiveCommand(JCMAD message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		Publisher p = new Publisher();
+		p.send(message,key);
+		
 	}
 
 }
