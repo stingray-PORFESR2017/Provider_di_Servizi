@@ -52,14 +52,16 @@ public class ApiServizioCMAD {
 		r.setParameter(1, key);
 		r.setParameter(2, dateini, TemporalType.DATE);
 		r.setParameter(3, datefinal, TemporalType.DATE);
-		JCMAD result = r.getSingleResult();
+		List<JCMAD> result = r.getResultList();
 
 		if(result!=null){
-			return result;
+			if(!result.isEmpty())
+				return result.get(0);
 		}else{
 			log.error("Element not found: "+key+";");
 			return null;
 		}
+		return null;
 
 	}
 

@@ -8,6 +8,7 @@ import java.security.KeyStore;
 import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.UUID;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -26,6 +27,7 @@ import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import isti.message.MessageCMAD;
 
@@ -46,7 +48,7 @@ public class Publisher {
 	   
 	    log.trace("== START PUBLISHER ==");
 	    
-	    String serverUrl = "ssl://serverip:1883";
+	    String serverUrl = "ssl://stingray.isti.cnr.it:8883";
 		String caFilePath = "/your_ssl/cacert.pem";
 		String clientCrtFilePath = "/your_ssl/client.pem";
 		String clientKeyFilePath = "/your_ssl/client.key";
@@ -55,7 +57,9 @@ public class Publisher {
 
 		MqttClient client;
 		try {
-			client = new MqttClient(serverUrl, "2");
+			String publisherId = UUID.randomUUID().toString();
+
+			client = new MqttClient(serverUrl, publisherId, new MemoryPersistence());
 			MqttConnectOptions options = new MqttConnectOptions();
 			options.setUserName(mqttUserName);
 			options.setPassword(mqttPassword.toCharArray());
