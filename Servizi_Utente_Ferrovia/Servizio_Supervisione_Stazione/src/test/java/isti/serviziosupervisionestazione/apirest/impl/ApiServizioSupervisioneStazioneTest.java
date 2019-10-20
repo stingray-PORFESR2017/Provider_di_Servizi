@@ -132,6 +132,8 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 
 		JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
 
+		boolean d = ff.equals(elementRead);
+		elementRead.hashCode();
 		
 		EntityTransaction trans = em.getTransaction();
 		trans.begin();
