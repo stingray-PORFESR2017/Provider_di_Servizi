@@ -20,6 +20,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import isti.message.MessageCMAD;
 import isti.message.impl.cmad.JCMAD;
+import isti.mqtt.Config;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Singleton
@@ -38,7 +39,12 @@ public void run() {
 	try {
     log.debug("application initialized");
     String publisherId = UUID.randomUUID().toString();
-	publisher = new MqttClient("ssl://stingray.isti.cnr.it:8883",publisherId,new MemoryPersistence());
+    
+
+	Config config = new Config();
+	String url = config.getMoqosquittoUrl();
+    
+	publisher = new MqttClient(url,publisherId,new MemoryPersistence());
 	MqttConnectOptions options = new MqttConnectOptions();
 	
 	options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
