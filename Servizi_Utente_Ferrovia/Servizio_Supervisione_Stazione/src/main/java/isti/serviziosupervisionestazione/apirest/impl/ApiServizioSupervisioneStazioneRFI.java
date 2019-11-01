@@ -22,9 +22,12 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.grizzly.utils.Pair;
 
+import io.swagger.annotations.Api;
+
 
 //@Consumes(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
+@Api(value = "RFI")
 @Path("/rfi")
 public class ApiServizioSupervisioneStazioneRFI {
 

@@ -76,7 +76,7 @@ public class StartGrizzly {
 		 BeanConfig beanConfig = new BeanConfig();
 	        beanConfig.setVersion("1.0.0");
 	        beanConfig.setSchemes(new String[]{"https"});
-	        beanConfig.setHost(BASEH_URI);
+	        //beanConfig.setHost(BASEH_URI);
 	        beanConfig.setBasePath("/" + path + "/");
 	        beanConfig.setResourcePackage(resources);
 	        beanConfig.setScan(true);

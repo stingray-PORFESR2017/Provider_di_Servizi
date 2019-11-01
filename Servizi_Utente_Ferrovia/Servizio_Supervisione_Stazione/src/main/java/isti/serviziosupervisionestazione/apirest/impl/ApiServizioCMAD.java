@@ -27,7 +27,7 @@ import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 
-@Api(value = "Cliched Messages", description = "Access to cliched messages")
+@Api(value = "CMAD")
 @Produces(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
 @Path("/CMAD")
