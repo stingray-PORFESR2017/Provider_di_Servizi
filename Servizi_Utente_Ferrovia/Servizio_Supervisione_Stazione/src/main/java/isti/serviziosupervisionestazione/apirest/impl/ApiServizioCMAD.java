@@ -20,11 +20,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import io.swagger.annotations.Api;
 import isti.message.MessageCMAD;
 import isti.message.impl.cmad.JCMAD;
 import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
+
+@Api(value = "Cliched Messages", description = "Access to cliched messages")
 @Produces(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
 @Path("/CMAD")

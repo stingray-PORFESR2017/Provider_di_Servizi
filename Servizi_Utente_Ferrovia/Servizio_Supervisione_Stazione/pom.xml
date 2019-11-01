@@ -34,6 +34,19 @@
 
 		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
 		<jetty-maven-plugin.version>9.4.0.M0</jetty-maven-plugin.version>
+
+		<mvn-compiler-plugin.version>3.7.0</mvn-compiler-plugin.version>
+		<maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+		<maven-war-plugin.version>3.2.2</maven-war-plugin.version>
+		<replacer.version>1.5.3</replacer.version>
+		<!-- end Build plugins -->
+		<!-- Code -->
+		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+		<javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
+		<jersey.version>2.19</jersey.version>
+		<swagger.version>2.0.2</swagger.version>
+		<swagger-ui.version>3.17.0</swagger-ui.version>
+		<!-- end Code -->
 	</properties>
 
 	<repositories>
@@ -41,6 +54,38 @@
 	</repositories>
 
 	<dependencies>
+		<!-- Jersey -->
+		<dependency>
+			<groupId>org.glassfish.jersey.connectors</groupId>
+			<artifactId>jersey-apache-connector</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.glassfish.jersey.inject</groupId> <artifactId>jersey-hk2</artifactId> 
+			<version>${jersey.version}</version> </dependency> Swagger -->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+			<version>1.5.24</version>
+		</dependency>
+		<!-- End Swagger -->
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.10.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
@@ -194,7 +239,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
@@ -232,7 +277,10 @@
 					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
 					<jettyEnvXml>${project.basedir}/src/main/resources/jetty-env.xml</jettyEnvXml>
 					<contextXml>${project.basedir}/src/main/resources/jetty-web.xml</contextXml>
+					<webAppSourceDirectory>target/${project.artifactId}</webAppSourceDirectory>
+
 				</configuration>
+
 				<dependencies>
 					<dependency>
 						<groupId>org.jboss.weld.servlet</groupId>
@@ -330,6 +378,73 @@
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>4.3.0</version>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<id>swagger-ui</id>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<skipCache>true</skipCache>
+							<url>https://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
+							<unpack>true</unpack>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/${project.artifactId}</outputDirectory>
+							<outputDirectory>target/classes/docs</outputDirectory>
+
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/swagger-ui-master/dist</directory>
+									<filtering>true</filtering>
+									<!-- <excludes> <exclude>index.html</exclude> </excludes> -->
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Replace the OpenAPI specification example URL with the local one. -->
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<file>${project.build.directory}/swagger-ui-master/dist/index.html</file>
+					<replacements>
+						<replacement>
+							<token>https://petstore.swagger.io/v2/swagger.json</token>
+							<value>serviziosupervisionestazione/swagger.json</value>
+						</replacement>
+					</replacements>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

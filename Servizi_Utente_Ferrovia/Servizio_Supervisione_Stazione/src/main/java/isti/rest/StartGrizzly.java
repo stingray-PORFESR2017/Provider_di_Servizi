@@ -1,14 +1,19 @@
 package isti.rest;
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.ServerConfiguration;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
+import io.swagger.jaxrs.config.BeanConfig;
 import isti.mqtt.subscriber.Application;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Optional;
 
 import org.glassfish.jersey.server.ResourceConfig;
@@ -47,6 +52,7 @@ public class StartGrizzly {
 	public static HttpServer startServer() {
 		// create a resource config that scans for JAX-RS resources and providers
 		// in com.example.rest package
+			
 		final ResourceConfig rc = new ResourceConfig().packages("isti.serviziosupervisionestazione.apirest.impl");
 
 		// create and start a new instance of grizzly http server
@@ -65,7 +71,21 @@ public class StartGrizzly {
         sslContext.setTrustStoreFile(KEYSTORE_SERVER_FILE); // contains client certificate
         sslContext.setTrustStorePass(KEYSTORE_SERVER_PWD);
 
-        ResourceConfig rc = new ResourceConfig().packages("isti.serviziosupervisionestazione.apirest.impl");
+        
+        String resources = "isti.serviziosupervisionestazione.apirest.impl";
+		 BeanConfig beanConfig = new BeanConfig();
+	        beanConfig.setVersion("1.0.0");
+	        beanConfig.setSchemes(new String[]{"https"});
+	        beanConfig.setHost(BASEH_URI);
+	        beanConfig.setBasePath("/" + path + "/");
+	        beanConfig.setResourcePackage(resources);
+	        beanConfig.setScan(true);
+        
+        
+        ResourceConfig rc = new ResourceConfig().packages(resources);
+        rc.register(io.swagger.jaxrs.listing.ApiListingResource.class);
+        rc.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+
 
         final HttpServer grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(
         		URI.create(BASEH_URI),
@@ -74,6 +94,23 @@ public class StartGrizzly {
                 new SSLEngineConfigurator(sslContext).setClientMode(false).setNeedClientAuth(false)
         );
 
+        
+        
+      /*  URL swaggerDistLocation =
+        		StartGrizzly.class.getClassLoader().getResource("META-INF/resources/webjars/swagger-ui/2.2.2/");
+        		 CLStaticHttpHandler swaggerDist = new CLStaticHttpHandler(new URLClassLoader(new URL[]{swaggerDistLocation}));
+       */ 		 
+        grizzlyServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(StartGrizzly.class.getClassLoader(), "/docs/"), "/index.html");
+        grizzlyServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(StartGrizzly.class.getClassLoader(), "/docs/"), "/*");
+      /*  ClassLoader loader = StartGrizzly.class.getClassLoader();
+        CLStaticHttpHandler docsHandler = new CLStaticHttpHandler(loader, "swagger-ui/");
+        docsHandler.setFileCacheEnabled(false);
+
+        ServerConfiguration cfg = grizzlyServer.getServerConfiguration();
+        cfg.addHttpHandler(swaggerDist, "/docs/");
+
+        */
+        
         // start Grizzly embedded server //
         System.out.println(String.format("Jersey app started with WADL available at "
 				+ "%sapplication.wadl\nHit enter to stop it...", BASEH_URI));

@@ -7,8 +7,7 @@
     
   </welcome-file-list>
   
-  
-  
+ 
   
   <servlet>
 		<servlet-name>jersey-serlvet</servlet-name>
@@ -53,7 +52,18 @@
 		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 		<param-value>true</param-value>
 	</context-param> -->
-
+<servlet>
+        <servlet-name>api</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>io.swagger.v3.jaxrs2.integration.resources,isti.serviziosupervisionestazione.apirest.impl</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>jersey-serlvet</servlet-name>
