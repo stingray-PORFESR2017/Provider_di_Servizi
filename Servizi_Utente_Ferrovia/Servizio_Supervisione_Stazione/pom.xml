@@ -441,7 +441,7 @@
 					<replacements>
 						<replacement>
 							<token>https://petstore.swagger.io/v2/swagger.json</token>
-							<value>serviziosupervisionestazione/swagger.json</value>
+							<value>/serviziosupervisionestazione/swagger.json</value>
 						</replacement>
 					</replacements>
 				</configuration>

@@ -100,8 +100,8 @@ public class StartGrizzly {
         		StartGrizzly.class.getClassLoader().getResource("META-INF/resources/webjars/swagger-ui/2.2.2/");
         		 CLStaticHttpHandler swaggerDist = new CLStaticHttpHandler(new URLClassLoader(new URL[]{swaggerDistLocation}));
        */ 		 
-        grizzlyServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(StartGrizzly.class.getClassLoader(), "/docs/"), "/index.html");
-        grizzlyServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(StartGrizzly.class.getClassLoader(), "/docs/"), "/*");
+        //grizzlyServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(StartGrizzly.class.getClassLoader(), "/docs/"), "/index.html");
+        grizzlyServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(StartGrizzly.class.getClassLoader(), "/docs/"), "/docs/*");
       /*  ClassLoader loader = StartGrizzly.class.getClassLoader();
         CLStaticHttpHandler docsHandler = new CLStaticHttpHandler(loader, "swagger-ui/");
         docsHandler.setFileCacheEnabled(false);
