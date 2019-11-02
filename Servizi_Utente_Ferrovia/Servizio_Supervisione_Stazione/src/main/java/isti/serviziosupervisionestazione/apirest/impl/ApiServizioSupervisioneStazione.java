@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -35,6 +36,7 @@ public class ApiServizioSupervisioneStazione {
 
 	private static Map<String, Integer> ricevuti = new HashMap<>();
 
+	@PermitAll
 	@Path("/test")
 	@GET
 	public String test() {
@@ -46,6 +48,7 @@ public class ApiServizioSupervisioneStazione {
 		return "<html><body>OK</body></html>";
 	}
 
+	
 	@Path("/viaggiatreno/{key:.*}")
 	@GET
 	public void viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {

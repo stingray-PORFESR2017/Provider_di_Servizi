@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -41,7 +42,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 	private static Map<String, Pair<Integer, Date>> timediff = new HashMap<>();
 
 	private static Map<String, Integer> ricevuti = new HashMap<>();
-
+	@PermitAll
 	@Path("/test")
 	@GET
 	public String test() {
@@ -53,6 +54,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 		return "<html><body>OK</body></html>";
 	}
 
+	@PermitAll
 	@Path("/FrontEnd/{key:.*}")
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

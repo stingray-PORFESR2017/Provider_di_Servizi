@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
@@ -55,6 +56,7 @@ public class ApiServizioCMAD {
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ApiServizioCMAD.class);
 
 
+	@PermitAll
 	@Path("/MAC_ADR_BT/{key:.*}")
 	@GET
 	public JCMAD daticmad(@PathParam("key") String key, @QueryParam("datei") String datei , @QueryParam("datef") String datef , @Context HttpServletRequest request, @Context HttpServletResponse response) throws ParseException {
@@ -83,6 +85,7 @@ public class ApiServizioCMAD {
 
 	}
 
+	@PermitAll
 	@Path("/MAC_ADR/{key:.*}")
 	@GET
 	public JCMAD daticmadmac(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -106,6 +109,7 @@ public class ApiServizioCMAD {
 
 	}
 
+	@PermitAll
 	@Path("/MAC_ADR_ALL/{key:.*}")
 	@GET
 	public List<JCMAD> daticmadmacall(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -130,7 +134,7 @@ public class ApiServizioCMAD {
 
 	}
 
-
+	@PermitAll
 	@Path("/ALL/{key:.*}")
 	@GET
 	public List<JCMAD> alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -142,7 +146,16 @@ public class ApiServizioCMAD {
 
 	}
 	
-	
+	@RolesAllowed("ADMIN")
+	@Operation(summary = "Service Ricezione Commandi byte[]", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Ricezione Commandi byte[]", 
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        }
+	  , notes = "Service demo with authentication. Login is 'guest' and password is 'password'"
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@Path("/updateByte/{key:.*}")
 	@POST
 	public void receiveCommandByte(byte[] message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -153,10 +166,14 @@ public class ApiServizioCMAD {
 	
 	@RolesAllowed("ADMIN")
 	@Operation(summary = "Service Ricezione Commandi XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
-	@ApiOperation(value = "Add a new pet to the store", 
+	@ApiOperation(value = "Service Ricezione Commandi XML", 
 			authorizations = {
 		            @Authorization(value = "basicAuth", scopes={})
-		        })
+		        }
+	  , notes = "Service demo with authentication. Login is 'guest' and password is 'password'"
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@Path("/update/{key:.*}")
 	@POST
 	public void receiveCommand(JCMAD message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {

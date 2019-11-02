@@ -40,7 +40,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
         
         
         //Access allowed for all
-        if( !method.isAnnotationPresent(PermitAll.class) & !(method.toString().contains("swagger")))
+        if( !method.isAnnotationPresent(PermitAll.class) & !((method.toString().contains("swagger"))| (method.toString().contains("WadlResource"))))
         {
             //Access denied for all
             if(method.isAnnotationPresent(DenyAll.class))
