@@ -9,6 +9,7 @@ import org.jboss.weld.environment.se.WeldContainer;
 
 import io.swagger.jaxrs.config.BeanConfig;
 import isti.mqtt.subscriber.Application;
+import isti.serviziosupervisionestazione.apirest.aut.AuthenticationFilter;
 
 import java.io.IOException;
 import java.net.URI;
@@ -83,6 +84,7 @@ public class StartGrizzly {
         
         
         ResourceConfig rc = new ResourceConfig().packages(resources);
+        rc.register(AuthenticationFilter.class);
         rc.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         rc.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
 

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
 import javax.persistence.TemporalType;
@@ -136,6 +137,7 @@ public class ApiServizioCMAD {
 		
 	}
 	
+	@RolesAllowed("ADMIN")
 	@Path("/update/{key:.*}")
 	@POST
 	public void receiveCommand(JCMAD message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {

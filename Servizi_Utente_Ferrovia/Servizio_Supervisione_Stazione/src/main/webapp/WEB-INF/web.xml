@@ -69,7 +69,14 @@
 		<servlet-name>jersey-serlvet</servlet-name>
 		<url-pattern>/serviziosupervisionestazione/*</url-pattern>
 	</servlet-mapping>
-	
+	<filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>isti.serviziosupervisionestazione.apirest.aut.AuthenticationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/serviziosupervisionestazione/CMAD/*</url-pattern>
+  </filter-mapping>
 
 
   <!--     <listener>
