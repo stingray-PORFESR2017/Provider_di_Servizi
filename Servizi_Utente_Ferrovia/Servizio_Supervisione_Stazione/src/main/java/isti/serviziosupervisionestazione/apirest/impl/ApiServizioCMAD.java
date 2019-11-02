@@ -41,7 +41,7 @@ import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 @SwaggerDefinition(securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
 	    @BasicAuthDefinition(key = "basicAuth")
 	    }) )
-@OpenAPIDefinition(info = @Info(title = "Demo services"))
+@OpenAPIDefinition(info = @Info(title = "CMAD Services"))
 @SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 @Produces(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
@@ -152,7 +152,7 @@ public class ApiServizioCMAD {
 	}
 	
 	@RolesAllowed("ADMIN")
-	@Operation(summary = "Says hello", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@Operation(summary = "Service Ricezione Commandi XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Add a new pet to the store", 
 			authorizations = {
 		            @Authorization(value = "basicAuth", scopes={})
