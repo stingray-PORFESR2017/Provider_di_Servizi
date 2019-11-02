@@ -1,27 +1,18 @@
 package isti.rest;
-import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.ServerConfiguration;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
-
-import io.swagger.jaxrs.config.BeanConfig;
-import isti.mqtt.subscriber.Application;
-import isti.serviziosupervisionestazione.apirest.aut.AuthenticationFilter;
-
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Optional;
 
-import org.glassfish.jersey.server.ResourceConfig;
-
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+
+import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
+import isti.serviziosupervisionestazione.apirest.aut.AuthenticationFilter;
 
 public class StartGrizzly {
 	// Base URI the Grizzly HTTP server will listen on
@@ -85,10 +76,12 @@ public class StartGrizzly {
         
         ResourceConfig rc = new ResourceConfig().packages(resources);
         rc.register(AuthenticationFilter.class);
+        OpenApiResource openApiResource = new OpenApiResource();
+        rc.register(openApiResource);
         rc.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         rc.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
-
-
+        
+      
         final HttpServer grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(
         		URI.create(BASEH_URI),
                 rc,
@@ -142,3 +135,6 @@ public class StartGrizzly {
 		server.stop();
 	}
 }
+
+
+

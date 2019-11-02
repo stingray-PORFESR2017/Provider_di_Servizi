@@ -21,14 +21,28 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import io.swagger.annotations.Api;
-import isti.message.MessageCMAD;
+import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.info.Info;
+
 import isti.message.impl.cmad.JCMAD;
 import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 
 @Api(value = "CMAD")
+@SwaggerDefinition(securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
+	    @BasicAuthDefinition(key = "basicAuth")
+	    }) )
+@OpenAPIDefinition(info = @Info(title = "Demo services"))
+@SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 @Produces(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
 @Path("/CMAD")
@@ -138,6 +152,11 @@ public class ApiServizioCMAD {
 	}
 	
 	@RolesAllowed("ADMIN")
+	@Operation(summary = "Says hello", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Add a new pet to the store", 
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        })
 	@Path("/update/{key:.*}")
 	@POST
 	public void receiveCommand(JCMAD message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
