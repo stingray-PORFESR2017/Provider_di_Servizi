@@ -21,7 +21,7 @@ public class PubThread implements Runnable {
 		p.send(command.getMessage(message),key);
 		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 			p.send(command.getMessageNull(message),key);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

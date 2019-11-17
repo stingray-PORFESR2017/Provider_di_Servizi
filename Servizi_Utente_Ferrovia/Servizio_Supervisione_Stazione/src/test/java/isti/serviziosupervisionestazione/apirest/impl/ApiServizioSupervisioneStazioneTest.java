@@ -269,7 +269,7 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 	
 	
 	@Test
-	public void test3() throws ParseException, MqttException, JAXBException {
+	public void test3() throws ParseException, MqttException, JAXBException, InterruptedException {
 		
 		String command = "<JCMADCommand><MAC_ADR>000000000034</MAC_ADR><Command commandred=\"ON\" commandill=\"OFF\" > <mac/> </Command></JCMADCommand>";
 		JAXBContext jaxbContext = JAXBContext.newInstance(JCMADCommand.class);
@@ -287,7 +287,7 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 
 		String res2 = response.readEntity(new GenericType<String>() {
 		});
-
+		Thread.sleep(5000);
 		System.out.print(res2);
 	}
 
