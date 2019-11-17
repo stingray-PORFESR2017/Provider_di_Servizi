@@ -42,6 +42,7 @@ import isti.message.impl.ill.JMADILL;
 import isti.message.impl.red.JMadRed;
 import isti.mqtt.subscriber.Subscriber;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
+import javassist.bytecode.ByteArray;
 import junit.framework.Assert;
 
 
@@ -267,7 +268,6 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 
 	}
 	
-	
 	@Test
 	public void test3() throws ParseException, MqttException, JAXBException, InterruptedException {
 		
@@ -290,5 +290,28 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		Thread.sleep(5000);
 		System.out.print(res2);
 	}
+	
+	/*@Test
+	public void test4() throws ParseException, MqttException, JAXBException, InterruptedException {
+		
+		//
+		
+		 
+		 String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAAAg0AjQAvALAAKgFAnJABQJyIE4gTiBOIE3AXcBdg6mDqYOpwF3AXAAAAAAAAAAAAAAAAAAAAAAAAAGxmUgAAACIAAAEAAABNQURSRUQgREkgVEVTVCAgICAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAAAAAA0AgAAAE1BRElMTCBESSBURVNUICAgICAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+			String encodedString2 = "Q6qu/6CIBwABWABDTUFE1ERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAAAg0AjQAvALAAKgFAnJABQJyIE4gTiBOIE3AXcBdg6mDqYOpwF3AXAAAAAAAAAAAAAAAAAAAAAAAAAGxmUgAAACIAAAEA1ABNQURSRUQgREkgVEVTVCAgICAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1AABMAAAAAAA0AgAAAE1BRElMTCBESSBURVNUICAgICAgAAAAAAAAAAAAA1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+			
+			byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+			
+		 
+		String encodedString = "QwAAAAAANAAAkCDCZ9QAmThZpQAAAAAAAAAAAAAAAAAAAABVIg==";
+		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+		//Entity<ByteArray> rex = Entity.entity(decodedBytes, MediaType.);
+
+
+		Response response = target("/CMAD/update/000000000034").request(MediaType.APPLICATION_XML).post(rex);
+
+		
+	}*/
 
 }

@@ -32,9 +32,6 @@ public class CommandCMAD {
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommandCMAD.class);
 	
 
-	 
-
-	
 	public CommandCMAD() {
 
 		String MAC_ADR = "000000000034";
@@ -98,6 +95,11 @@ public class CommandCMAD {
 	
 	public byte[] getMessageNull(JCMADCommand message) {
 		String mac = message.getMAC_ADR();
+		
+		return  CommandNull(mac);
+	}
+	
+	public byte[] getMessageNull(String mac) {
 		
 		return  CommandNull(mac);
 	}
@@ -245,6 +247,13 @@ public class CommandCMAD {
 		
 		log.trace("Send On Command:"+ mac +" "+ mess);
 		return mess;
+	}
+
+	public String getMAC_ADR(byte[] messagebyte) {
+		String CMAD_HEADER = String.valueOf( (char)(messagebyte[0]));//1
+		byte[] CMAD_MAC = Arrays.copyOfRange(messagebyte, 1, 7);//6
+		String MAC_ADR = Service.getMacString(CMAD_MAC);
+		return MAC_ADR;
 	}
 	
     

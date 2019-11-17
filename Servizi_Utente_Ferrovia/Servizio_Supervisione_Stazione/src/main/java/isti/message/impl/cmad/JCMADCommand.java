@@ -39,6 +39,11 @@ public class JCMADCommand implements Serializable{
 	public void setCommand(CommandType command) {
 		this.command = command;
 	}
+
+	@Override
+	public String toString() {
+		return "MAC_ADR: " + MAC_ADR + "\\n, command: " + command;
+	}
 	
 	
 	

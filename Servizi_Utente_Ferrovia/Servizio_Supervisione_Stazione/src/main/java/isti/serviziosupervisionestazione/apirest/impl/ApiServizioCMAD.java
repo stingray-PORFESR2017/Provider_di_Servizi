@@ -2,6 +2,7 @@ package isti.serviziosupervisionestazione.apirest.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -150,7 +151,7 @@ public class ApiServizioCMAD {
 
 	}
 	
-	@RolesAllowed("ADMIN")
+/*	@RolesAllowed("ADMIN")
 	@Operation(summary = "Service Ricezione Commandi byte[]", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Ricezione Commandi byte[]", 
 			authorizations = {
@@ -162,11 +163,31 @@ public class ApiServizioCMAD {
 	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@Path("/updateByte/{key:.*}")
 	@POST
-	public void receiveCommandByte(byte[] message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
-		Publisher p = new Publisher();
-		p.send(message,key);
+	public void receiveCommandByte(byte[] messagebyte, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		//Publisher p = new Publisher();
+		//p.send(message,key);
 		
-	}
+		Runnable runnable = () -> {
+			Publisher p = new Publisher();
+			CommandCMAD command = new CommandCMAD();
+			String keys = command.getMAC_ADR(messagebyte);
+			
+			p.send(messagebyte,keys);
+			log.trace(Base64.getEncoder().encodeToString(messagebyte));
+			try {
+				Thread.sleep(1000);
+				byte[] messagebytes = command.getMessageNull(keys);
+				p.send(messagebytes,keys);
+				log.trace(Base64.getEncoder().encodeToString(messagebytes));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		};
+		Thread thread = new Thread(runnable);
+
+        thread.start();
+	}*/
 	
 	@RolesAllowed("ADMIN")
 	@Operation(summary = "Service Ricezione Commandi XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
@@ -184,9 +205,10 @@ public class ApiServizioCMAD {
 		/*Publisher p = new Publisher();
 		CommandCMAD command = new CommandCMAD();
 		p.send(command.getMessage(message),key);*/
+		log.trace(message);
 		PubThread th = new PubThread (message);
 		Thread thread = new Thread(th);
-
+		
         thread.start();
 		return "OK";
 	}

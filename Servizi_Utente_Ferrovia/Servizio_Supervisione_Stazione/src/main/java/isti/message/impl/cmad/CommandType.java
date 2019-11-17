@@ -34,6 +34,11 @@ public class CommandType {
 		this.commandill = commandill;
 	}
 
+	@Override
+	public String toString() {
+		return "commandred: " + commandred + "\\n, commandill: " + commandill;
+	}
+
 	
 	
 
