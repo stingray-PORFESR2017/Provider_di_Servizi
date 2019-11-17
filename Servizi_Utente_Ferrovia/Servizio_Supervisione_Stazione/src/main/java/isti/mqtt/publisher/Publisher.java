@@ -28,6 +28,8 @@ import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import isti.message.MessageCMAD;
@@ -56,11 +58,11 @@ public class Publisher {
 		String mqttUserName = "guest";
 		String mqttPassword = "123123";
  
-		MqttClient client;
+		MqttClient mqttClient;
 		try {
 			String publisherId = UUID.randomUUID().toString();
 
-			client = new MqttClient(serverUrl, publisherId, new MemoryPersistence());
+			mqttClient = new MqttClient(serverUrl, publisherId, new MemoryPersistence());
 			MqttConnectOptions options = new MqttConnectOptions();
 			//options.setUserName(mqttUserName);
 			//options.setPassword(mqttPassword.toCharArray());
@@ -75,14 +77,23 @@ public class Publisher {
 			options.setSocketFactory(socketFactory);
 
 			log.trace("starting connect the server...");
-			client.connect(options);
+			mqttClient.connect(options);
 			log.trace("connected!");
-			Thread.sleep(1000);
+			
 
-			client.subscribe(
-					"/"+key+"/",
-					0);
-			client.disconnect();
+			MqttMessage messagemqtt = new MqttMessage(message);
+
+			messagemqtt.setQos(0);     //sets qos level 1
+			messagemqtt.setRetained(true); //sets retained message 
+
+			MqttTopic topic2 = mqttClient.getTopic("STINGRAY_SUBS"+key);
+
+			  
+			    topic2.publish(messagemqtt);   
+			    
+			
+			//Thread.sleep(1000);
+			mqttClient.disconnect();
 			log.trace("disconnected!");
 
 

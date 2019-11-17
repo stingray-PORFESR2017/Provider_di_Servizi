@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,11 +14,14 @@ import java.util.List;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -33,6 +37,7 @@ import org.junit.Test;
 
 import isti.message.MessageCMAD;
 import isti.message.impl.cmad.JCMAD;
+import isti.message.impl.cmad.JCMADCommand;
 import isti.message.impl.ill.JMADILL;
 import isti.message.impl.red.JMadRed;
 import isti.mqtt.subscriber.Subscriber;
@@ -259,6 +264,29 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		log.info(res);
 
 		
+
+	}
+	
+	
+	@Test
+	public void test3() throws ParseException, MqttException, JAXBException {
+		
+		String command = "<JCMADCommand><MAC_ADR>000000000034</MAC_ADR><Command commandred=\"ON\" commandill=\"OFF\" > <mac/> </Command></JCMADCommand>";
+		JAXBContext jaxbContext = JAXBContext.newInstance(JCMADCommand.class);
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+		StringReader reader = new StringReader(command);//.replaceAll("\\n", "").trim());
+		JCMADCommand jcmadcommand = (JCMADCommand) unmarshaller.unmarshal(reader);
+		
+		
+		Entity<JCMADCommand> rex = Entity.entity(jcmadcommand, MediaType.APPLICATION_XML_TYPE);
+
+
+		Response response = target("/CMAD/update/000000000034").request(MediaType.APPLICATION_XML).post(rex);
+
+
+
+		String res2 = response.readEntity(new GenericType<String>() {
+		});
 
 	}
 

@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -32,8 +33,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.info.Info;
-
+import isti.message.CommandCMAD;
 import isti.message.impl.cmad.JCMAD;
+import isti.message.impl.cmad.JCMADCommand;
 import isti.mqtt.publisher.Publisher;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
@@ -45,6 +47,7 @@ import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 @OpenAPIDefinition(info = @Info(title = "CMAD Services"))
 @SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 @Produces(MediaType.APPLICATION_XML)
+@Consumes(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
 @Path("/CMAD")
 public class ApiServizioCMAD {
@@ -176,10 +179,11 @@ public class ApiServizioCMAD {
 	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@Path("/update/{key:.*}")
 	@POST
-	public void receiveCommand(JCMAD message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public String receiveCommand(JCMADCommand message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 		Publisher p = new Publisher();
-		p.send(message,key);
-		
+		CommandCMAD command = new CommandCMAD();
+		p.send(command.getMessage(message),key);
+		return "OK";
 	}
 
 }
