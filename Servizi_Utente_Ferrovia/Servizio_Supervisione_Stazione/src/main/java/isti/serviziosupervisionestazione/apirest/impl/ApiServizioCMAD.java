@@ -37,6 +37,7 @@ import isti.message.CommandCMAD;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADCommand;
 import isti.mqtt.publisher.Publisher;
+import isti.mqtt.publisher.thread.PubThread;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 
@@ -180,9 +181,13 @@ public class ApiServizioCMAD {
 	@Path("/update/{key:.*}")
 	@POST
 	public String receiveCommand(JCMADCommand message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
-		Publisher p = new Publisher();
+		/*Publisher p = new Publisher();
 		CommandCMAD command = new CommandCMAD();
-		p.send(command.getMessage(message),key);
+		p.send(command.getMessage(message),key);*/
+		PubThread th = new PubThread (message);
+		Thread thread = new Thread(th);
+
+        thread.start();
 		return "OK";
 	}
 

@@ -288,6 +288,7 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		String res2 = response.readEntity(new GenericType<String>() {
 		});
 
+		System.out.print(res2);
 	}
 
 }
