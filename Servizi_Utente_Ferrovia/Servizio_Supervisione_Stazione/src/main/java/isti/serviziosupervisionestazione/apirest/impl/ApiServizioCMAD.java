@@ -35,6 +35,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.info.Info;
 import isti.message.CommandCMAD;
+import isti.message.config.ConfigCommand;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADCommand;
 import isti.mqtt.publisher.Publisher;
@@ -206,6 +207,22 @@ public class ApiServizioCMAD {
 		CommandCMAD command = new CommandCMAD();
 		p.send(command.getMessage(message),key);*/
 		log.trace(message);
+		
+		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAllimei", ConfigCommand.class);
+		String imei = message.getImei();
+		r.setParameter(1, imei);
+		List<ConfigCommand> res3 = r.getResultList();
+		if(!res3.isEmpty()) {
+			ConfigCommand res2 = res3.get(0);
+			if(res2.isGod()) {
+				PubThread th = new PubThread (message);
+				Thread thread = new Thread(th);
+				
+		        thread.start();
+			}
+		}
+		log.trace(res3);
+		
 		PubThread th = new PubThread (message);
 		Thread thread = new Thread(th);
 		

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 	@NamedQuery(name="ConfigCommand.findAll",
 			query="SELECT c FROM config c"),
-	@NamedQuery(name="JCMAD.findAllimei",
+	@NamedQuery(name="ConfigCommand.findAllimei",
 	query="SELECT c FROM config c WHERE c.imei= ?1 "),
 	
 }) 
@@ -56,7 +56,11 @@ public class ConfigCommand implements Serializable{
 		return "imei: " + imei + ", AuthLevel: " + AuthLevel;
 	}
 	
-	
+	public boolean isGod() {
+		if(this.AuthLevel=="GOD")
+			return true;
+		return false;
+	}
 	
 
 }

@@ -96,13 +96,12 @@ public class ApiConfigurazione {
 	public ConfigCommand getSpec(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 		
 		
-		ConfigCommand n = new ConfigCommand();
 		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAllimei", ConfigCommand.class);
 		r.setParameter(1, key);
 		ConfigCommand res3 = r.getSingleResult();
-		log.trace(n);
+		log.trace(res3);
 		
-		return n;
+		return res3;
 	}
 
 }
