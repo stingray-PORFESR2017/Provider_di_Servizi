@@ -87,7 +87,7 @@ public class ApiConfigurazione {
 		
 		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAll", ConfigCommand.class);
 		List<ConfigCommand> res3 = r.getResultList();
-		
+		log.trace(res3);
 		return res3;
 	}
 	
@@ -97,6 +97,9 @@ public class ApiConfigurazione {
 		
 		
 		ConfigCommand n = new ConfigCommand();
+		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAllimei", ConfigCommand.class);
+		r.setParameter(1, key);
+		ConfigCommand res3 = r.getSingleResult();
 		log.trace(n);
 		
 		return n;
