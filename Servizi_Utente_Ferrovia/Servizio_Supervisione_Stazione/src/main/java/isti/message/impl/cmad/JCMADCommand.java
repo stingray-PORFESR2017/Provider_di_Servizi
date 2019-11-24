@@ -19,7 +19,8 @@ public class JCMADCommand implements Serializable{
 	String MAC_ADR;
 	@XmlElement(name = "Command", required = true)
 	CommandType command;
-	
+	@XmlElement(name = "imei", required = true)
+	String imei;
 	
 	public JCMADCommand() {
 		
@@ -42,7 +43,15 @@ public class JCMADCommand implements Serializable{
 
 	@Override
 	public String toString() {
-		return "MAC_ADR: " + MAC_ADR + "\\n, command: " + command;
+		return "MAC_ADR: " + MAC_ADR + "\\n, command: " + command + "\\n, imei: " + imei;
+	}
+
+	public String getImei() {
+		return imei;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
 	}
 	
 	

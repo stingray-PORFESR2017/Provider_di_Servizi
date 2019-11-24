@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import isti.message.config.ConfigCommand;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADID;
 
@@ -67,6 +68,24 @@ public class RelationDBPersistence implements TokenPersistence {
 	public JCMAD findid(Class<JCMAD> class1, JCMADID value) {
 		// TODO Auto-generated method stub
 		return em.find(class1, value);
+	}
+
+	@Override
+	public void persist2(ConfigCommand ar) {
+		em.persist(ar);
+		
+	}
+
+	@Override
+	public ConfigCommand findimei(Class<ConfigCommand> class1, String value) {
+		// TODO Auto-generated method stub
+		return em.find(class1, value);
+	}
+
+	@Override
+	public TypedQuery<ConfigCommand> createNamedQuery2(String string, Class<ConfigCommand> class1) {
+		// TODO Auto-generated method stub
+		return em.createNamedQuery(string,class1);
 	}
 
 }

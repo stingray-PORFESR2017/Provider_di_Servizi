@@ -2,7 +2,7 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	 <persistence-unit name="jcmad_pers" transaction-type="RESOURCE_LOCAL">
       <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-      
+       <class>isti.message.config.ConfigCommand</class>
       <class>isti.message.impl.ill.JMADILL</class>
       <class>isti.message.impl.red.JMadRed</class>
       <class>isti.message.impl.cmad.JCMAD</class>
