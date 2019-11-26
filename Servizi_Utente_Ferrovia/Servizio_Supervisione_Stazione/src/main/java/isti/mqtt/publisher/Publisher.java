@@ -58,7 +58,7 @@ public class Publisher {
 		String mqttUserName = "guest";
 		String mqttPassword = "123123";
  
-		MqttClient mqttClient;
+		MqttClient mqttClient = null;
 		try {
 			String publisherId = UUID.randomUUID().toString();
 
@@ -99,7 +99,9 @@ public class Publisher {
 
 		} catch (MqttException | java.net.SocketTimeoutException e) {
 			log.error(e);
-		}
+			if(mqttClient!=null)
+				mqttClient.disconnect();
+		}	
 		}catch (Exception e) {
 			log.error(e);
 		}
