@@ -6,6 +6,8 @@ import java.util.Base64;
 
 import org.junit.Test;
 
+import isti.message.CommandCMAD;
+
 public class PublisherTest {
 
 	@Test
@@ -17,10 +19,10 @@ public class PublisherTest {
 		
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
 		
-
+		CommandCMAD c = new CommandCMAD();
 		
 		
-		p.send(decodedBytes, "test");
+		//p.send(decodedBytes, "test");
 	}
 
 }
