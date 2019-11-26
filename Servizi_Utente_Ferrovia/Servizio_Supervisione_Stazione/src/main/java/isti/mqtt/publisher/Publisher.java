@@ -97,7 +97,7 @@ public class Publisher {
 			log.trace("disconnected!");
 
 
-		} catch (MqttException e) {
+		} catch (MqttException | java.net.SocketTimeoutException e) {
 			log.error(e);
 		}
 		}catch (Exception e) {
