@@ -67,8 +67,8 @@ public class Publisher {
 			//options.setUserName(mqttUserName);
 			//options.setPassword(mqttPassword.toCharArray());
 			
-			options.setConnectionTimeout(60);
-			options.setKeepAliveInterval(60);
+			options.setConnectionTimeout(600);
+			options.setKeepAliveInterval(600);
 			options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
 
 			
