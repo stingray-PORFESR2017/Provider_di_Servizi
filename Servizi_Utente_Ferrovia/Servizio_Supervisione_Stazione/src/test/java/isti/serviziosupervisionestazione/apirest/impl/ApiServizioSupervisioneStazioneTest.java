@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -36,6 +37,7 @@ import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.Test;
 
 import isti.message.MessageCMAD;
+import isti.message.config.ConfigCommand;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADCommand;
 import isti.message.impl.ill.JMADILL;
@@ -70,7 +72,7 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 
 			}
 		};
-		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class,ApiServizioSupervisioneStazioneRFI.class, ApiServizioCMAD.class);
+		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class,ApiServizioSupervisioneStazioneRFI.class, ApiServizioCMAD.class, ApiConfigurazione.class);
 		r.register(binder);
 
 		return ServletDeploymentContext.forServlet(new ServletContainer(r))
@@ -92,7 +94,7 @@ public class ApiServizioSupervisioneStazioneTest extends JerseyTest {
 
 			}
 		};
-		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class,ApiServizioSupervisioneStazioneRFI.class, ApiServizioCMAD.class);
+		ResourceConfig r = new ResourceConfig(ApiServizioSupervisioneStazione.class,ApiServizioSupervisioneStazioneRFI.class, ApiServizioCMAD.class, ApiConfigurazione.class);
 		r.register(binder);
 		return r;
 	}
@@ -271,7 +273,7 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 	@Test
 	public void test3() throws ParseException, MqttException, JAXBException, InterruptedException {
 		
-		String command = "<JCMADCommand><MAC_ADR>000000000034</MAC_ADR><Command commandred=\"ON\" commandill=\"OFF\" > <mac/> </Command></JCMADCommand>";
+		String command = "<JCMADCommand><MAC_ADR>000000000034</MAC_ADR><imei>2123132132</imei><Command commandred=\"ON\" commandill=\"OFF\" > <mac/> </Command></JCMADCommand>";
 		JAXBContext jaxbContext = JAXBContext.newInstance(JCMADCommand.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		StringReader reader = new StringReader(command);//.replaceAll("\\n", "").trim());
@@ -281,14 +283,60 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		Entity<JCMADCommand> rex = Entity.entity(jcmadcommand, MediaType.APPLICATION_XML_TYPE);
 
 
-		Response response = target("/CMAD/update/000000000034").request(MediaType.APPLICATION_XML).post(rex);
+		/*Response response = target("/CMAD/update/000000000034").request(MediaType.APPLICATION_XML).post(rex);
 
 
 
 		String res2 = response.readEntity(new GenericType<String>() {
 		});
 		Thread.sleep(5000);
+		System.out.print(res2);*/
+	}
+	
+	@Test
+	public void test4() throws ParseException, MqttException, JAXBException, InterruptedException {
+		
+		String command = "<ConfigCommand><imei>2123132132</imei><AuthLevel>GOD</AuthLevel></ConfigCommand>";
+		JAXBContext jaxbContext = JAXBContext.newInstance(ConfigCommand.class);
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+		StringReader reader = new StringReader(command);//.replaceAll("\\n", "").trim());
+		ConfigCommand jcmadcommand = (ConfigCommand) unmarshaller.unmarshal(reader);
+		
+		
+		/*PersistenceMemory pem = new PersistenceMemory();
+		TokenPersistence em = pem.provide();
+		EntityTransaction trans = em.getTransaction();
+		trans.begin();
+		em.persist2(jcmadcommand);
+		trans.commit();
+		
+		ConfigCommand elementRead = em.findimei(ConfigCommand.class, jcmadcommand.getImei());
+		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAll", ConfigCommand.class);
+		List<ConfigCommand> res3 = r.getResultList();
+		
+		System.out.print(elementRead);*/
+		
+		
+		Entity<ConfigCommand> rex = Entity.entity(jcmadcommand, MediaType.APPLICATION_XML_TYPE);
+
+
+		Response response = target("/conf/update/2123132132").request(MediaType.APPLICATION_XML).post(rex);
+
+
+
+		String res2 = response.readEntity(new GenericType<String>() {
+		});
+		
 		System.out.print(res2);
+		
+		
+		response = target("/conf/all").request().get();
+		int x = response.getStatus();
+		//assertEquals(200, x);
+		String res = response.readEntity(new GenericType<String>() {
+		});
+		log.info(res);
+		
 	}
 	
 	/*@Test
