@@ -22,7 +22,7 @@ public class PublisherTest {
 		CommandCMAD c = new CommandCMAD();
 		
 		
-		p.send(decodedBytes, "test");
+		//p.send(decodedBytes, "test");
 	}
 
 }
