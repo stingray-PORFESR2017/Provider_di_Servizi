@@ -42,7 +42,6 @@ public class ApiServizioSupervisioneStazioneRFI {
 	private static Map<String, Pair<Integer, Date>> timediff = new HashMap<>();
 
 	private static Map<String, Integer> ricevuti = new HashMap<>();
-	@PermitAll
 	@Path("/test")
 	@GET
 	public String test() {
@@ -78,9 +77,12 @@ public class ApiServizioSupervisioneStazioneRFI {
 			key+="?TrainId="+TrainId;
 		String url  = path + key;
 //Content-Type: application/xml;
-		String contenttype = request.getContentType();
-		log.info(url+"\n\r");
+		String contenttype = null;
 		try {
+		if(request!=null)
+			contenttype = request.getContentType();
+		log.info(url+"\n\r");
+		
 
 			Client client = ClientBuilder.newClient();
 			if(contenttype==null)
