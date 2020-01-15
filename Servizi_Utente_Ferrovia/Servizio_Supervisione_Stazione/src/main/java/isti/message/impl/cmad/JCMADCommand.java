@@ -15,23 +15,58 @@ import javax.xml.bind.annotation.XmlRootElement;
 })*/
 public class JCMADCommand implements Serializable{
 
-	@XmlElement(name = "MAC_ADR", required = true)
-	String MAC_ADR;
+	@XmlElement(name = "MAC_ADR_cmad", required = true)
+	String MAC_ADR_CMAD;
+	@XmlElement(name = "MAC_ADR_red")
+	String MAC_ADR_RED;
+	@XmlElement(name = "MAC_ADR_ill")
+	String MAC_ADR_ILL;
 	@XmlElement(name = "Command", required = true)
 	CommandType command;
-	@XmlElement(name = "imei", required = true)
-	String imei;
+	@XmlElement(name = "Id", required = true)
+	String id;
 	
 	public JCMADCommand() {
 		
 	}
 	
-	public String getMAC_ADR() {
-		return MAC_ADR;
+	
+
+	public String getMAC_ADR_CMAD() {
+		return MAC_ADR_CMAD;
 	}
-	public void setMAC_ADR(String mAC_ADR) {
-		MAC_ADR = mAC_ADR;
+
+
+
+	public void setMAC_ADR_CMAD(String mAC_ADR_CMAD) {
+		MAC_ADR_CMAD = mAC_ADR_CMAD;
 	}
+
+
+
+	public String getMAC_ADR_RED() {
+		return MAC_ADR_RED;
+	}
+
+
+
+	public void setMAC_ADR_RED(String mAC_ADR_RED) {
+		MAC_ADR_RED = mAC_ADR_RED;
+	}
+
+
+
+	public String getMAC_ADR_ILL() {
+		return MAC_ADR_ILL;
+	}
+
+
+
+	public void setMAC_ADR_ILL(String mAC_ADR_ILL) {
+		MAC_ADR_ILL = mAC_ADR_ILL;
+	}
+
+
 
 	public CommandType getCommand() {
 		return command;
@@ -41,19 +76,37 @@ public class JCMADCommand implements Serializable{
 		this.command = command;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "MAC_ADR: " + MAC_ADR + "\\n, command: " + command + "\\n, imei: " + imei;
+		return "MAC_ADR_CMAD: " + MAC_ADR_CMAD + "\\n, MAC_ADR_RED: " + MAC_ADR_RED + "\\n, MAC_ADR_ILL: " + MAC_ADR_ILL
+				+ "\\n, command: " + command + "\\n, id: " + id;
 	}
 
-	public String getImei() {
-		return imei;
+	public String getId() {
+		return id;
 	}
 
-	public void setImei(String imei) {
-		this.imei = imei;
+	public void setId(String imei) {
+		this.id = imei;
+	}
+
+	public String getMAC_ADR() {
+		if(MAC_ADR_CMAD!=null) {
+			return MAC_ADR_CMAD;
+		}
+		if(MAC_ADR_RED!=null) {
+			return MAC_ADR_RED;
+		}
+		if(MAC_ADR_ILL!=null) {
+			return MAC_ADR_ILL;
+		}
+		return "";
 	}
 	
 	
+	
+
 	
 }

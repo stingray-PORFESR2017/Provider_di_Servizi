@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.info.Info;
 import isti.message.CommandCMAD;
 import isti.message.config.ConfigCommand;
+import isti.message.config.AuthInfo;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADCommand;
 import isti.mqtt.publisher.Publisher;
@@ -209,7 +210,7 @@ public class ApiServizioCMAD {
 		log.trace(message);
 		
 		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAllimei", ConfigCommand.class);
-		String imei = message.getImei();
+		String imei = message.getId();
 		r.setParameter(1, imei);
 		List<ConfigCommand> res3 = r.getResultList();
 		if(!res3.isEmpty()) {
@@ -230,4 +231,29 @@ public class ApiServizioCMAD {
 		return "OK";
 	}
 
+	
+	
+	@RolesAllowed("ADMIN")
+	@Operation(summary = "Service AuthInfo", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service AuthInfo", 
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        }
+	  , notes = "Service demo with authentication. Login is 'guest' and password is 'password'"
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
+	@Path("/AuthInfo/{key:.*}")
+	@POST
+	public String AuthInfo(AuthInfo message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		/*Publisher p = new Publisher();
+		CommandCMAD command = new CommandCMAD();
+		p.send(command.getMessage(message),key);*/
+		log.trace(message);
+		
+		
+		return "OK";
+	}
+	
+	
 }

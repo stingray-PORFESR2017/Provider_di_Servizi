@@ -22,15 +22,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name="ConfigCommand.findAll",
 			query="SELECT c FROM config c"),
 	@NamedQuery(name="ConfigCommand.findAllimei",
-	query="SELECT c FROM config c WHERE c.imei= ?1 "),
+	query="SELECT c FROM config c WHERE c.id= ?1 "),
 	
 }) 
 public class ConfigCommand implements Serializable{
 	
 	
-	@XmlElement(name = "imei", required = true)
+	@XmlElement(name = "id", required = true)
 	@Id
-	String imei;
+	String id;
 	@XmlElement(name = "AuthLevel", required = true)
 	String AuthLevel;
 	
@@ -38,11 +38,11 @@ public class ConfigCommand implements Serializable{
 		
 	}
 	
-	public String getImei() {
-		return imei;
+	public String getId() {
+		return id;
 	}
-	public void setImei(String imei) {
-		this.imei = imei;
+	public void setImei(String id) {
+		this.id = id;
 	}
 	public String getAuthLevel() {
 		return AuthLevel;
@@ -53,7 +53,7 @@ public class ConfigCommand implements Serializable{
 
 	@Override
 	public String toString() {
-		return "imei: " + imei + ", AuthLevel: " + AuthLevel;
+		return "id: " + id + ", AuthLevel: " + AuthLevel;
 	}
 	
 	public boolean isGod() {
