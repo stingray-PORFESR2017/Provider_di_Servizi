@@ -13,8 +13,8 @@ public class AuthInfo {
 	
 	@XmlElement(name = "Id", required = true)
 	String Id;
-	@XmlAttribute(name = "user")
-	String User;
+	@XmlAttribute(name = "User")
+	String user;
 	
 	AuthInfo(){
 		
@@ -25,7 +25,7 @@ public class AuthInfo {
 	}
 
 	public void setId(String authInfo) {
-		Id = authInfo;
+		this.Id = authInfo;
 	}
 
 	@Override
@@ -34,11 +34,11 @@ public class AuthInfo {
 	}
 
 	public String getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(String user) {
-		User = user;
+		this.user = user;
 	}
 	
 	

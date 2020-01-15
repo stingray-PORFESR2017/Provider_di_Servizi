@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +34,8 @@ public class ConfigCommand implements Serializable{
 	String id;
 	@XmlElement(name = "AuthLevel", required = true)
 	String AuthLevel;
+	@XmlAttribute(name = "User")
+	String user;
 	
 	public ConfigCommand(){
 		
@@ -41,9 +44,7 @@ public class ConfigCommand implements Serializable{
 	public String getId() {
 		return id;
 	}
-	public void setImei(String id) {
-		this.id = id;
-	}
+
 	public String getAuthLevel() {
 		return AuthLevel;
 	}
@@ -61,6 +62,18 @@ public class ConfigCommand implements Serializable{
 			return true;
 		return false;
 	}
-	
 
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
 }
