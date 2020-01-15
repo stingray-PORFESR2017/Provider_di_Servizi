@@ -2,6 +2,7 @@ package isti.message.config;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,6 +13,8 @@ public class AuthInfo {
 	
 	@XmlElement(name = "Id", required = true)
 	String Id;
+	@XmlAttribute(name = "user")
+	String User;
 	
 	AuthInfo(){
 		
@@ -28,6 +31,14 @@ public class AuthInfo {
 	@Override
 	public String toString() {
 		return "Id: " + Id;
+	}
+
+	public String getUser() {
+		return User;
+	}
+
+	public void setUser(String user) {
+		User = user;
 	}
 	
 	
