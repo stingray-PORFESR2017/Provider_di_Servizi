@@ -10,24 +10,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AuthInfo {
 	
 	
-	@XmlElement(name = "AuthInfo", required = true)
-	String AuthInfo;
+	@XmlElement(name = "Id", required = true)
+	String Id;
 	
 	AuthInfo(){
 		
 	}
 
-	public String getAuthInfo() {
-		return AuthInfo;
+	public String getId() {
+		return Id;
 	}
 
-	public void setAuthInfo(String authInfo) {
-		AuthInfo = authInfo;
+	public void setId(String authInfo) {
+		Id = authInfo;
 	}
 
 	@Override
 	public String toString() {
-		return "AuthInfo: " + AuthInfo;
+		return "Id: " + Id;
 	}
 	
 	
