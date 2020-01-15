@@ -273,7 +273,7 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 	@Test
 	public void test3() throws ParseException, MqttException, JAXBException, InterruptedException {
 		
-		String command = "<JCMADCommand><MAC_ADR>000000000034</MAC_ADR><imei>2123132132</imei><Command commandred=\"ON\" commandill=\"OFF\" > <mac/> </Command></JCMADCommand>";
+		String command = "<JCMADCommand><MAC_ADR_red>000000000034</MAC_ADR_red><MAC_ADR_ill>000000000034</MAC_ADR_ill><MAC_ADR_cmad>000000000034</MAC_ADR_cmad><Id>2123132132</Id><Command commandred=\"ON\" commandill=\"OFF\" > <mac/> </Command></JCMADCommand>";
 		JAXBContext jaxbContext = JAXBContext.newInstance(JCMADCommand.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		StringReader reader = new StringReader(command);//.replaceAll("\\n", "").trim());
@@ -294,10 +294,12 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		System.out.println();
 	}
 	
+	
+	
 	@Test
 	public void test4() throws ParseException, MqttException, JAXBException, InterruptedException {
 		
-		String command = "<ConfigCommand><imei>2123132132</imei><AuthLevel>GOD</AuthLevel></ConfigCommand>";
+		String command = "<ConfigCommand User=\"guest\" ><id>2123132132</id><AuthLevel>GOD</AuthLevel></ConfigCommand>";
 		JAXBContext jaxbContext = JAXBContext.newInstance(ConfigCommand.class);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		StringReader reader = new StringReader(command);//.replaceAll("\\n", "").trim());
