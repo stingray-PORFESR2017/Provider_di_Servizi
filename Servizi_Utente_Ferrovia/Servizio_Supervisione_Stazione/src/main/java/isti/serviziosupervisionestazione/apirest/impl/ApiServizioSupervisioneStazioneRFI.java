@@ -1,7 +1,9 @@
 package isti.serviziosupervisionestazione.apirest.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,8 @@ import javax.ws.rs.core.Response;
 import org.glassfish.grizzly.utils.Pair;
 
 import io.swagger.annotations.Api;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml; 
+
 
 
 //@Consumes(MediaType.APPLICATION_XML)
@@ -63,19 +67,24 @@ public class ApiServizioSupervisioneStazioneRFI {
 			@QueryParam("TrainId") String TrainId, 
 			@QueryParam("Time") String Time ,
 			@QueryParam("Limit") String Limit,
-			@Context HttpServletRequest request/*, @Context HttpServletResponse response*/) {
+			@Context HttpServletRequest request/*, @Context HttpServletResponse response*/) throws UnsupportedEncodingException {
 		String path = "https://stazionevirtuale.rfi.it/IECSV/IeC/SV/FrontEnd/";
+		String tmp = "";
 		if(PlaceId!=null)
-			key+="?PlaceId="+PlaceId;
+			tmp+="?PlaceId="+PlaceId;
 		if(Time!=null)
-			key+="?Time="+Time;
+			tmp+="&Time="+URLEncoder.encode( Time, "UTF-8" );  ;
 		if(Limit!=null)
-			key+="?Limit="+Limit;
+			tmp+="&Limit="+Limit;
 		if(TrainNumber!=null)
-			key+="?TrainNumber="+TrainNumber;
+			tmp+="&TrainNumber="+TrainNumber;
 		if(TrainId!=null)
-			key+="?TrainId="+TrainId;
-		String url  = path + key;
+			tmp+="&TrainId="+TrainId;
+		String url  = "";
+		if(tmp.length()>1)
+			 url  = path + key + tmp;
+		else
+		   	url = path + key;
 //Content-Type: application/xml;
 		String contenttype = null;
 		try {
