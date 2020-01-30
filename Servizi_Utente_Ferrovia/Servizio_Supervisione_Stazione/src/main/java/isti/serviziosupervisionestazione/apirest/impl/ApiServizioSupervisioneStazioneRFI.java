@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response;
 import org.glassfish.grizzly.utils.Pair;
 
 import io.swagger.annotations.Api;
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml; 
 
 
 
