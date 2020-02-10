@@ -112,7 +112,7 @@ public class Service {
 	        return retval.toString();
 	      }
 	 public static short bytesToShort(byte[] bytes) {
-	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort() & 0xFF);
+	     return (short) (ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort() & 0xFFL); // & 0xFF
 	}
 	
 	public static short bytesToInt(byte[] bytes) {
@@ -137,9 +137,20 @@ public class Service {
 	
 	}
 	
+	public static byte[] longToByte(long value)
+	{
+	    byte [] data = new byte[4];
+	    data[3] = (byte) value;
+	    data[2] = (byte) (value >>> 8);
+	    data[1] = (byte) (value >>> 16);
+	    data[0] = (byte) (value >>> 32);
+	 
+	    return data;
+	}
+	
 	public static int TwobytesToint(byte[] bytes) {
 		byte[] k = {bytes[0],bytes[1],0,0};
-	 int l =(ByteBuffer.wrap(k).order(ByteOrder.LITTLE_ENDIAN).getInt() /*& 0xFF*/);
+	 int l =(ByteBuffer.wrap(k).order(ByteOrder.LITTLE_ENDIAN).getInt() /*& 0xFFFFFF*/);
 	 return l;
 	}
 	
