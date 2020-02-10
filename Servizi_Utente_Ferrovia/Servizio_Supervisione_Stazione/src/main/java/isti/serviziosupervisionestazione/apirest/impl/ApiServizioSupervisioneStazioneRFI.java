@@ -76,7 +76,7 @@ public class ApiServizioSupervisioneStazioneRFI {
 		if(Limit!=null)
 			tmp+="&Limit="+Limit;
 		if(TrainNumber!=null)
-			tmp+="&TrainNumber="+TrainNumber;
+			tmp+="?TrainNumber="+TrainNumber;
 		if(TrainId!=null)
 			tmp+="&TrainId="+TrainId;
 		String url  = "";
