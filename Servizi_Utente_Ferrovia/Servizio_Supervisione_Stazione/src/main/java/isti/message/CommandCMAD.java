@@ -239,42 +239,47 @@ public class CommandCMAD {
 	
 	public byte[] CommandGeneric(String mac1, String mac2, int typ, String command_code, String command_value,
 			int group, long tmilli, int vali) {
-		char a = (char) 'C';
-		byte[] b = new byte[] {(byte)a};
-		
-		byte[] maca = Service.toByteArray(mac1);
-		
-		byte[] type = new byte[] {(byte)typ};
-		
-//		0x00009001	0x0000570028007E00	Comando accensione RED
-		//	0x00230500009AC428	Comando spegnimento RED
-		byte[] command_red = Service.toByteArray(command_code);
-		
-		byte[] command_A_red = Service.toByteArray(command_value);
-		
-		byte[] macb = Service.toByteArray(mac2);
-		
-		byte[] gruppo = Service.intToBytes(group);
-		
-		
+		try{
+			char a = (char) 'C';
+			byte[] b = new byte[] {(byte)a};
 
-		
-		byte[] time = Service.longToByte(tmilli);
-		
-		byte[] val = Service.intToBytes(vali);
-		
-		byte[] Dummy = new byte[16];
-		byte[] mess = Bytes.concat(b, maca,type, command_red,command_A_red,macb,gruppo,time,val, Dummy);
-		
-		//byte[] var = Arrays.copyOfRange(mess, 7, 36);//36
-		int CMAD_CRC = Service.CRC(mess);
-		byte[] recCRC = Service.intToBytes(CMAD_CRC);
-		
-		
-		
-		mess = Bytes.concat(mess,recCRC);
-		log.trace("Send On Command:"+ mac1 +" "+ mac2  +" "+ mess);
-		return mess;
+			byte[] maca = Service.toByteArray(mac1);
+
+			byte[] type = new byte[] {(byte)typ};
+
+			//		0x00009001	0x0000570028007E00	Comando accensione RED
+			//	0x00230500009AC428	Comando spegnimento RED
+			byte[] command_red = Service.toByteArray(command_code);
+
+			byte[] command_A_red = Service.toByteArray(command_value);
+
+			byte[] macb = Service.toByteArray(mac2);
+
+			byte[] gruppo = Service.intToBytes(group);
+
+
+
+
+			byte[] time = Service.longToByte(tmilli);
+
+			byte[] val = Service.intToBytes(vali);
+
+			byte[] Dummy = new byte[16];
+			byte[] mess = Bytes.concat(b, maca,type, command_red,command_A_red,macb,gruppo,time,val, Dummy);
+
+			//byte[] var = Arrays.copyOfRange(mess, 7, 36);//36
+			int CMAD_CRC = Service.CRC(mess);
+			byte[] recCRC = Service.intToBytes(CMAD_CRC);
+
+
+
+			mess = Bytes.concat(mess,recCRC);
+			log.trace("Send On Command:"+ mac1 +" "+ mac2  +" "+ mess);
+			return mess;
+		}catch (Exception e) {
+			log.error(e);
+			return null;
+		}
 	}
 
 	public String getMAC_ADR(byte[] messagebyte) {

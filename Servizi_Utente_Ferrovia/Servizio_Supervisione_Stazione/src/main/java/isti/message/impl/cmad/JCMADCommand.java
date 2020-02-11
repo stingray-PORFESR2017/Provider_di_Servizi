@@ -15,13 +15,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 })*/
 public class JCMADCommand implements Serializable{
 
-	@XmlElement(name = "MAC_ADR_cmad", required = true)
+	@XmlElement(name = "mac_ADR_CMAD", required = true)
 	String MAC_ADR_CMAD;
-	@XmlElement(name = "MAC_ADR_red")
+	@XmlElement(name = "mac_ADR_RED")
 	String MAC_ADR_RED;
-	@XmlElement(name = "MAC_ADR_ill")
+	@XmlElement(name = "mac_ADR_ILL")
 	String MAC_ADR_ILL;
-	@XmlElement(name = "Command", required = true)
+	@XmlElement(name = "command", required = true)
 	CommandType command;
 	@XmlElement(name = "Id", required = true)
 	String id;
