@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.security.PermitAll;
@@ -68,17 +70,27 @@ public class ApiServizioSupervisioneStazioneRFI {
 			@QueryParam("Limit") String Limit,
 			@Context HttpServletRequest request/*, @Context HttpServletResponse response*/) throws UnsupportedEncodingException {
 		String path = "https://stazionevirtuale.rfi.it/IECSV/IeC/SV/FrontEnd/";
+		List<String> listparametri = new ArrayList<String>();
 		String tmp = "";
 		if(PlaceId!=null)
-			tmp+="?PlaceId="+PlaceId;
+			listparametri.add("PlaceId="+PlaceId);
 		if(Time!=null)
-			tmp+="&Time="+URLEncoder.encode( Time, "UTF-8" );  ;
+			listparametri.add("Time="+URLEncoder.encode( Time, "UTF-8" ));
 		if(Limit!=null)
-			tmp+="&Limit="+Limit;
+			listparametri.add("Limit="+Limit);
 		if(TrainNumber!=null)
-			tmp+="?TrainNumber="+TrainNumber;
+			listparametri.add("TrainNumber="+TrainNumber);
 		if(TrainId!=null)
-			tmp+="&TrainId="+TrainId;
+			listparametri.add("TrainId="+TrainId);
+		
+		for(int i =0;i<listparametri.size();i++){
+			if(i==0){
+				tmp += "?"+listparametri.get(i);
+			}else{
+				tmp += "&"+ listparametri.get(i);
+			}
+		}
+		
 		String url  = "";
 		if(tmp.length()>1)
 			 url  = path + key + tmp;
