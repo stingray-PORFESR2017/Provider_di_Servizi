@@ -46,10 +46,14 @@ import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 
 @Api(value = "CMAD")
-@SwaggerDefinition(securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
+@SwaggerDefinition(info = @io.swagger.annotations.Info(title = "SUF Services", version = "0.1", description = "This is a sample API",
+contact = @Contact(
+        name = "Giorgio O. Spagnolo",
+        email = "spagnolo@isti.cnr.it"
+    )),securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
 	    @BasicAuthDefinition(key = "basicAuth")
-	    }),info = @io.swagger.annotations.Info(title = "CMAD Services", version = "0.1") )
-@OpenAPIDefinition(info = @Info(title = "CMAD Services", version = "0.1"))
+	    }), host = "https://stingray.isti.cnr.it:8443/docs/" )
+@OpenAPIDefinition(info = @Info(title = "SUF Services", version = "0.1"))
 @SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
