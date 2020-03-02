@@ -46,7 +46,7 @@ import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 
 @Api(value = "CMAD")
-@SwaggerDefinition(info = @io.swagger.annotations.Info(title = "SUF Services", version = "0.1", description = "This is a sample API",
+@SwaggerDefinition(info = @io.swagger.annotations.Info(title = "SUF Services", version = "0.1", description = "API of SUF of Stingray Project",
 contact = @Contact(
         name = "Giorgio O. Spagnolo",
         email = "spagnolo@isti.cnr.it"
