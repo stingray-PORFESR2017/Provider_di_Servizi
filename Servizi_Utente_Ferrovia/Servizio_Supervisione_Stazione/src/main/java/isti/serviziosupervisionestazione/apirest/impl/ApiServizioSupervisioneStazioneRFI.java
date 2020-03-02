@@ -68,8 +68,6 @@ public class ApiServizioSupervisioneStazioneRFI {
 			
 	  notes = "Service demo without authentication."
 	)
-	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
-	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/FrontEnd/{key:.*}")
 	@GET
