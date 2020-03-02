@@ -73,8 +73,6 @@ public class ApiServizioCMAD {
 			
 	  notes = "Service demo without authentication."
 	)
-	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
-	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/MAC_ADR_BT/{key:.*}")
 	@GET
@@ -110,8 +108,6 @@ public class ApiServizioCMAD {
 			
 	  notes = "Service demo without authentication."
 	)
-	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
-	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/MAC_ADR/{key:.*}")
 	@GET
@@ -142,8 +138,6 @@ public class ApiServizioCMAD {
 			
 	  notes = "Service demo without authentication."
 	)
-	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
-	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/MAC_ADR_ALL/{key:.*}")
 	@GET
@@ -175,8 +169,6 @@ public class ApiServizioCMAD {
 			
 	  notes = "Service demo without authentication."
 	)
-	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
-	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/ALL/{key:.*}")
 	@GET
