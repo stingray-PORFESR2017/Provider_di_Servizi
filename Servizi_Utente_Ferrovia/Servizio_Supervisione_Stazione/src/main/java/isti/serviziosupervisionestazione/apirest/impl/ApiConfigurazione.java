@@ -37,10 +37,10 @@ import isti.message.config.ConfigCommand;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Api(value = "conf")
-@SwaggerDefinition(securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
+/*@SwaggerDefinition(securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
 	    @BasicAuthDefinition(key = "basicAuth")
 	    }) )
-@OpenAPIDefinition(info = @Info(title = "Configure Services"))
+@OpenAPIDefinition(info = @Info(title = "Configure Services"))*/
 @SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
@@ -57,8 +57,8 @@ public class ApiConfigurazione {
 	
 	
 	@RolesAllowed("ADMIN")
-	@Operation(summary = "Service Ricezione Configurazioene XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
-	@ApiOperation(value = "Service Ricezione Configurazioene XML", 
+	@Operation(summary = "Service Ricezione Configurazione XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Ricezione Configurazione XML", 
 			authorizations = {
 		            @Authorization(value = "basicAuth", scopes={})
 		        }
@@ -78,7 +78,14 @@ public class ApiConfigurazione {
 		return "OK";
 	}
 	
-	
+	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Lista Configurazioni Attive XML", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@Path("/all")
 	@GET
 	public List<ConfigCommand> getAll(@Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -90,7 +97,14 @@ public class ApiConfigurazione {
 		log.trace(res3);
 		return res3;
 	}
-	
+	@Operation(summary = "Service Configurazioni Attive per specifico ID", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service onfigurazioni Attive per specifico ID", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@Path("/spec/{key:.*}")
 	@GET
 	public ConfigCommand getSpec(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {

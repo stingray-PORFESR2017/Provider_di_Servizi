@@ -28,6 +28,10 @@ import javax.ws.rs.core.Response;
 import org.glassfish.grizzly.utils.Pair;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 
 
@@ -58,6 +62,14 @@ public class ApiServizioSupervisioneStazioneRFI {
 		return "<html><body>OK</body></html>";
 	}
 
+	@Operation(summary = "Service Dati Treni", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati Treni", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/FrontEnd/{key:.*}")
 	@GET

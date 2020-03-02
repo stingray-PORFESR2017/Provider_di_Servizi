@@ -26,7 +26,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import io.swagger.annotations.*;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,6 +67,14 @@ public class ApiServizioCMAD {
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ApiServizioCMAD.class);
 
 
+	@Operation(summary = "Service Dati CMAD by MacAddress e data", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati CMAD by MacAddress e data", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/MAC_ADR_BT/{key:.*}")
 	@GET
@@ -97,6 +104,14 @@ public class ApiServizioCMAD {
 
 	}
 
+	@Operation(summary = "Service Dati CMAD last by MacAddress", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati CMAD last by MacAddress", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/MAC_ADR/{key:.*}")
 	@GET
@@ -121,6 +136,14 @@ public class ApiServizioCMAD {
 
 	}
 
+	@Operation(summary = "Service Dati CMAD all by MacAddress", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati CMAD all by MacAddress", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/MAC_ADR_ALL/{key:.*}")
 	@GET
@@ -146,6 +169,14 @@ public class ApiServizioCMAD {
 
 	}
 
+	@Operation(summary = "Service Dati CMAD All", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati CMAD All", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
 	@PermitAll
 	@Path("/ALL/{key:.*}")
 	@GET
