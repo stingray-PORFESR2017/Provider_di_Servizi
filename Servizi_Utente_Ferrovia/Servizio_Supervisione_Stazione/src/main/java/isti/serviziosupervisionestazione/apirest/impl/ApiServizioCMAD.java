@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.border.TitledBorder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -47,8 +48,8 @@ import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 @Api(value = "CMAD")
 @SwaggerDefinition(securityDefinition = @SecurityDefinition(basicAuthDefinitions = {
 	    @BasicAuthDefinition(key = "basicAuth")
-	    }) )
-@OpenAPIDefinition(info = @Info(title = "CMAD Services"))
+	    }),info = @io.swagger.annotations.Info(title = "CMAD Services", version = "0.1") )
+@OpenAPIDefinition(info = @Info(title = "CMAD Services", version = "0.1"))
 @SecurityScheme(name = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
