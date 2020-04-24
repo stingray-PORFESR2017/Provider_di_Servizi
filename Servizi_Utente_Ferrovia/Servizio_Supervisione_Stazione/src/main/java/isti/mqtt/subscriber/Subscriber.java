@@ -44,8 +44,8 @@ public class Subscriber implements MqttCallback{
 		String mqttPassword = config.getMoqosquittoPass();
 		publisher = new MqttClient(url,publisherId,new MemoryPersistence());
 		MqttConnectOptions options = new MqttConnectOptions();
-		options.setUserName(mqttUserName);
-		options.setPassword(mqttPassword.toCharArray());
+		options.setUserName(mqttUserName.trim());
+		options.setPassword(mqttPassword.trim().toCharArray());
 		options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
 
         
