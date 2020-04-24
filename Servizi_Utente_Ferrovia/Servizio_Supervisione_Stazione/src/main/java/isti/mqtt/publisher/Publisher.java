@@ -17,6 +17,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 import isti.message.impl.cmad.JCMAD;
+import isti.mqtt.Config;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMDecryptorProvider;
 import org.bouncycastle.openssl.PEMEncryptedKeyPair;
@@ -51,12 +53,13 @@ public class Publisher {
 	   
 	    log.trace("== START PUBLISHER ==");
 	    
-	    String serverUrl = "ssl://stingray.isti.cnr.it:8883";
+	    Config config = new Config();
+		String serverUrl = config.getMoqosquittoUrl();
 		//String caFilePath = "/Users/spagnolo/github/stingray_ssl/combo2.pem";
 		String clientCrtFilePath = "/your_ssl/client.pem";
 		String clientKeyFilePath = "/your_ssl/client.key";
-		String mqttUserName = "guest";
-		String mqttPassword = "123123";
+		String mqttUserName = config.getMoqosquittoUser();
+		String mqttPassword = config.getMoqosquittoPass();
  
 		MqttClient mqttClient = null;
 		try {
@@ -64,8 +67,8 @@ public class Publisher {
 
 			mqttClient = new MqttClient(serverUrl, publisherId, new MemoryPersistence());
 			MqttConnectOptions options = new MqttConnectOptions();
-			//options.setUserName(mqttUserName);
-			//options.setPassword(mqttPassword.toCharArray());
+			options.setUserName(mqttUserName);
+			options.setPassword(mqttPassword.toCharArray());
 			
 			options.setConnectionTimeout(80);
 			options.setKeepAliveInterval(80);
