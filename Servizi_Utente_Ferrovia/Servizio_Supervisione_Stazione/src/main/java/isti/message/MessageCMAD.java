@@ -152,7 +152,7 @@ public class MessageCMAD {
  		log.info(toString());
  		int bandiera = 102;
  		while(bandiera<message.length) {
- 			log.info(message.length);
+ 			//log.info(message.length);
  			String CMAD_HEADER2 = String.valueOf( (char)(message[bandiera]));//1
  			//MAD-RED 92
  			if(CMAD_HEADER2.equals("R")) {
