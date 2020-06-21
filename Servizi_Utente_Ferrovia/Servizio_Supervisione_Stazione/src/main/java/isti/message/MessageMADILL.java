@@ -70,11 +70,11 @@ public class MessageMADILL {
 		int ComandoLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 0, 2));//2
 		int PotenzaLampada =  Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 2, 4));//2
 		int VitaLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 4, 6));//2
-		int TensioneLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 6, 8));//2
-		int CorrenteLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 8, 10));//2
-		int SCORTA =  Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 10, 12));//2
+		int FattorePotenza = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 6, 8));//2
+		int TensioneLampada = Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 8, 10));//2
+		int CorrenteLampada =  Service.TwobytesToint(Arrays.copyOfRange(ANALOG_INFO, 10, 12));//2
 		
-		dinfo = new AnalogInfo(ComandoLampada, PotenzaLampada, VitaLampada, TensioneLampada, CorrenteLampada, SCORTA);
+		dinfo = new AnalogInfo(ComandoLampada, PotenzaLampada, VitaLampada,FattorePotenza, TensioneLampada, CorrenteLampada);
 		
 		/*
 		 * 2	INT	Comando lampada

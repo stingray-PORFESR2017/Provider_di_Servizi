@@ -21,6 +21,7 @@ import isti.message.util.Service;
 		"TensioneLampada",
 		"CorrenteLampada",
 		"SCORTA",
+		"FattorePotenza"
 
 
 })
@@ -38,7 +39,9 @@ public class AnalogInfo implements Serializable {
 	@XmlElement(required = true)
 	int CorrenteLampada;
 	@XmlElement(required = true)
-	int SCORTA;
+	int SCORTA = 0;
+	@XmlElement(required = true)
+	int FattorePotenza;
 
 	public AnalogInfo(){
 		
@@ -52,20 +55,19 @@ public class AnalogInfo implements Serializable {
 	 * @param correnteLampada
 	 * @param sCORTA
 	 */
-	public AnalogInfo(int comandoLampada, int potenzaLampada, int vitaLampada, int tensioneLampada, int correnteLampada,
-			int sCORTA) {
+	public AnalogInfo(int comandoLampada, int potenzaLampada, int vitaLampada,int fattorePotenza, int tensioneLampada, int correnteLampada) {
 		super();
 		ComandoLampada = comandoLampada;
 		PotenzaLampada = potenzaLampada;
 		VitaLampada = vitaLampada;
 		TensioneLampada = tensioneLampada;
 		CorrenteLampada = correnteLampada;
-		SCORTA = sCORTA;
+		FattorePotenza = fattorePotenza;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ComandoLampada, CorrenteLampada, PotenzaLampada, SCORTA, TensioneLampada, VitaLampada);
+		return Objects.hash(ComandoLampada, CorrenteLampada, PotenzaLampada, FattorePotenza, TensioneLampada, VitaLampada);
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class AnalogInfo implements Serializable {
 			return false;
 		AnalogInfo other = (AnalogInfo) obj;
 		return ComandoLampada == other.ComandoLampada && CorrenteLampada == other.CorrenteLampada
-				&& PotenzaLampada == other.PotenzaLampada && SCORTA == other.SCORTA
+				&& PotenzaLampada == other.PotenzaLampada && FattorePotenza == other.FattorePotenza
 				&& TensioneLampada == other.TensioneLampada && VitaLampada == other.VitaLampada;
 	}
 
@@ -122,6 +124,16 @@ public class AnalogInfo implements Serializable {
 		CorrenteLampada = correnteLampada;
 	}
 
+	public int getFattorePotenza() {
+		return FattorePotenza;
+	}
+
+	public void setFattorePotenza(int fattorePotenza) {
+		FattorePotenza = fattorePotenza;
+	}
+	
+	
+
 	public int getSCORTA() {
 		return SCORTA;
 	}
@@ -134,7 +146,7 @@ public class AnalogInfo implements Serializable {
 	public String toString() {
 		return "ComandoLampada: " + ComandoLampada + "\\n, PotenzaLampada: " + PotenzaLampada + "\\n, VitaLampada: "
 				+ VitaLampada + "\\n, TensioneLampada: " + TensioneLampada + "\\n, CorrenteLampada: " + CorrenteLampada
-				+ "\\n, SCORTA: " + SCORTA;
+				+ "\\n, FattorePotenza: " + FattorePotenza;
 	}
 	
 	
