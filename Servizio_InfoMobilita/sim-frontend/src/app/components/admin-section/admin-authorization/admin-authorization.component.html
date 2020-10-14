@@ -1,0 +1,90 @@
+<div *ngIf="canRender; else loading">
+  <div class="title">
+    <h1>Autorizzazioni di {{user.name}} {{user.surname}}</h1>
+  </div>
+  <div class="filter-container">
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca per Municipalità, Fornitore di servizi o Data di scadenza...">
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isMobile; else mobileView" (window:resize)="onResize($event)" class="auth-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Municipality Column -->
+      <ng-container matColumnDef="municipality">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <h5>Municipalità</h5>
+        </th>
+        <td mat-cell *matCellDef="let row"> {{row?.municipalityName}} </td>
+      </ng-container>
+      <!-- Infomobility Service Provider Column -->
+      <ng-container matColumnDef="isp">
+        <th mat-header-cell *matHeaderCellDef><h5>Fornitore di Servizi</h5></th>
+        <td mat-cell *matCellDef="let row"> {{row?.isp.name}} </td>
+      </ng-container>
+      <!-- Expire Date Column-->
+      <ng-container matColumnDef="expire_date">
+        <th mat-header-cell *matHeaderCellDef><h5>Data di scadenza</h5></th>
+        <td mat-cell *matCellDef="let row">{{row?.expire_date !== 'No time limit'? row?.expire_date : 'Nessuna'}}</td>
+      </ng-container>
+      <!--Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell  *matCellDef="let row">
+          <div class="button-container">
+            <button style="outline: none" [routerLink]="[row.id]" mat-icon-button aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button style="outline: none" mat-icon-button aria-label="Delete">
+              <mat-icon (click)="openDialog(row?.id, row?.name)">delete_sweep</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<ng-template #mobileView>
+  <!--MOBILE VIEW-->
+  <div class="card-container" (window:resize)="onResize($event)">
+    <mat-card *ngFor="let authorization of filteredAuthorizations">
+      <!--CARD HEADER-->
+      <mat-card-header>
+        <div class="first-row">
+          <div class="first-block">
+          <mat-icon>location_city</mat-icon>
+          <mat-card-title>{{authorization.municipalityName}}</mat-card-title>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <!-- CARD CONTENT-->
+      <mat-card-content>
+        <div class="card-row">
+          <mat-icon>directions_run</mat-icon>
+          <span> {{authorization.isp.name}}</span>
+        </div>
+        <div class="card-row">
+          <mat-icon>event</mat-icon>
+          <span> {{authorization.expire_date !== 'No time limit' ? authorization.expire_date : 'Nessuna data di scadenza'}}</span>
+        </div>
+      </mat-card-content>
+      <!--CARD ACTIONS-->
+      <mat-card-actions>
+        <button style="outline: none" [routerLink]="[authorization.id]" mat-icon-button aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+        </button>
+        <button style="outline: none" mat-icon-button aria-label="Delete">
+          <mat-icon (click)="openDialog(authorization.id, authorization.name)">delete_sweep</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-template>
+<div class="filter-container">
+  <app-add-button addUrl='addAdminAuthorization' class="add-button"></app-add-button>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

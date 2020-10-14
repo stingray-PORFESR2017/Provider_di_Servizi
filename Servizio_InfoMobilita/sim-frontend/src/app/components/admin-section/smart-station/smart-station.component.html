@@ -1,0 +1,127 @@
+<div *ngIf="canRender; else loading">
+  <div class="filter-container">
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca per nome, municipalità, latitudine o longitudine...">
+    </mat-form-field>
+  </div>
+  <div class="smart-station-container mat-elevation-z8" (window:resize)="onResize($event)" *ngIf="!isMobile; else mobileView">
+      <!--DESKTOP-TABLET VIEW-->
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Nome</h5></th>
+          <td mat-cell *matCellDef="let row">{{row?.name}}</td>
+        </ng-container>
+        <!-- Lat Column -->
+        <ng-container matColumnDef="lat">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Latitudine</h5></th>
+          <td mat-cell *matCellDef="let row">{{row?.lat}}</td>
+        </ng-container>
+        <!-- Lon Column -->
+        <ng-container matColumnDef="lon">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Longitudine</h5></th>
+          <td mat-cell *matCellDef="let row">{{row?.lon}}</td>
+        </ng-container>
+        <!-- Municipality Column-->
+        <ng-container matColumnDef="municipality">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Municipalità</h5></th>
+          <td mat-cell *matCellDef="let row">{{row?.municipality.name}}</td>
+        </ng-container>
+        <!-- Enabled Column-->
+        <ng-container matColumnDef="enabled">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-slide-toggle [checked]="row?.enabled" (click)="patchEnabled(row?.id, row?.enabled)"></mat-slide-toggle>
+          </td>
+        </ng-container>
+        <!-- Service Column-->
+        <ng-container matColumnDef="service">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <mat-expansion-panel class="exp-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon class="icon">directions_run</mat-icon> Servizi offerti</mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list role="list" *ngFor="let info of row?.infomobilityServices">
+                <mat-list-item role="listitem">{{info.name}}</mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </td>
+        </ng-container>
+        <!--Actions Column-->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell  *matCellDef="let row">
+            <div class="button-container">
+              <button style="outline: none" [routerLink]="[row.id]" mat-icon-button aria-label="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button style="outline: none" mat-icon-button aria-label="Delete">
+                <mat-icon (click)="openDialog(row.id, row.name)">delete_sweep</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+
+  <ng-template #mobileView>
+    <!--MOBILE VIEW-->
+    <div class="card-container" (window:resize)="onResize($event)">
+      <mat-card *ngFor="let smartStation of filteredSmartStations">
+        <!--CARD HEADER-->
+        <mat-card-header>
+          <div class="first-row">
+            <div class="first-block">
+            <mat-icon>directions_transit</mat-icon>
+            <mat-card-title>{{smartStation.name}}</mat-card-title>
+            </div>
+            <mat-slide-toggle [checked]="smartStation.enabled" (click)="patchEnabled(smartStation.id, smartStation.enabled)"></mat-slide-toggle>
+          </div>
+        </mat-card-header>
+        <!-- CARD CONTENT-->
+        <mat-card-content>
+          <div class="card-row">
+            <mat-icon>location_city</mat-icon>
+            <span> {{smartStation.municipality.name}}</span>
+          </div>
+          <div class="card-row" *ngIf="smartStation.lat && smartStation.lon">
+            <mat-icon>explore</mat-icon>
+            <span>{{smartStation.lat}}</span>
+            <span>{{smartStation.lon}}</span>
+          </div>
+          <mat-accordion class="card-row">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>directions_run</mat-icon>
+                  <span>Servizi offerti</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list role="list" *ngFor="let info of smartStation.infomobilityServices">
+                <mat-list-item role="listitem">{{info.name}}</mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-content>
+        <!--CARD ACTIONS-->
+        <mat-card-actions>
+          <button style="outline: none" [routerLink]="[smartStation.id]" mat-icon-button aria-label="Edit">
+                <mat-icon>edit</mat-icon>
+          </button>
+          <button style="outline: none" mat-icon-button aria-label="Delete">
+            <mat-icon (click)="openDialog(smartStation.id, smartStation.name)">delete_sweep</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-template>
+  <div class="filter-container">
+    <app-add-button addUrl='addSmartStation' class="add-button"></app-add-button>
+  </div>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

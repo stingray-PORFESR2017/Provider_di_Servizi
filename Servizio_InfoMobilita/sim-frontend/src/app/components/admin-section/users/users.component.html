@@ -1,0 +1,92 @@
+<div *ngIf="canRender; else loading">
+  <div class="filter-container">
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca per nome, cognome, email o ruolo...">
+    </mat-form-field>
+  </div>
+  <div  *ngIf="!isMobile; else mobileView" (window:resize)="onResize($event)" class="user-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Nome</h5></th>
+        <td mat-cell *matCellDef="let row">{{row?.name}}</td>
+      </ng-container>
+      <!-- Surname Column -->
+      <ng-container matColumnDef="surname">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Cognome</h5></th>
+        <td mat-cell *matCellDef="let row">{{row?.surname}}</td>
+      </ng-container>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>E-Mail</h5></th>
+        <td mat-cell *matCellDef="let row">{{row?.email}}</td>
+      </ng-container>
+      <!-- User Role Column-->
+      <ng-container matColumnDef="userRole">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Ruolo Utente</h5></th>
+        <td mat-cell *matCellDef="let row"> {{row?.userRole}} </td>
+      </ng-container>
+      <!--Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell  *matCellDef="let row">
+          <div class="button-container">
+            <button style="outline: none" [routerLink]="[row.id]" mat-icon-button aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button style="outline: none" mat-icon-button aria-label="Manage authorizations" *ngIf="row?.userRole == 'ADMIN'" [routerLink]="['adminAuthorization/' + row?.id]">
+              <mat-icon>vpn_key</mat-icon>
+            </button>
+            <button style="outline: none" mat-icon-button aria-label="Delete">
+              <mat-icon (click)="openDialog(row?.id, row?.name)">delete_sweep</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+
+<ng-template #mobileView>
+  <!--MOBILE VIEW-->
+  <div class="card-container" (window:resize)="onResize($event)">
+    <mat-card *ngFor="let user of filteredUsers">
+      <!--CARD HEADER-->
+      <mat-card-header>
+        <div class="first-row">
+          <div class="first-block">
+          <mat-icon>person</mat-icon>
+          <mat-card-title>{{user.name}} {{user.surname}}</mat-card-title>
+          </div>
+        </div>
+      </mat-card-header>
+      <!-- CARD CONTENT-->
+      <mat-card-content>
+        <div class="card-row">
+          <mat-icon>email</mat-icon>
+          <span> {{user.email}}</span>
+        </div>
+      </mat-card-content>
+      <!--CARD ACTIONS-->
+      <mat-card-actions>
+        <button style="outline: none" [routerLink]="[user.id]" mat-icon-button aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+        </button>
+        <button style="outline: none" mat-icon-button aria-label="Manage authorizations" *ngIf="user.userRole == 'ADMIN'" [routerLink]="['adminAuthorization/' + user.id]">
+          <mat-icon>vpn_key</mat-icon>
+        </button>
+        <button style="outline: none" mat-icon-button aria-label="Delete">
+          <mat-icon (click)="openDialog(user.id, user.name)">delete_sweep</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-template>
+<div class="filter-container">
+  <app-add-button addUrl='addUser' class="add-button"></app-add-button>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

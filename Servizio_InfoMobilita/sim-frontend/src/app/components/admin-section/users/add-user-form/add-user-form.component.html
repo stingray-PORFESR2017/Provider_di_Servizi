@@ -1,0 +1,52 @@
+<div *ngIf="canRender; else loading">
+  <mat-card class="container">
+    <form [formGroup]="addUserForm">
+      <div class="sub-container">
+        <h2>Aggiungi nuovo Utente</h2>
+        <!--NAME FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Nome" formControlName="name" required>
+          <mat-error *ngIf="addUserForm.get('name').invalid">{{getErrorMessageName()}}</mat-error>
+        </mat-form-field>
+        <!--SURNAME FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Cognome</mat-label>
+          <input matInput placeholder="Cognome" formControlName="surname" required>
+          <mat-error *ngIf="addUserForm.get('surname').invalid">{{getErrorMessageSurname()}}</mat-error>
+        </mat-form-field>
+        <!--EMAIL FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput placeholder="Email" formControlName="email" required>
+          <mat-error *ngIf="addUserForm.get('email').invalid">{{getErrorMessageEmail()}}</mat-error>
+        </mat-form-field>
+        <!--PASSWORD FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Inserisci password" [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="addUserForm.get('password').invalid">{{getErrorMessagePassword()}}</mat-error>
+        </mat-form-field>
+        <!--USER ROLE FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Ruolo utente</mat-label>
+          <mat-select formControlName="userRole" required>
+            <mat-option value="SUPER_ADMIN">SUPER ADMIN</mat-option>
+            <mat-option value="ADMIN">ADMIN</mat-option>
+          </mat-select>
+          <mat-error *ngIf="addUserForm.get('userRole').invalid">{{getErrorMessageUserRole()}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="button-fields">
+        <button mat-raised-button color="accent" style="outline: none" [routerLink]="['..']">ANNULLA</button>
+        <button mat-raised-button color="prinary" style="outline: none" (click)="createUser()" [disabled]="!addUserForm.valid">SALVA</button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

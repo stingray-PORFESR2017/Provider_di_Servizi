@@ -1,0 +1,3 @@
+<div [hidden]="isMobile" (window:resize)="onResize($event)" class="title">
+  <h1>{{titleService.getTitle()}}</h1>
+</div>

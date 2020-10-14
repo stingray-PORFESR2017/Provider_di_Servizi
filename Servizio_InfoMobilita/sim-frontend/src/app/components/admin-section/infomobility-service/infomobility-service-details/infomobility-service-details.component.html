@@ -1,0 +1,77 @@
+<div *ngIf="canRender; else loading">
+  <mat-card class="container">
+    <form [formGroup]="infomobilityServiceForm">
+      <div class="sub-container">
+        <h4>{{infomobilityService.name}}</h4>
+        <!--NAME FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Nome" formControlName="name" required>
+          <mat-error *ngIf="infomobilityServiceForm.get('name').invalid">{{getErrorMessageName()}}</mat-error>
+        </mat-form-field>
+        <!--MOBILITY TYPE FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Tipologie di Mobilità</mat-label>
+          <mat-select formControlName="mobilityTypes" multiple>
+            <mat-option *ngFor="let mobility of mobilityTypes" [value]="mobility">
+             <ng-container style="color: whitesmoke" [ngSwitch]="mobility">
+                  <span *ngSwitchCase="'BIKE'">BICI</span>
+                  <span *ngSwitchCase="'BUS'">BUS</span>
+                  <span *ngSwitchCase="'CAR'"> AUTO</span>
+                  <span *ngSwitchCase="'E_SCOOTER'"> MONOPATTINO ELETRICO</span>
+                  <span *ngSwitchCase="'TAXI'">TAXI</span>
+                  <span *ngSwitchCase="'TRAIN'">TRENO</span>
+                  <span *ngSwitchCase="'METRO'">METRO</span>
+                  <span *ngSwitchCase="'TRAM'">TRAM</span>
+                  <span *ngSwitchCase="'POLY'">MULTIMODALE</span>
+                </ng-container>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--SERVICE PROVIDER FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo del Servizio</mat-label>
+          <mat-select formControlName="serviceProviderType"  [(value)]="infomobilityService.serviceProviderType" required >
+            <mat-option value="API">API</mat-option>
+            <mat-option value="EMBEDDABLE">EMBEDDABLE</mat-option>
+            <mat-option value="REDIRECTABLE">REDIRECTABLE</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--SERVICE PROVIDER TYPE CONTENT FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Service Provider URL</mat-label>
+          <input matInput placeholder="Service Provider URL" formControlName="serviceProviderTypeContent">
+        </mat-form-field>
+        <!--SMART STATION FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Smart Stations</mat-label>
+          <mat-select formControlName="smartStations" multiple>
+            <mat-option *ngFor="let info of smartSelectEnabled" [value]="info">{{info.name}}</mat-option>
+            <mat-option *ngFor="let info of smartStationFilter" [value]="info">{{info.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--LOGO IMAGE FIELD-->
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>insert_photo</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Modifica immagine logo (max 16 KB)
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+              <input type="file" (change)="onFileChange($event)">
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div class="button-fields">
+        <button mat-raised-button color="accent" style="outline: none" (click)="goBack()">ANNULLA</button>
+        <button mat-raised-button color="accent" style="outline: none" (click)="updateInfomobilityService()" [disabled]="!infomobilityServiceForm.valid">SALVA</button>  
+      </div>
+    </form>
+  </mat-card>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

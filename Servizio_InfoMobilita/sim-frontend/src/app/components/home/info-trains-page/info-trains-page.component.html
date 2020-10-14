@@ -1,0 +1,155 @@
+<div *ngIf="canRender; else loading">
+  <!-- <div class="filter-container">
+    <mat-form-field class="filter">
+      <input matInput type="text" placeholder="Search" [(ngModel)]="searchText">
+    </mat-form-field>
+  </div> -->
+  <div (window:resize)="onResize($event)" *ngIf="!isMobile; else mobileView">
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+        <!-- Train Infos Column -->
+        <ng-container matColumnDef="Treno">
+          <th mat-header-cell *matHeaderCellDef>
+            <h5>Treno</h5>
+          </th>
+          <td mat-cell *matCellDef="let train" class="train-info-cell">
+            <span>{{train.otherInfos.brandCustomer}}</span>
+            <span>{{train.otherInfos.brandCategory}}</span>
+            <span>{{train.number}}</span>
+          </td>
+        </ng-container>
+        <!-- Platform Column -->
+        <ng-container matColumnDef="Binario">
+          <th mat-header-cell *matHeaderCellDef width="75px">
+            <h5>Binario</h5>
+          </th>
+          <td mat-cell *matCellDef="let train">{{train.currentLocation.label}}</td>
+        </ng-container>
+        <!-- Departure Column -->
+        <ng-container matColumnDef="Partenza">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header width="75px">
+            <h5>Partenza</h5>
+          </th>
+          <td mat-cell *matCellDef="let train">
+            <span>{{train.nominalDepartureTime | date:'HH:mm'}}</span>
+          </td>
+        </ng-container>
+        <!-- Delay Column-->
+        <ng-container matColumnDef="Ritardo">
+          <th mat-header-cell *matHeaderCellDef width="75px">
+            <h5>Ritardo</h5>
+          </th>
+          <td mat-cell *matCellDef="let train">
+            <span>{{train.delay}}</span>
+          </td>
+        </ng-container>
+        <!-- Arrival Column-->
+        <ng-container matColumnDef="Arrivo">
+          <th mat-header-cell *matHeaderCellDef><h5>Arrivo</h5></th>
+          <td mat-cell *matCellDef="let train">
+            <span
+              *ngIf="train.upcomingStops && train.upcomingStops.length>0">{{train.upcomingStops[train.upcomingStops.length - 1].label}}</span>
+            <span *ngIf="!train.upcomingStops || !train.upcomingStops.length===0">{{train.description}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell class="expanded-cell" *matCellDef="let train" [attr.colspan]="displayedColumns.length">
+            <div class="train-detail" [@detailExpand]="train == expandedTrain ? 'expanded' : 'collapsed'">
+              <h6>Fermate intermedie</h6>
+              <mat-list role="list" dense>
+                <mat-list-item role="listitem" *ngFor="let stop of train?.upcomingStops">{{stop.label}}</mat-list-item>
+              </mat-list>
+            </div>
+          </td>
+        </ng-container>
+        <!--Actions Column-->
+        <ng-container matColumnDef="Azioni">
+          <th mat-header-cell *matHeaderCellDef width="25px"></th>
+          <td mat-cell *matCellDef="let train">
+            <div class="button-container">
+              <a href="train.bookingLink" target="_blank">
+                <button mat-icon-button style="outline: none" aria-label="Shop ticket">
+                  <mat-icon>shopping_cart</mat-icon>
+                </button>
+              </a>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let train; columns: displayedColumns;"
+            class="example-expanded-row"
+            [class.example-expanded-row]="expandedTrain === train"
+            (click)="expandedTrain = expandedTrain === train ? null : train"></tr>
+        <tr mat-row *matRowDef="let train; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <ng-template #mobileView>
+    <div class="card-container" (window:resize)="onResize($event)">
+      <mat-card *ngFor="let train of vehicles">
+        <mat-card-header>
+          <mat-card-subtitle>
+            <mat-icon style="font-size:1rem">train</mat-icon>
+            <span>{{train.otherInfos.brandCustomer}}</span>
+            <span>{{train.otherInfos.brandCategory}}</span>
+            <span>{{train.number}}</span>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-accordion class="card-row">
+            Partenza:
+            <strong>{{train.nominalDepartureTime | date:'HH:mm'}}</strong>
+            <strong *ngIf="train.delay && train.delay > 0">+{{train.delay}} min</strong>
+            <br>
+            Binario:
+            <strong *ngIf="train.currentLocation.label.length>0">{{train.currentLocation.label}}</strong>
+            <strong *ngIf="train.currentLocation.label.length===0">n.d.</strong>
+            <br>
+            <div *ngIf="train.upcomingStops && train.upcomingStops.length>0">
+              Arrivo:
+              <strong> {{train.upcomingStops[train.upcomingStops.length - 1].label}}</strong>
+            </div>
+            <strong
+                    *ngIf="!train.upcomingStops || !train.upcomingStops.length===0">{{train.description}}</strong>
+          </mat-accordion>
+          <mat-accordion class="card-row">
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <span>Fermate intermedie</span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-list role="list" *ngFor="let stop of train.upcomingStops">
+                    <mat-list-item role="listitem">{{stop.label}}</mat-list-item>
+                  </mat-list>
+                </mat-expansion-panel>
+              </div>
+              <div>
+                &nbsp;&nbsp;&nbsp;
+              </div>
+              <div>
+                <mat-card-actions>
+                  <a href="train.bookingLink" target="_blank" *ngIf="train.bookingLink">
+                    <button mat-icon-button style="outline: none">
+                      <mat-icon>shopping_cart</mat-icon>
+                    </button>
+                  </a>
+                </mat-card-actions>
+              </div>
+            </div>
+          </mat-accordion>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template>
+  <app-go-back-button class="go-back"></app-go-back-button>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+  <app-go-back-button class="go-back"></app-go-back-button>
+</ng-template>
