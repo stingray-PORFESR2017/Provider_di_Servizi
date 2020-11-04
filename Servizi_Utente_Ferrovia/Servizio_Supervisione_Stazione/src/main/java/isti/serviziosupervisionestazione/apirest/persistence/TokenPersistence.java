@@ -21,6 +21,8 @@ EntityTransaction getTransaction();
 
 void persist(JCMAD ar);
 
+boolean update(JCMAD ar);
+
 void persist2(ConfigCommand ar);
 
 JCMAD find(

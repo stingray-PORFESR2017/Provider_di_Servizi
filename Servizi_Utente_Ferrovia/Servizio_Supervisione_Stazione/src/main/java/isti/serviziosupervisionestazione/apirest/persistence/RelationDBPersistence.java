@@ -69,6 +69,9 @@ public class RelationDBPersistence implements TokenPersistence {
 		// TODO Auto-generated method stub
 		return em.find(class1, value);
 	}
+	
+	
+
 
 	@Override
 	public void persist2(ConfigCommand ar) {
@@ -86,6 +89,14 @@ public class RelationDBPersistence implements TokenPersistence {
 	public TypedQuery<ConfigCommand> createNamedQuery2(String string, Class<ConfigCommand> class1) {
 		// TODO Auto-generated method stub
 		return em.createNamedQuery(string,class1);
+	}
+
+	@Override
+	public boolean update(JCMAD class1) {
+		em.merge(class1);
+		
+		
+		return false;
 	}
 
 }

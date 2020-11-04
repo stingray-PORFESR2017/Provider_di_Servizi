@@ -75,13 +75,31 @@ public void deliveryComplete(IMqttDeliveryToken cause) {
 	
 }
 
+private boolean check(String s) {
+    if (s == null) {// checks if the String is null 
+       return false;
+    }
+    int len = s.length();
+    for (int i = 0; i < len; i++) {
+       // checks whether the character is not a letter
+       // if it is not a letter ,it will return false
+       if ((Character.isLetter(s.charAt(i)) == false)) {
+          return false;
+       }
+    }
+    return true;
+ }
+
 @Override
 public void messageArrived(String topic, MqttMessage message) throws MqttException {
 	if(topic.contains("STINGRAY_")){
 		log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
 		if(message.getPayload().length>60){
 			MessageCMAD c = new MessageCMAD(message.getPayload());
+			
 			JCMAD ff = c.getJCMAD();
+			if(check(ff.getCMAD_HEADER())) {
+				
 			
 			JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
 			if(elementRead==null){
@@ -96,10 +114,16 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 					  int updateCount = query.setParameter(ff.getMAC_ADR(), 100000).executeUpdate();*/
 				if(elementRead.equals(ff)) {
 					System.out.println("Ritrasmissione");
+					
+				}else {
+					EntityTransaction t = em.getTransaction();
+					t.begin();
+					em.update(ff);
+					t.commit();
 				}
 				System.out.println();
 			}
-			
+			}
 			try {
 				
 				JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
