@@ -81,13 +81,16 @@ public class JMadRed  implements java.io.Serializable {
 	 * @param lATITUDE
 	 * @param dIGITAL_INFO
 	 * @param wIRE_DIGITAL_INFO
+	 * @param armamento 
+	 * @param timestamp 
 	 * @param wIRE_ANALOG_INFO
 	 * @param cRC
 	 */
 	public JMadRed( String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
 			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, String wIRE_DIGITAL_INFO,
-			String rAW, String cRC) {
-		Id = new JCMADID(cmAC,  new Date());
+			long timestamp, int armamento, String rAW, String cRC) {
+		
+		Id = new JCMADID(cmAC,  new Date(timestamp));
 		HEADER = hEADER;
 		TYPE = tYPE;
 		REVISION = rEVISION;

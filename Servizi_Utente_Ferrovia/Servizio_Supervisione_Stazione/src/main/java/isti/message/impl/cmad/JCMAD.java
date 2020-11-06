@@ -126,17 +126,19 @@ public class JCMAD  implements java.io.Serializable{
 	 * @param cMAD_LONGITUDE
 	 * @param cMAD_LATITUDE
 	 * @param cMAD_DIGITAL_INFO
+	 * @param armamento 
+	 * @param timestamp 
 	 * @param cMAD_ANALOG_INFO
 	 * @param cMAD_Dummy
 	 * @param cMAD_CRC
 	 */
 	public JCMAD(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
-			String cCMAD_RAW, int cMAD_CRC) {
+			long timestamp, int armamento, String cCMAD_RAW, int cMAD_CRC) {
 		CMAD_HEADER = cMAD_HEADER;
 		//try {
 			Init(cMAD_HEADER,  mAC_ADR,  cMAD_TYPE,  cMAD_REVISION,  cMAD_POSITION,
-					 cMAD_DESCRIPTION,  cMAD_LONGITUDE,  cMAD_LATITUDE,  cMAD_DIGITAL_INFO,
+					 cMAD_DESCRIPTION,  cMAD_LONGITUDE,  cMAD_LATITUDE,  cMAD_DIGITAL_INFO,timestamp, armamento,
 					 cCMAD_RAW,  cMAD_CRC);
 			/*DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -164,16 +166,22 @@ public class JCMAD  implements java.io.Serializable{
 
 	public void Init(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
-			String cCMAD_RAW, int cMAD_CRC) {
+			long timestamp, int armamento, String cCMAD_RAW, int cMAD_CRC) {
 		CMAD_HEADER = cMAD_HEADER;
 		try {
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			//DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			
+			Date today;
+			if(timestamp>0) {
+				today = new Date(timestamp);
+			}else {
+				today =  new Date();
+			}
+			
 
-			Date today = new Date();
+			//Date todayWithZeroTime = formatter.parse(formatter.format(today));
 
-			Date todayWithZeroTime = formatter.parse(formatter.format(today));
-
-			Id = new JCMADID(mAC_ADR,  todayWithZeroTime);
+			Id = new JCMADID(mAC_ADR,  today);
 
 			CMAD_TYPE = cMAD_TYPE;
 			CMAD_REVISION = cMAD_REVISION;
@@ -186,7 +194,7 @@ public class JCMAD  implements java.io.Serializable{
 			CMAD_RAW = cCMAD_RAW;
 			CMAD_CRC = String.valueOf(cMAD_CRC);
 
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
 		}
 	}

@@ -37,6 +37,9 @@ public class MessageCMAD {
 	byte[] CMAD_ANALOG_INFO;
 	byte[] CMAD_Dummy;
 	int CMAD_CRC;
+	long   Timestamp;
+	int   armamento;
+	
 	CMADAnalogInfo cCMAD_ANALOG_INFO;
 	byte[] mess;
 	List<JMadRed> listred = new ArrayList<>();
@@ -123,9 +126,9 @@ public class MessageCMAD {
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		 
-		long   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
+		   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
 		
-		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
+		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
 		
 		byte[] dummy = Arrays.copyOfRange(message, 86, 100);//9
 		log.info(dummy);
@@ -143,9 +146,9 @@ public class MessageCMAD {
 		
 		log.info(CMAD_CRC);
 		
-		 Timestamp ts=new Timestamp(Timestamp);  
-         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-         System.out.println(formatter.format(ts)); 
+	//	 Timestamp ts=new Timestamp(Timestamp);  
+     //    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+     //    System.out.println(formatter.format(ts)); 
 		
 		log.info(Timestamp);
  		log.info(CMAD_DESCRIPTION);
@@ -220,7 +223,7 @@ public class MessageCMAD {
 				CMAD_DESCRIPTION,
 				new Long(CMAD_LONGITUDE).toString(),
 				new Long(CMAD_LATITUDE).toString(),
-				new Short(CMAD_DIGITAL_INFO).toString(),
+				new Short(CMAD_DIGITAL_INFO).toString(),Timestamp ,armamento,
 				Base64.getEncoder().encodeToString(mess),
 				CMAD_CRC);
 		
@@ -338,13 +341,21 @@ CMAD_CRC	2	UWORD	Calcolo CRC16 esclusi i campi HEADER e CRC
     }
 	@Override
 	public String toString() {
-		return "CMAD_HEADER: " + CMAD_HEADER + "; \n MAC_ADR: " + MAC_ADR + "; \n CMAD_TYPE: " + CMAD_TYPE
-				+ "; \n CMAD_REVISION: " + CMAD_REVISION + "; \n CMAD_POSITION: " + CMAD_POSITION
-				+ "; \n CMAD_DESCRIPTION: " + CMAD_DESCRIPTION + "; \n CMAD_LONGITUDE: " + CMAD_LONGITUDE
-				+ "; \n CMAD_LATITUDE: " + CMAD_LATITUDE + "; \n CMAD_DIGITAL_INFO: " + CMAD_DIGITAL_INFO
-				+ "; \n CMAD_ANALOG_INFO: " + Arrays.toString(CMAD_ANALOG_INFO) + "; \n CMAD_Dummy: "
-				+ Arrays.toString(CMAD_Dummy) + "; \n CMAD_CRC: " + CMAD_CRC;
+		return (CMAD_HEADER != null ? "CMAD_HEADER: " + CMAD_HEADER + "; " : "")
+				+ (MAC_ADR != null ? "MAC_ADR: " + MAC_ADR + "; " : "") + "CMAD_TYPE: " + CMAD_TYPE
+				+ "; CMAD_REVISION: " + CMAD_REVISION + "; CMAD_POSITION: " + CMAD_POSITION + "; "
+				+ (CMAD_DESCRIPTION != null ? "CMAD_DESCRIPTION: " + CMAD_DESCRIPTION + "; " : "") + "CMAD_LONGITUDE: "
+				+ CMAD_LONGITUDE + "; CMAD_LATITUDE: " + CMAD_LATITUDE + "; CMAD_DIGITAL_INFO: " + CMAD_DIGITAL_INFO
+				+ "; "
+				+ (CMAD_ANALOG_INFO != null ? "CMAD_ANALOG_INFO: " + Arrays.toString(CMAD_ANALOG_INFO) + "; " : "")
+				+ (CMAD_Dummy != null ? "CMAD_Dummy: " + Arrays.toString(CMAD_Dummy) + "; " : "") + "CMAD_CRC: "
+				+ CMAD_CRC + "; Timestamp: " + Timestamp + "; armamento: " + armamento + "; "
+				+ (cCMAD_ANALOG_INFO != null ? "cCMAD_ANALOG_INFO: " + cCMAD_ANALOG_INFO + "; " : "")
+				+ (mess != null ? "mess: " + Arrays.toString(mess) + "; " : "")
+				+ (listred != null ? "listred: " + listred + "; " : "")
+				+ (listill != null ? "listill: " + listill : "");
 	}
+	
 	public byte[] toByte() {
 		
 		

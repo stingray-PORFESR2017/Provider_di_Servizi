@@ -23,6 +23,8 @@ public class MessageMADRED {
 	short DIGITAL_INFO;
 	byte[] WIRE_DIGITAL_INFO;
 	byte[] WIRE_ANALOG_INFO;
+	long   Timestamp;
+	int   armamento;
 	byte[] Dummy;
 	WireAnalogInfo wire;
 	int CRC;
@@ -61,9 +63,9 @@ public class MessageMADRED {
 		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 49, 77);//28
 
 		
-		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
+		   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
 		
-		int   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
+		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
 
 		byte[] dummy = Arrays.copyOfRange(message, 82, 90);//9
 		log.info(dummy);
@@ -131,7 +133,7 @@ public class MessageMADRED {
 				new Long(LONGITUDE).toString(),
 				new Long(LATITUDE).toString(),
 				new Short(DIGITAL_INFO).toString(),
-				String.valueOf(Service.bytesToLong(WIRE_DIGITAL_INFO)),
+				String.valueOf(Service.bytesToLong(WIRE_DIGITAL_INFO)), Timestamp, armamento,
 				Base64.getEncoder().encodeToString(mess),
 				String.valueOf(CRC));
 

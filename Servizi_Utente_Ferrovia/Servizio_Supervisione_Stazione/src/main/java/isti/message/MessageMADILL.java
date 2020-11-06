@@ -22,6 +22,7 @@ public class MessageMADILL {
 	long LATITUDE;
 	short DIGITAL_INFO;
 	byte[] ANALOG_INFO;
+	long Timestamp;
 	byte[] Dummy;
 	int CRC;
 	
@@ -57,7 +58,7 @@ public class MessageMADILL {
 		
 		ANALOG_INFO =  Arrays.copyOfRange(message, 41, 53);//12
 		
-		float   Timestamp = (float)Service.bytesToFloat(Arrays.copyOfRange(message, 53, 57));//4
+		   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 53, 57));//4
 		
 
 		
@@ -120,7 +121,7 @@ public class MessageMADILL {
 				new Long(LONGITUDE).toString(),
 				new Long(LATITUDE).toString(),
 				new Short(DIGITAL_INFO).toString(),
-				dinfo ,
+				dinfo , Timestamp,
 				Base64.getEncoder().encodeToString(mess),
 				String.valueOf(CRC));
 		

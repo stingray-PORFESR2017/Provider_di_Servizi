@@ -71,12 +71,13 @@ public class JMADILL  implements Serializable{
 	 * @param lATITUDE
 	 * @param dIGITAL_INFO
 	 * @param aNALOG_INFO
+	 * @param timestamp 
 	 * @param rAW
 	 * @param cRC
 	 */
 	public JMADILL(String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
-			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, AnalogInfo aNALOG_INFO, String rAW, String cRC) {
-		Id = new JCMADID(cmAC,  new Date());
+			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, AnalogInfo aNALOG_INFO, long timestamp, String rAW, String cRC) {
+		Id = new JCMADID(cmAC,  new Date(timestamp));
 		HEADER = hEADER;
 		TYPE = tYPE;
 		REVISION = rEVISION;
