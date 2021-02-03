@@ -33,8 +33,8 @@ public class StartGrizzly {
 		path = "serviziosupervisionestazione";
 		BASEH_URI = "https://" + host.orElse("0.0.0.0") + ":" + port.orElse("8443") + "/" + path + "/";
 		BASE_URI = protocol + host.orElse("0.0.0.0") + ":" + port.orElse("9090") + "/" + path + "/";
-		KEYSTORE_SERVER_FILE = "./src/main/config/jetty-server-ssl.jks";
-		KEYSTORE_SERVER_PWD = "jetty8";
+		KEYSTORE_SERVER_FILE = "./src/main/config/stingray_isti_cnr_it.jks";
+               	KEYSTORE_SERVER_PWD = "jettyisti";
 	}
 
 	/**
