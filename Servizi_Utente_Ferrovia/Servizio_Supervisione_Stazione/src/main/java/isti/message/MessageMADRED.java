@@ -69,8 +69,9 @@ public class MessageMADRED {
 		   
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
-		    Timestamp = later.getEpochSecond();
+		    Times = later.getEpochSecond();
 		     Datas = Date.from(later);
+		     Timestamp = Datas.getTime() / 1000;
 
 		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
 
@@ -140,7 +141,7 @@ public class MessageMADRED {
 				new Long(LONGITUDE).toString(),
 				new Long(LATITUDE).toString(),
 				new Short(DIGITAL_INFO).toString(),
-				String.valueOf(Service.bytesToLong(WIRE_DIGITAL_INFO)), Datas, armamento,
+				String.valueOf(Service.bytesToLong(WIRE_DIGITAL_INFO)), Timestamp, armamento,
 				Base64.getEncoder().encodeToString(mess),
 				String.valueOf(CRC));
 

@@ -42,8 +42,6 @@ public class MessageCMAD {
 	long   Timestamp;
 	int   armamento;
 	
-	Date Datas;
-	
 	CMADAnalogInfo cCMAD_ANALOG_INFO;
 	byte[] mess;
 	List<JMadRed> listred = new ArrayList<>();
@@ -134,8 +132,9 @@ public class MessageCMAD {
 		   
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
-		    Timestamp = later.getEpochSecond();
-		     Datas = Date.from(later);
+		   Times = later.getEpochSecond();
+		    Date Datas = Date.from(later);
+		     Timestamp = Datas.getTime() / 1000;
 		
 		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
 		
@@ -232,7 +231,7 @@ public class MessageCMAD {
 				CMAD_DESCRIPTION,
 				new Long(CMAD_LONGITUDE).toString(),
 				new Long(CMAD_LATITUDE).toString(),
-				new Short(CMAD_DIGITAL_INFO).toString(),Datas ,armamento,
+				new Short(CMAD_DIGITAL_INFO).toString(),Timestamp ,armamento,
 				Base64.getEncoder().encodeToString(mess),
 				CMAD_CRC);
 		

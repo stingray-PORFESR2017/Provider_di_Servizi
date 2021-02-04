@@ -64,7 +64,9 @@ public class MessageMADILL {
 		
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
-		    Timestamp = later.getEpochSecond();  
+		   Times = later.getEpochSecond();
+		     Datas = Date.from(later);
+		     Timestamp = Datas.getTime();
 		    
 		byte[] dummy = Arrays.copyOfRange(message, 57, 65);//8
 		log.info(dummy);
@@ -125,7 +127,7 @@ public class MessageMADILL {
 				new Long(LONGITUDE).toString(),
 				new Long(LATITUDE).toString(),
 				new Short(DIGITAL_INFO).toString(),
-				dinfo , Datas,
+				dinfo , Timestamp,
 				Base64.getEncoder().encodeToString(mess),
 				String.valueOf(CRC));
 		

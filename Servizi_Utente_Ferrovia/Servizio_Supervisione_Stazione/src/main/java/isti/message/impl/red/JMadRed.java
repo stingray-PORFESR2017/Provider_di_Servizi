@@ -103,25 +103,6 @@ public class JMadRed  implements java.io.Serializable {
 		RAW = rAW;
 		CRC = cRC;
 	}
-	
-	public JMadRed( String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
-			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, String wIRE_DIGITAL_INFO,
-			Date timestamp, int armamento, String rAW, String cRC) {
-		
-		Id = new JCMADID(cmAC,  (timestamp));
-		HEADER = hEADER;
-		TYPE = tYPE;
-		REVISION = rEVISION;
-		POSITION = pOSITION;
-		DESCRIPTION = dESCRIPTION;
-		LONGITUDE = lONGITUDE;
-		LATITUDE = lATITUDE;
-		DIGITAL_INFO = dIGITAL_INFO;
-		WIRE_DIGITAL_INFO = wIRE_DIGITAL_INFO;
-		RAW = rAW;
-		CRC = cRC;
-	}
-	
 	public JCMADID getId() {
 		return Id;
 	}
