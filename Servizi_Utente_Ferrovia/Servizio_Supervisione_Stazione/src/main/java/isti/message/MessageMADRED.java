@@ -65,7 +65,7 @@ public class MessageMADRED {
 		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 49, 77);//28
 
 		
-		  long Times= (long)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
+		  long Times= (long)Service.bytesToLong(Arrays.copyOfRange(message, 77, 81));//4
 		   
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
@@ -124,6 +124,7 @@ public class MessageMADRED {
 		log.info(CRC);
 		log.info(DESCRIPTION);
 		log.info(Timestamp);
+		log.info("tempo ricevuto"+Times);
 		log.info(toString());
 
 
