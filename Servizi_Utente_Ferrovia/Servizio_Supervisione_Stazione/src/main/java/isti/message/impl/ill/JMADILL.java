@@ -90,6 +90,23 @@ public class JMADILL  implements Serializable{
 		RAW = rAW;
 		CRC = cRC;
 	}
+	
+	
+	public JMADILL(String cmAC, String hEADER, int tYPE, int rEVISION, String pOSITION, String dESCRIPTION,
+			String lONGITUDE, String lATITUDE, String dIGITAL_INFO, AnalogInfo aNALOG_INFO, Date timestamp, String rAW, String cRC) {
+		Id = new JCMADID(cmAC,  (timestamp));
+		HEADER = hEADER;
+		TYPE = tYPE;
+		REVISION = rEVISION;
+		POSITION = pOSITION;
+		DESCRIPTION = dESCRIPTION;
+		LONGITUDE = lONGITUDE;
+		LATITUDE = lATITUDE;
+		DIGITAL_INFO = dIGITAL_INFO;
+		ANALOG_INFO = aNALOG_INFO;
+		RAW = rAW;
+		CRC = cRC;
+	}
 	public JMADILL() {
 	}
 	@Override
