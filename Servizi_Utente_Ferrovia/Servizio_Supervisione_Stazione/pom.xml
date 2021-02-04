@@ -256,6 +256,7 @@
 		</dependency>
 
 
+
 	</dependencies>
 
 	<build>
@@ -446,6 +447,14 @@
 						<replacement>
 							<token>https://petstore.swagger.io/v2/swagger.json</token>
 							<value>/serviziosupervisionestazione/swagger.json</value>
+						</replacement>
+						<replacement>
+							<token>"./swagger-ui-bundle.js"</token>
+							<value>"./swagger-ui-bundle.js" charset="UTF-8"></value>
+						</replacement>
+						<replacement>
+							<token>"./swagger-ui-standalone-preset.js"</token>
+							<value>"./swagger-ui-standalone-preset.js" charset="UTF-8"></value>
 						</replacement>
 					</replacements>
 				</configuration>

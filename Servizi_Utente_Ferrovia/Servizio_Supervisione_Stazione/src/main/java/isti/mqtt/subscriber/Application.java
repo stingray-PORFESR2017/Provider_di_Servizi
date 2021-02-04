@@ -1,5 +1,6 @@
 package isti.mqtt.subscriber;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -19,8 +20,13 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import isti.message.MessageCMAD;
+import isti.message.impl.cmad.CommandType;
+import isti.message.impl.cmad.FormatoType;
 import isti.message.impl.cmad.JCMAD;
+import isti.message.impl.cmad.JCMADCommand;
+import isti.message.impl.red.JMadRed;
 import isti.mqtt.Config;
+import isti.mqtt.publisher.thread.PubThread;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Singleton
@@ -108,6 +114,11 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 			trans.begin();
 			em.persist(ff);
 			trans.commit();/**/
+			
+			checkAI(elementRead);
+			
+			
+			
 			}else{
 				/* Query query = em.createNativeQuery(
 					      "UPDATE Jcmad SET c  WHERE PUBLIC.MAC_ADR = :p Jcmad c");
@@ -143,6 +154,44 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 		}
 	}
     
+}
+
+private void checkAI(JCMAD elementRead) {
+	if(true) {
+		List<JMadRed> madreds = elementRead.getListred();
+		for(JMadRed madred:madreds) {
+			int temp1 = madred.getWIRE_ANALOG_INFO().getTemperatura1();
+
+			if(temp1<10) {
+				JCMADCommand messae = new JCMADCommand();
+				messae.setMAC_ADR_RED(madred.getId().getMAC_ADR());
+				CommandType com = new CommandType();
+				com.setCommandred(FormatoType.fromValue("ON"));
+
+				messae.setCommand(com);
+				PubThread th = new PubThread (messae);
+				Thread thread = new Thread(th);
+
+				thread.start();
+			}
+			
+			if(temp1>200) {
+				JCMADCommand messae = new JCMADCommand();
+				messae.setMAC_ADR_RED(madred.getId().getMAC_ADR());
+				CommandType com = new CommandType();
+				com.setCommandred(FormatoType.fromValue("OFF"));
+
+				messae.setCommand(com);
+				PubThread th = new PubThread (messae);
+				Thread thread = new Thread(th);
+
+				thread.start();
+			}
+		}
+	}
+	
+	
+	
 }
  
 }
