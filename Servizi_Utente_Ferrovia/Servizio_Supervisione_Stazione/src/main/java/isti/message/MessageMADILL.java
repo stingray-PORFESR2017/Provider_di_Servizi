@@ -1,6 +1,7 @@
 package isti.message;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -58,9 +59,11 @@ public class MessageMADILL {
 		
 		ANALOG_INFO =  Arrays.copyOfRange(message, 41, 53);//12
 		
-		   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 53, 57));//4
+		  long Times = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 53, 57));//4
 		
-
+		   Instant epoch = Instant.parse( "2000-01-01T00:00Z" );
+		   Instant later = epoch.plusSeconds( Times ) ; 
+		    Timestamp = later.getEpochSecond();  
 		
 		byte[] dummy = Arrays.copyOfRange(message, 57, 65);//8
 		log.info(dummy);

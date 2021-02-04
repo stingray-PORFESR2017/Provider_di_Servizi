@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -126,7 +127,11 @@ public class MessageCMAD {
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		 
-		   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
+		 long Times = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
+		   
+		   Instant epoch = Instant.parse( "2000-01-01T00:00Z" );
+		   Instant later = epoch.plusSeconds( Times ) ; 
+		    Timestamp = later.getEpochSecond();
 		
 		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
 		
