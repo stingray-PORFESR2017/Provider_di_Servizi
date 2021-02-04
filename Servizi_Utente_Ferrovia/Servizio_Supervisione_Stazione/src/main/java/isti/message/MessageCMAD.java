@@ -7,6 +7,9 @@ import java.nio.ByteOrder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -48,7 +51,7 @@ public class MessageCMAD {
 	List<JMADILL> listill = new ArrayList<>();
 	
 	public MessageCMAD(byte[] message) {
-
+       try {
 		mess = message;
 		
 		CMAD_HEADER = String.valueOf( (char)(message[0]));//1
@@ -133,10 +136,16 @@ public class MessageCMAD {
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		   
-		    Date Datas = Date.from(later);
-		     Timestamp = Datas.getTime() ;
-		
-		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
+		   OffsetDateTime odt = later.atOffset( ZoneOffset.UTC ) ;
+		   
+		   LocalDate ld = odt.toLocalDate() ;
+		    //Times = later.getEpochSecond();
+			    Date Datas = Date.from(later);
+			    log.info("datas"+Datas);
+			    
+			     Timestamp =  odt.getSecond() ;
+			
+			   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
 		
 		byte[] dummy = Arrays.copyOfRange(message, 86, 100);//9
 		log.info(dummy);
@@ -186,10 +195,17 @@ public class MessageCMAD {
  				log.info(message.length);
  				bandiera+=67;
  			}
- 			
+ 			if(!CMAD_HEADER2.equals("R") || !CMAD_HEADER2.equals("L") ) {
+ 				break;
+ 			}
  			
  			//MAD-ILL 67
  		}
+ 		}catch (Exception e) {
+			// TODO: handle exception
+ 			log.error(e.getLocalizedMessage());
+		}
+       
  		
  		/*if(message.length>102) {
  			log.info(message.length);
