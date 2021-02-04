@@ -173,10 +173,33 @@ public class CommandCMAD {
 		return mess;*/
 	}
 	
+	
+	public byte[] CommandDimmer(String mac1, String mac2, int dimmer) {
+		
+		String command_code = "00009300";
+		
+		String command_value = String.format("%015d", dimmer);;
+		if(!mac1.equals(mac2)){
+			command_value = "000057002800007E";
+		}
+		int typ = 0;
+		int group = 0 ;
+		long millis = Instant.now().toEpochMilli();
+		int vali = 5;
+		
+		return CommandGeneric( mac1,  mac2,  typ,  command_code,  command_value,
+				 group,  millis,  vali);
+		
+		
+	}
+	
 	public byte[] CommandRedOn(String mac1, String mac2) {
 		
 		String command_code = "00009001";
 		String command_value = "0000570028007E00";
+		if(!mac1.equals(mac2)){
+			command_value = "000057002800007E";
+		}
 		int typ = 0;
 		int group = 0 ;
 		long millis = Instant.now().toEpochMilli();
@@ -191,6 +214,9 @@ public class CommandCMAD {
 		
 		String command_code = "00009001";
 		String command_value = "00230500009AC428";
+		if(!mac.equals(mac2)){
+			command_value = "00230500009A28C4";
+		}
 		int typ = 0;
 		int group = 0 ;
 		long millis = Instant.now().toEpochMilli();
@@ -225,6 +251,9 @@ public class CommandCMAD {
 		
 		String command_code = "00009020";
 		String command_value = "C267D400993859A5";
+		if(!mac.equals(mac2)){
+			command_value = "C267D4009938A559";
+		}
 		int typ = 0;
 		int group = 0 ;
 		long millis = Instant.now().toEpochMilli();
