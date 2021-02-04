@@ -66,7 +66,7 @@ public class MessageMADILL {
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		   Times = later.getEpochSecond();
 		     Datas = Date.from(later);
-		     Timestamp = Datas.getTime() / 1000;
+		     Timestamp = Datas.getTime();
 		    
 		byte[] dummy = Arrays.copyOfRange(message, 57, 65);//8
 		log.info(dummy);
