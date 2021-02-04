@@ -128,11 +128,11 @@ public class MessageCMAD {
 
 		//int df = bytesToShort(Arrays.copyOfRange(message, 41, 43));//2
 		 
-		 long Times = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 81, 85));//4
+		 long Times = (long)Service.bytesToLong(Arrays.copyOfRange(message, 81, 85));//4
 		   
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
-		   Times = later.getEpochSecond();
+		   
 		    Date Datas = Date.from(later);
 		     Timestamp = Datas.getTime() ;
 		
@@ -160,6 +160,7 @@ public class MessageCMAD {
 		
 		log.info("DATA"+ Timestamp);
  		log.info(CMAD_DESCRIPTION);
+ 		log.info("tempo ricevuto"+Times);
  		log.info(toString());
  		int bandiera = 102;
  		while(bandiera<message.length) {

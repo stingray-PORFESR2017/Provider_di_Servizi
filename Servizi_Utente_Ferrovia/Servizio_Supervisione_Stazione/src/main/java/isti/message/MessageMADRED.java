@@ -44,8 +44,8 @@ public class MessageMADRED {
 		REVISION  = message[8]& 0xff;;//1
 
 		byte[] var = Arrays.copyOfRange(message, 9, 11);//2
-		POSITION =  Service.bytesToShort(var); 
-	
+		POSITION =  Service.bytesToShort(var);
+
 		try {
 			DESCRIPTION =  new String(Arrays.copyOfRange(message, 11, 31), "UTF-8").replaceAll("\\u0000", "");//20
 		} catch (UnsupportedEncodingException e) {
@@ -58,17 +58,17 @@ public class MessageMADRED {
 		LATITUDE = Service.bytesToLong(bLATITUDE)/10000;
 
 		var = Arrays.copyOfRange(message, 39, 41);//2
-		DIGITAL_INFO = Service.bytesToShort(var); 
+		DIGITAL_INFO = Service.bytesToShort(var);
 
 		WIRE_DIGITAL_INFO = Arrays.copyOfRange(message, 41, 49);//8
 
 		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 49, 77);//28
 
-		
-		  long Times= (long)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
-		   
+
+		  long Times= (long)Service.bytesToLong(Arrays.copyOfRange(message, 77, 81));//4
+
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
-		   Instant later = epoch.plusSeconds( Times ) ; 
+		   Instant later = epoch.plusSeconds( Times ) ;
 		    Times = later.getEpochSecond();
 		     Datas = Date.from(later);
 		     Timestamp = Datas.getTime() ;
@@ -110,7 +110,7 @@ public class MessageMADRED {
 
 
 		 */
-		
+
 
 
 		CRC = Service.CRC(var);
@@ -123,7 +123,12 @@ public class MessageMADRED {
 
 		log.info(CRC);
 		log.info(DESCRIPTION);
+
 		log.info("DATA"+ Timestamp);
+
+		log.info(Timestamp);
+		log.info("tempo ricevuto"+Times);
+
 		log.info(toString());
 
 

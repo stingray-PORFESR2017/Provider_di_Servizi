@@ -60,7 +60,7 @@ public class MessageMADILL {
 		
 		ANALOG_INFO =  Arrays.copyOfRange(message, 41, 53);//12
 		
-		  long Times = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 53, 57));//4
+		  long Times = (long)Service.bytesToLong(Arrays.copyOfRange(message, 53, 57));//4
 		
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
