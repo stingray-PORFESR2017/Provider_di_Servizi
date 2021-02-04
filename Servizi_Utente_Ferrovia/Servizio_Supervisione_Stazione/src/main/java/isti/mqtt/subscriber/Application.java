@@ -115,7 +115,7 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 			em.persist(ff);
 			trans.commit();/**/
 			
-			checkAI(elementRead);
+			//checkAI(elementRead);
 			
 			
 			

@@ -150,7 +150,7 @@ public class MessageCMAD {
      //    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
      //    System.out.println(formatter.format(ts)); 
 		
-		log.info(Timestamp);
+		log.info("DATA"+ Timestamp);
  		log.info(CMAD_DESCRIPTION);
  		log.info(toString());
  		int bandiera = 102;
