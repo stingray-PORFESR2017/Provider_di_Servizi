@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 
 import isti.message.impl.red.JMadRed;
 import isti.message.impl.red.WireAnalogInfo;
@@ -29,7 +30,7 @@ public class MessageMADRED {
 	byte[] Dummy;
 	WireAnalogInfo wire;
 	int CRC;
-
+	Date Datas;
 	byte[] mess;
 
 	MessageMADRED(byte[] message) {
@@ -69,7 +70,8 @@ public class MessageMADRED {
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		    Timestamp = later.getEpochSecond();
-		
+		     Datas = Date.from(later);
+
 		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
 
 		byte[] dummy = Arrays.copyOfRange(message, 82, 90);//9
@@ -138,7 +140,7 @@ public class MessageMADRED {
 				new Long(LONGITUDE).toString(),
 				new Long(LATITUDE).toString(),
 				new Short(DIGITAL_INFO).toString(),
-				String.valueOf(Service.bytesToLong(WIRE_DIGITAL_INFO)), Timestamp, armamento,
+				String.valueOf(Service.bytesToLong(WIRE_DIGITAL_INFO)), Datas, armamento,
 				Base64.getEncoder().encodeToString(mess),
 				String.valueOf(CRC));
 

@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 
 import isti.message.impl.ill.AnalogInfo;
 import isti.message.impl.ill.JMADILL;
@@ -26,7 +27,7 @@ public class MessageMADILL {
 	long Timestamp;
 	byte[] Dummy;
 	int CRC;
-	
+	Date Datas;
 	byte[] mess;
 	
 	AnalogInfo dinfo = new AnalogInfo();
@@ -64,7 +65,7 @@ public class MessageMADILL {
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		    Timestamp = later.getEpochSecond();  
-		
+		    
 		byte[] dummy = Arrays.copyOfRange(message, 57, 65);//8
 		log.info(dummy);
 		byte [] bCRC = Arrays.copyOfRange(message,  message.length-2, message.length) ;
@@ -124,7 +125,7 @@ public class MessageMADILL {
 				new Long(LONGITUDE).toString(),
 				new Long(LATITUDE).toString(),
 				new Short(DIGITAL_INFO).toString(),
-				dinfo , Timestamp,
+				dinfo , Datas,
 				Base64.getEncoder().encodeToString(mess),
 				String.valueOf(CRC));
 		
