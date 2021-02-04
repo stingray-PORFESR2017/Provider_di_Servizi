@@ -83,6 +83,12 @@ public class CommandCMAD {
 		if(ill!=null){
 			if(ill.getStatus()) {
 				if(macill!=null){
+					Integer d = message.getCommand().getDimmer();
+					if(d!=null) {
+						if(d>0) {
+							return this.CommandDimmer(mac,macill,d);
+						}
+					}
 					return this.CommandIllOn(mac,macill);
 				}else
 					return this.CommandIllOn(mac,mac);
