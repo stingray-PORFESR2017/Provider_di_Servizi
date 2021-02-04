@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -44,13 +45,14 @@ private TokenPersistence em;
 public void run() {
 	try {
     log.debug("application initialized");
-    String publisherId = UUID.randomUUID().toString();
+    //String publisherId = UUID.randomUUID().toString();
     
 
 	Config config = new Config();
 	String url = config.getMoqosquittoUrl();
 	String mqttUserName = config.getMoqosquittoUser();
 	String mqttPassword = config.getMoqosquittoPass();
+	String publisherId = MqttAsyncClient.generateClientId();
 	publisher = new MqttClient(url,publisherId,new MemoryPersistence());
 	MqttConnectOptions options = new MqttConnectOptions();
 	options.setUserName(mqttUserName);
@@ -115,7 +117,7 @@ public void messageArrived(String topic, MqttMessage message) throws MqttExcepti
 			em.persist(ff);
 			trans.commit();/**/
 			
-			//checkAI(elementRead);
+			checkAI(elementRead);
 			
 			
 			
