@@ -66,7 +66,7 @@ public class MessageMADRED {
 		
 		  long Times= (long)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
 		   
-		   Instant epoch = Instant.parse( "2000-01-01T00:00Z" );
+		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		    Timestamp = later.getEpochSecond();
 		
