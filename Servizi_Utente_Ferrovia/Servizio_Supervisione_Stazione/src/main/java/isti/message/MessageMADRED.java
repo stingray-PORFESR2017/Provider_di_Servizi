@@ -1,6 +1,7 @@
 package isti.message;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -63,7 +64,11 @@ public class MessageMADRED {
 		WIRE_ANALOG_INFO =  Arrays.copyOfRange(message, 49, 77);//28
 
 		
-		   Timestamp = (long)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
+		  long Times= (long)Service.bytesToFloat(Arrays.copyOfRange(message, 77, 81));//4
+		   
+		   Instant epoch = Instant.parse( "2000-01-01T00:00Z" );
+		   Instant later = epoch.plusSeconds( Times ) ; 
+		    Timestamp = later.getEpochSecond();
 		
 		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
 
