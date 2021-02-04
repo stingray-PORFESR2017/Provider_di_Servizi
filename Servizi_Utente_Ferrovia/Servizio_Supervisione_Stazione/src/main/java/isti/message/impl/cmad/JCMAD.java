@@ -163,17 +163,6 @@ public class JCMAD  implements java.io.Serializable{
 			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
 		}*/
 	}
-	
-	public JCMAD(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
-			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
-			Date timestamp, int armamento, String cCMAD_RAW, int cMAD_CRC) {
-		CMAD_HEADER = cMAD_HEADER;
-		//try {
-			Init(cMAD_HEADER,  mAC_ADR,  cMAD_TYPE,  cMAD_REVISION,  cMAD_POSITION,
-					 cMAD_DESCRIPTION,  cMAD_LONGITUDE,  cMAD_LATITUDE,  cMAD_DIGITAL_INFO,timestamp, armamento,
-					 cCMAD_RAW,  cMAD_CRC);
-			
-	}
 
 	public void Init(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
 			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
@@ -193,36 +182,6 @@ public class JCMAD  implements java.io.Serializable{
 			//Date todayWithZeroTime = formatter.parse(formatter.format(today));
 
 			Id = new JCMADID(mAC_ADR,  today);
-
-			CMAD_TYPE = cMAD_TYPE;
-			CMAD_REVISION = cMAD_REVISION;
-			CMAD_POSITION = cMAD_POSITION;
-			CMAD_DESCRIPTION = cMAD_DESCRIPTION;
-			CMAD_LONGITUDE = cMAD_LONGITUDE;
-			CMAD_LATITUDE = cMAD_LATITUDE;
-			CMAD_DIGITAL_INFO = cMAD_DIGITAL_INFO;
-
-			CMAD_RAW = cCMAD_RAW;
-			CMAD_CRC = String.valueOf(cMAD_CRC);
-
-		} catch (Exception e) {
-			org.apache.log4j.Logger.getLogger(JCMAD.class).error(e);
-		}
-	}
-	
-	public void Init(String cMAD_HEADER, String mAC_ADR, int cMAD_TYPE, int cMAD_REVISION, String cMAD_POSITION,
-			String cMAD_DESCRIPTION, String cMAD_LONGITUDE, String cMAD_LATITUDE, String cMAD_DIGITAL_INFO,
-			Date Date, int armamento, String cCMAD_RAW, int cMAD_CRC) {
-		CMAD_HEADER = cMAD_HEADER;
-		try {
-			//DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			
-		
-			
-
-			//Date todayWithZeroTime = formatter.parse(formatter.format(today));
-
-			Id = new JCMADID(mAC_ADR,  Date);
 
 			CMAD_TYPE = cMAD_TYPE;
 			CMAD_REVISION = cMAD_REVISION;
