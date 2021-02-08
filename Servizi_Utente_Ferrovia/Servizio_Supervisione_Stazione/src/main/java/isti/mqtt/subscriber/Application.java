@@ -130,25 +130,29 @@ public class Application implements MqttCallback {
 			  "UPDATE Jcmad SET c  WHERE PUBLIC.MAC_ADR = :p Jcmad c"); int updateCount =
 			  query.setParameter(ff.getMAC_ADR(), 100000).executeUpdate();*/
 
-						if(elementRead.equals(ff)) { System.out.println("Ritrasmissione");
+						if(elementRead.equals(ff)) { 
+							System.out.println("Ritrasmissione");
 
-						}else { EntityTransaction t = em.getTransaction(); t.begin(); em.update(ff);
-						t.commit(); } System.out.println(); } } try {
+						}else { 
+							EntityTransaction t = em.getTransaction(); t.begin(); em.update(ff);
+							t.commit(); } System.out.println(); 
+					} 
+				} try {
 
-							JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
-
-
-							Marshaller marshaller = jaxbContext.createMarshaller();
-							marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //
-							//NOI18N
-							marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,
-									Boolean.TRUE);
-
-							marshaller.marshal( ff, System.out );
+					JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
 
 
-						} catch (JAXBException e) { // TODO Auto-generated catch block
-							e.printStackTrace(); } }
+					Marshaller marshaller = jaxbContext.createMarshaller();
+					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //
+					//NOI18N
+					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,
+							Boolean.TRUE);
+
+					marshaller.marshal( ff, System.out );
+
+
+				} catch (JAXBException e) { // TODO Auto-generated catch block
+					e.printStackTrace(); } }
 
 		}
 

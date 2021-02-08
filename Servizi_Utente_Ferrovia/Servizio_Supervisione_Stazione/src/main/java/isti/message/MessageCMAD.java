@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,14 +137,16 @@ public class MessageCMAD {
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		   
-		   OffsetDateTime odt = later.atOffset( ZoneOffset.UTC ) ;
+		   ZoneOffset offset = ZoneOffset.of("+01:00");
 		   
-		   LocalDate ld = odt.toLocalDate() ;
+		   OffsetDateTime odt = later.atOffset( offset ) ;
+		   
+		 //  LocalDate ld = odt.toLocalDate() ;
 		    //Times = later.getEpochSecond();
-			    Date Datas = Date.from(later);
-			    log.info("datas"+Datas);
+			   // Date Datas = Date.from(later);
+			   // log.info("datas"+Datas);
 			    
-			     Timestamp =  odt.getSecond() ;
+			     Timestamp =  odt.toInstant().toEpochMilli();
 			
 			   armamento = Service.byteToInt(Arrays.copyOfRange(message, 85, 86));//1
 		

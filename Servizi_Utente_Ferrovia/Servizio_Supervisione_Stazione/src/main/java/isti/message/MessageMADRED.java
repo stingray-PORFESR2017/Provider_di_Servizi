@@ -2,6 +2,8 @@ package isti.message;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
@@ -67,11 +69,16 @@ public class MessageMADRED {
 
 		  long Times= (long)Service.bytesToLong(Arrays.copyOfRange(message, 77, 81));//4
 
-		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
-		   Instant later = epoch.plusSeconds( Times ) ;
-		    Times = later.getEpochSecond();
-		     Datas = Date.from(later);
-		     Timestamp = Datas.getTime() ;
+		   
+		  Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
+		   Instant later = epoch.plusSeconds( Times ) ; 
+		   
+		   ZoneOffset offset = ZoneOffset.of("+01:00");
+		   
+		   OffsetDateTime odt = later.atOffset( offset ) ;
+			    
+			     Timestamp =  odt.toInstant().toEpochMilli();
+
 
 		   armamento = Service.byteToInt(Arrays.copyOfRange(message, 81, 82));//1
 
