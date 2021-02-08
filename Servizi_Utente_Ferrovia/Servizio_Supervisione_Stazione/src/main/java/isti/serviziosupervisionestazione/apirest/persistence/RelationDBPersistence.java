@@ -1,5 +1,7 @@
 package isti.serviziosupervisionestazione.apirest.persistence;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -61,6 +63,12 @@ public class RelationDBPersistence implements TokenPersistence {
 	@Override
 	public TypedQuery<JCMAD> createNamedQuery(String string,
 			Class<JCMAD> class1) {
+		return em.createNamedQuery(string,class1);
+	}
+	
+	@Override
+	public TypedQuery<String> createNamedQueryS(String string,
+			Class<String> class1) {
 		return em.createNamedQuery(string,class1);
 	}
 

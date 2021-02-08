@@ -46,7 +46,10 @@ import javax.persistence.*;
 	query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1 ORDER BY c.Id.DATE "),
 	@NamedQuery(name="JCMAD.findMacBetweenTime",
 	query="SELECT c FROM Jcmad c WHERE c.Id.MAC_ADR= ?1  and c.Id.DATE BETWEEN ?2 AND ?3 ORDER BY c.Id.DATE "),
-
+	@NamedQuery(name="JCMAD.findAllorder",
+	query="SELECT c FROM Jcmad c ORDER BY c.Id.DATE"),
+	@NamedQuery(name="JCMAD.finddistcmad",
+	query="SELECT DISTINCT c.Id.MAC_ADR FROM Jcmad c"),
 
 
 }) 
@@ -54,7 +57,7 @@ import javax.persistence.*;
     @NamedNativeQuery(
             name    =   "updateCMAD",
             query   =   "UPDATE c SET c = ?, c.CMAD_ANALOG_INFO= ?, c.CMAD_CRC= ?, c.CMAD_DESCRIPTION= ?, c.CMAD_DIGITAL_INFO= ?, c.CMAD_HEADER= ?, c.CMAD_LATITUDE= ?, c.CMAD_LONGITUDE= ?, c.CMAD_POSITION= ?, c.CMAD_RAW= ?, c.CMAD_REVISION= ?, c.CMAD_TYPE  WHERE c.MAC_ADR = ? FROM Jcmad c"
-            ,resultSetMapping = "updateResult"
+            ,resultSetMapping = "updateResult" query="SELECT DISTINCT c.Id.MAC_ADR FROM Jcmad c"),
     )
 })*/
 public class JCMAD  implements java.io.Serializable{
@@ -173,6 +176,9 @@ public class JCMAD  implements java.io.Serializable{
 			
 			Date today;
 			if(timestamp>0) {
+			/*	OffsetDateTime.of( 2000 , 1 , 1 , 0 , 0 , 0 , 0 , ZoneOffset.UTC )  // Define your epoch reference moment. 
+				.pluSeconds( yourSeconds )  // Add the number of seconds given to you. Returns another `OffsetDateTime` object rather than altering the original (immutable objects pattern).  
+				.toLocalDate() */
 				today = new Date(timestamp);
 			}else {
 				today =  new Date();

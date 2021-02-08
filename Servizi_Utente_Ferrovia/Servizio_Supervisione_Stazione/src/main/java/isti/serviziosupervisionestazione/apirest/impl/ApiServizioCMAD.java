@@ -2,6 +2,7 @@ package isti.serviziosupervisionestazione.apirest.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -160,6 +161,58 @@ public class ApiServizioCMAD {
 			log.error("Element not found: "+key+";");
 			return null;
 		}
+
+	}
+	
+	@Operation(summary = "Service Dati CMAD All", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati CMAD All Order by date", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@PermitAll
+	@Path("/ALL_ORDER/{key:.*}")
+	@GET
+	public List<JCMAD> alldaticmadbydate(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+
+		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllorder", JCMAD.class);
+		List<JCMAD> temp = r.getResultList();
+
+		return temp;
+		//return new ArrayList<JCMAD>();
+
+	}
+	
+	@Operation(summary = "Service Dati CMAD All", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Dati CMAD All Last", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@PermitAll
+	@Path("/ALL_LAST/{key:.*}")
+	@GET
+	public List<JCMAD> alllastcmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+
+		
+		TypedQuery<String>	r22 = 	em.createNamedQueryS("JCMAD.finddistcmad", String.class);
+		
+		List<String> temp22 = r22.getResultList();
+		
+		List<JCMAD> res = new ArrayList<JCMAD>();
+		
+		for(String kmac: temp22) {
+			
+			TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
+			r.setParameter(1, kmac);
+			List<JCMAD> temp = r.getResultList();
+			res.add(temp.get(0));
+		}
+		
+		
+
+		return res;
+		//return new ArrayList<JCMAD>();
 
 	}
 
