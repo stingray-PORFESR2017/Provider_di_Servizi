@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 
+import com.google.common.base.CharMatcher;
+
 import isti.message.impl.ill.AnalogInfo;
 import isti.message.impl.ill.JMADILL;
 import isti.message.util.Service;
@@ -47,7 +49,8 @@ public class MessageMADILL {
 		byte[] var = Arrays.copyOfRange(message, 9, 11);//2
 		POSITION =  Service.bytesToShort(var); 
 		try {
-			DESCRIPTION =  new String(Arrays.copyOfRange(message, 11, 31), "UTF-8").replaceAll("\\u0000", "");//20
+			String DESC =  new String(Arrays.copyOfRange(message, 11, 31), "UTF-8").replaceAll("\\u0000", "");//20
+			DESCRIPTION = CharMatcher.ascii().retainFrom(DESC);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

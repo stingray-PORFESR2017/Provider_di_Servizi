@@ -17,6 +17,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.CharMatcher;
+
 import isti.message.impl.cmad.CMADAnalogInfo;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.L;
@@ -64,7 +66,8 @@ public class MessageCMAD {
 		byte[] var = Arrays.copyOfRange(message, 9, 11);//2
 		CMAD_POSITION =  Service.bytesToShort(var); 
 		try {
-			CMAD_DESCRIPTION =  new String(Arrays.copyOfRange(message, 11, 31), "UTF-8").replaceAll("\\u0000", "");//20
+			String DESCRIPTION =  new String(Arrays.copyOfRange(message, 11, 31), "UTF-8").replaceAll("\\u0000", "");//20
+			CMAD_DESCRIPTION = CharMatcher.ascii().retainFrom(DESCRIPTION);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

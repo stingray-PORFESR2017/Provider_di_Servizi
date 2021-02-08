@@ -1,0 +1,12 @@
+2021-02-08 23:34:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CONFIGCOMMAND" not found; SQL statement:
+SELECT 1 FROM configcommand [42102-197]
+2021-02-08 23:34:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "MADILL" not found; SQL statement:
+SELECT 1 FROM MadIll [42102-197]
+2021-02-08 23:34:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "MADRED" not found; SQL statement:
+SELECT 1 FROM MadRed [42102-197]
+2021-02-08 23:34:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CMAD" not found; SQL statement:
+SELECT 1 FROM CMAD [42102-197]
