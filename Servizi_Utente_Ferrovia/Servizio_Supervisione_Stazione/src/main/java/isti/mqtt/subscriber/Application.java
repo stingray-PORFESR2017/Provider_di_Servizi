@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -54,6 +55,8 @@ public class Application implements MqttCallback {
 			MqttConnectOptions options = new MqttConnectOptions();
 			options.setCleanSession(true);
 			options.setUserName(mqttUserName);
+			options.setAutomaticReconnect(true);
+
 			options.setPassword(mqttPassword.toCharArray());
 			options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
 
@@ -71,6 +74,7 @@ public class Application implements MqttCallback {
 	public void connectionLost(Throwable cause) {
 		// TODO Auto-generated method stub
 		log.info("Connection lost because: " + cause);
+		 
 	}
 
 	@Override
@@ -111,7 +115,20 @@ public class Application implements MqttCallback {
 
 				if(check(ff.getCMAD_HEADER())) {
 
-
+				/*	TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
+					r.setParameter(1, ff.getId().getMAC_ADR());
+					List<JCMAD> temp = r.getResultList();
+					
+					TypedQuery<JCMAD>	r2 = 	em.createNamedQuery("JCMAD.findAllorder", JCMAD.class);
+		
+					List<JCMAD> temp2 = r2.getResultList();
+					
+					TypedQuery<String>	r22 = 	em.createNamedQueryS("JCMAD.finddistcmad", String.class);
+				
+					List<String> temp22 = r22.getResultList();*/
+					
+					
+					
 					JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
 					if(elementRead==null){
 
