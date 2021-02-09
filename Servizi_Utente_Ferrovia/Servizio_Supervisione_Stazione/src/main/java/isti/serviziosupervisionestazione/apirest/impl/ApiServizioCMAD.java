@@ -144,23 +144,28 @@ public class ApiServizioCMAD {
 	@GET
 	public List<JCMAD> daticmadmacall(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 
+		try {
 
+			TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
+			r.setParameter(1, key);
+			List<JCMAD> result = r.getResultList();
 
-		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
-		r.setParameter(1, key);
-		List<JCMAD> result = r.getResultList();
-
-		if(result!=null){
-			if(!result.isEmpty()){	
-				return result;
+			if(result!=null){
+				if(!result.isEmpty()){	
+					return result;
+				}else{
+					log.error("Element not found: "+key+";");
+					return null;
+				}		
 			}else{
 				log.error("Element not found: "+key+";");
 				return null;
-			}		
-		}else{
-			log.error("Element not found: "+key+";");
-			return null;
+			}
+
+		}catch (Exception e) {
+			log.error(e.getLocalizedMessage());
 		}
+		return null;
 
 	}
 	
@@ -193,13 +198,13 @@ public class ApiServizioCMAD {
 	@Path("/ALL_LAST/{key:.*}")
 	@GET
 	public List<JCMAD> alllastcmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
-
-		
+		List<JCMAD> res = new ArrayList<JCMAD>();
+		try {
 		TypedQuery<String>	r22 = 	em.createNamedQueryS("JCMAD.finddistcmad", String.class);
 		
 		List<String> temp22 = r22.getResultList();
 		
-		List<JCMAD> res = new ArrayList<JCMAD>();
+		
 		
 		for(String kmac: temp22) {
 			
@@ -209,7 +214,9 @@ public class ApiServizioCMAD {
 			res.add(temp.get(0));
 		}
 		
-		
+		}catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+		}
 
 		return res;
 		//return new ArrayList<JCMAD>();
