@@ -233,12 +233,16 @@ public class ApiServizioCMAD {
 	@Path("/ALL/{key:.*}")
 	@GET
 	public List<JCMAD> alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
-
+		try {
 		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAll", JCMAD.class);
 		List<JCMAD> res = r.getResultList();
 		return res;
 		//return new ArrayList<JCMAD>();
-
+		}catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+		}
+		
+		return null;
 	}
 	
 /*	@RolesAllowed("ADMIN")
@@ -296,7 +300,7 @@ public class ApiServizioCMAD {
 		CommandCMAD command = new CommandCMAD();
 		p.send(command.getMessage(message),key);*/
 		log.trace(message);
-		
+		try {
 		TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAllimei", ConfigCommand.class);
 		String imei = message.getId();
 		r.setParameter(1, imei);
@@ -317,6 +321,10 @@ public class ApiServizioCMAD {
 		
         thread.start();
 		return "OK";
+		}catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+		}
+		return "KO";
 	}
 
 	

@@ -54,6 +54,12 @@
 	</repositories>
 
 	<dependencies>
+	
+		<dependency>
+    <groupId>com.google.firebase</groupId>
+    <artifactId>firebase-admin</artifactId>
+    <version>7.0.0</version>
+	</dependency>
 		<!-- Jersey -->
 		<dependency>
 			<groupId>org.glassfish.jersey.connectors</groupId>
