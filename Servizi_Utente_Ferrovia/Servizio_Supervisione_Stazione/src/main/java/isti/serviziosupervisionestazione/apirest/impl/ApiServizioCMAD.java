@@ -115,7 +115,7 @@ public class ApiServizioCMAD {
 	public JCMAD daticmadmac(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 
 
-
+		try {
 		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
 		r.setParameter(1, key);
 		List<JCMAD> results = r.getResultList();
@@ -129,7 +129,10 @@ public class ApiServizioCMAD {
 
 		log.error("Element not found: "+key+";");
 		return null;
-		
+		}catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+		}
+		return null;
 
 	}
 
