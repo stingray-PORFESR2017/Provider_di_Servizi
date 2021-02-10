@@ -69,7 +69,10 @@ public class JCMADID implements Serializable {
 		result = prime * result + ((MAC_ADR == null) ? 0 : MAC_ADR.hashCode());
 		return result;
 	}
+	
+	
 
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -85,10 +88,12 @@ public class JCMADID implements Serializable {
 				return false;
 		} else if (!MAC_ADR.equals(other.MAC_ADR))
 			return false;
-		/*if (DATE.compareTo(other.DATE) != 0)
-			return false;*/
+		if (DATE.compareTo(other.DATE) != 0)
+			return false;
 		return true;
 	}
+
+
 	
 	
 	
