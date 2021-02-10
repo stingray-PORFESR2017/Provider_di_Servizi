@@ -137,7 +137,7 @@ public class Application implements MqttCallback {
 						em.persist(ff);
 						trans.commit();
 
-						//checkAI(elementRead);
+						checkAI(ff);
 
 
 
@@ -172,11 +172,17 @@ public class Application implements MqttCallback {
 		}
 
 	}
+	
+	
 
 	private void checkAI(JCMAD elementRead) {
-		if (true) {
+		
+		
+		if (elementRead!=null) {
+			String mac = elementRead.getId().getMAC_ADR();
 			List<JMadRed> madreds = elementRead.getListred();
 			for (JMadRed madred : madreds) {
+				String macreds =  madred.getId().getMAC_ADR();
 				int temp1 = madred.getWIRE_ANALOG_INFO().getTemperatura1();
 
 				if (temp1 < 10) {
@@ -190,6 +196,8 @@ public class Application implements MqttCallback {
 					Thread thread = new Thread(th);
 
 					thread.start();
+					
+					AndroidSender.sendToToken(mac+" "+macreds, "Accensione Automatica MADRED");
 				}
 
 				if (temp1 > 200) {
@@ -203,6 +211,9 @@ public class Application implements MqttCallback {
 					Thread thread = new Thread(th);
 
 					thread.start();
+					
+					AndroidSender.sendToToken(mac+" "+macreds, "Speghimento Automatico MADRED");
+
 				}
 			}
 		}

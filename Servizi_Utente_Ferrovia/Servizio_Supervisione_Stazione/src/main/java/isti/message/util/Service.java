@@ -1,5 +1,8 @@
 package isti.message.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Base64;
@@ -137,13 +140,24 @@ public class Service {
 	
 	}
 	
+	public static byte[] longToByteArray ( final long i )  {
+		
+		
+		ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);    
+		buffer.putLong(0, i).order(ByteOrder.LITTLE_ENDIAN);
+		buffer.flip();
+		
+        return buffer.array();
+       
+}
+	
 	public static byte[] longToByte(long value)
 	{
 	    byte [] data = new byte[4];
-	    data[3] = (byte) value;
-	    data[2] = (byte) (value >>> 8);
-	    data[1] = (byte) (value >>> 16);
-	    data[0] = (byte) (value >>> 32);
+	    data[3] = (byte) (value >>> 32);
+	    data[2] = (byte) (value >>> 16);
+	    data[1] = (byte) (value >>> 8);
+	    data[0] = (byte) (value );
 	 
 	    return data;
 	}
@@ -184,6 +198,36 @@ public class Service {
 		System.out.println("CRC16-CCITT = " + crc);
 		return Integer.toHexString(crc);
 	}*/
+	
+	public static byte[] parseMacAddress(String macAddress) {
+        String[] bytes = splitInEqualParts(macAddress,6);
+        byte[] parsed = new byte[bytes.length];
+
+        for (int x = 0; x < bytes.length; x++) {
+            BigInteger temp = new BigInteger(bytes[x], 16);
+            byte[] raw = temp.toByteArray();
+            parsed[x] = raw[raw.length - 1];
+        }
+        return parsed;
+    }
+	private static String[] splitInEqualParts(final String s, final int n){
+	    if(s == null){
+	        return null;
+	    }
+	    final int strlen = s.length();
+	    if(strlen < n){
+	        // this could be handled differently
+	        throw new IllegalArgumentException("String too short");
+	    }
+	    final String[] arr = new String[n];
+	    final int tokensize = strlen / n + (strlen % n == 0 ? 0 : 1);
+	    for(int i = 0; i < n; i++){
+	        arr[i] =
+	            s.substring(i * tokensize,
+	                Math.min((i + 1) * tokensize, strlen));
+	    }
+	    return arr;
+	}
 }
 
 
