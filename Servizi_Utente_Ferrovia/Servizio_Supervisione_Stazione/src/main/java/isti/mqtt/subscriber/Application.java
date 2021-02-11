@@ -2,6 +2,8 @@ package isti.mqtt.subscriber;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,6 +43,7 @@ public class Application implements MqttCallback {
 	private final int qos = 1;
 	private String topic = "#";
 	private IMqttClient publisher;
+	private ExecutorService pool;   
 
 	@Inject
 	private TokenPersistence em;
@@ -48,6 +51,8 @@ public class Application implements MqttCallback {
 	public void run() {
 		try {
 			log.debug("application initialized");
+			pool = Executors.newFixedThreadPool(10); 
+			
 			String publisherId = UUID.randomUUID().toString();
 
 			Config config = new Config();
@@ -187,8 +192,8 @@ public class Application implements MqttCallback {
 		 StingrayAI f = container.select(StingrayAI.class).get();//.get();
 		//StingrayAI stai = new StingrayAI(elementRead);
 		 f.setCMAD(elementRead);
-		Thread thread = new Thread(f);
-		thread.run();
+		 pool.execute(f);
+		
 
 	}
 
