@@ -19,7 +19,10 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
 
+import isti.ai.StingrayAI;
 import isti.message.MessageCMAD;
 import isti.message.impl.cmad.CommandType;
 import isti.message.impl.cmad.FormatoType;
@@ -74,7 +77,7 @@ public class Application implements MqttCallback {
 	public void connectionLost(Throwable cause) {
 		// TODO Auto-generated method stub
 		log.info("Connection lost because: " + cause);
-		 
+
 	}
 
 	@Override
@@ -104,119 +107,88 @@ public class Application implements MqttCallback {
 	 */
 	@Override
 	public void messageArrived(String topic, MqttMessage message) throws MqttException {
-		if (topic.contains("STINGRAY_")) {
-			log.error(topic);
-			log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
+		try {
+			if (topic.contains("STINGRAY_")) {
+				log.error(topic);
+				log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
 
-			if(message.getPayload().length>60){ 
-				MessageCMAD c = new MessageCMAD(message.getPayload());
+				if(message.getPayload().length>60){ 
+					MessageCMAD c = new MessageCMAD(message.getPayload());
 
-				JCMAD ff = c.getJCMAD(); 
+					JCMAD ff = c.getJCMAD(); 
 
-				if(check(ff.getCMAD_HEADER())) {
+					if(check(ff.getCMAD_HEADER())) {
 
-				/*	TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
+						/*	TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
 					r.setParameter(1, ff.getId().getMAC_ADR());
 					List<JCMAD> temp = r.getResultList();
-					
+
 					TypedQuery<JCMAD>	r2 = 	em.createNamedQuery("JCMAD.findAllorder", JCMAD.class);
-		
+
 					List<JCMAD> temp2 = r2.getResultList();
-					
+
 					TypedQuery<String>	r22 = 	em.createNamedQueryS("JCMAD.finddistcmad", String.class);
-				
+
 					List<String> temp22 = r22.getResultList();*/
-					
-					
-					
-					JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
-					if(elementRead==null){
-
-						EntityTransaction trans = em.getTransaction(); 
-						trans.begin(); 
-						em.persist(ff);
-						trans.commit();
-
-						checkAI(ff);
 
 
 
-					}else{/* Query query = em.createNativeQuery(
+						JCMAD elementRead = em.findid(JCMAD.class, ff.getId());
+						if(elementRead==null){
+
+							EntityTransaction trans = em.getTransaction(); 
+							trans.begin(); 
+							em.persist(ff);
+							trans.commit();
+
+							checkAI(ff);
+
+
+
+						}else{/* Query query = em.createNativeQuery(
 			  "UPDATE Jcmad SET c  WHERE PUBLIC.MAC_ADR = :p Jcmad c"); int updateCount =
 			  query.setParameter(ff.getMAC_ADR(), 100000).executeUpdate();*/
 
-						if(elementRead.equals(ff)) { 
-							System.out.println("Ritrasmissione");
+							if(elementRead.equals(ff)) { 
+								System.out.println("Ritrasmissione");
 
-						}else { 
-							EntityTransaction t = em.getTransaction(); t.begin(); em.update(ff);
-							t.commit(); } System.out.println(); 
-					} 
-				} try {
+							}else { 
+								EntityTransaction t = em.getTransaction(); t.begin(); em.update(ff);
+								t.commit(); } System.out.println(); 
+						} 
+					} try {
 
-					JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
-
-
-					Marshaller marshaller = jaxbContext.createMarshaller();
-					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //
-					//NOI18N
-					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,
-							Boolean.TRUE);
-
-					marshaller.marshal( ff, System.out );
+						JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
 
 
-				} catch (JAXBException e) { // TODO Auto-generated catch block
-					e.printStackTrace(); } }
+						Marshaller marshaller = jaxbContext.createMarshaller();
+						marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //
+						//NOI18N
+						marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,
+								Boolean.TRUE);
 
-		}
+						marshaller.marshal( ff, System.out );
+
+
+					} catch (JAXBException e) { // TODO Auto-generated catch block
+						e.printStackTrace(); } }
+
+			}
+		} catch (Exception e) { // TODO Auto-generated catch block
+			e.printStackTrace(); } 
 
 	}
-	
-	
+
+
 
 	private void checkAI(JCMAD elementRead) {
-		
-		
-		if (elementRead!=null) {
-			String mac = elementRead.getId().getMAC_ADR();
-			List<JMadRed> madreds = elementRead.getListred();
-			for (JMadRed madred : madreds) {
-				String macreds =  madred.getId().getMAC_ADR();
-				int temp1 = madred.getWIRE_ANALOG_INFO().getTemperatura1();
-
-				if (temp1 < 10) {
-					JCMADCommand messae = new JCMADCommand();
-					messae.setMAC_ADR_RED(madred.getId().getMAC_ADR());
-					CommandType com = new CommandType();
-					com.setCommandred(FormatoType.fromValue("ON"));
-
-					messae.setCommand(com);
-					PubThread th = new PubThread(messae);
-					Thread thread = new Thread(th);
-
-					thread.start();
-					
-					AndroidSender.sendToToken(mac+" "+macreds, "Accensione Automatica MADRED");
-				}
-
-				if (temp1 > 200) {
-					JCMADCommand messae = new JCMADCommand();
-					messae.setMAC_ADR_RED(madred.getId().getMAC_ADR());
-					CommandType com = new CommandType();
-					com.setCommandred(FormatoType.fromValue("OFF"));
-
-					messae.setCommand(com);
-					PubThread th = new PubThread(messae);
-					Thread thread = new Thread(th);
-
-					thread.start();
-					
-					AndroidSender.sendToToken(mac+" "+macreds, "Speghimento Automatico MADRED");
-
-				}
-			}
-		}
+		Weld weld = new Weld();
+		   WeldContainer container = weld.initialize();
+		 StingrayAI f = container.select(StingrayAI.class).get();//.get();
+		//StingrayAI stai = new StingrayAI(elementRead);
+		 f.setCMAD(elementRead);
+		Thread thread = new Thread(f);
+		thread.run();
 
 	}
 
