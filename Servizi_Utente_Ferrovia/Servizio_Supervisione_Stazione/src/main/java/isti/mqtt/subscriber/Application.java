@@ -41,6 +41,7 @@ public class Application implements MqttCallback {
 	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Application.class);
 
 	private final int qos = 1;
+	private final int maxMsgsInflight = 1;
 	private String topic = "#";
 	private IMqttClient publisher;
 	private ExecutorService pool;  
@@ -65,6 +66,7 @@ public class Application implements MqttCallback {
 			options.setCleanSession(true);
 			options.setUserName(mqttUserName);
 			options.setAutomaticReconnect(true);
+			options.setMaxInflight(maxMsgsInflight);
 
 			options.setPassword(mqttPassword.toCharArray());
 			options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
