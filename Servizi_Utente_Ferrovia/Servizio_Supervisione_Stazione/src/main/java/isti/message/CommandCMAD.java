@@ -7,6 +7,8 @@ import java.nio.ByteOrder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -149,7 +151,7 @@ public class CommandCMAD {
 		String command_value = "0000000000000000";
 		int typ = 0;
 		int group = 0 ;
-		long millis = Instant.now().toEpochMilli();
+		long millis = getTimes();
 		int vali = 5;
 		
 		return CommandGeneric( mac,  mac,  typ,  command_code,  command_value,
@@ -179,6 +181,19 @@ public class CommandCMAD {
 		return mess;*/
 	}
 	
+	public long getTimes() {
+		 
+		 Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
+		   Instant timetosend = Instant.now().minusSeconds(epoch.getEpochSecond());
+		   
+		   ZoneOffset offset = ZoneOffset.of("+01:00");
+		   
+		   OffsetDateTime odt = timetosend.atOffset( offset ) ;
+		   
+		
+		return  odt.toInstant().getEpochSecond(); //timetosend.getEpochSecond();
+	}
+	
 	
 	public byte[] CommandDimmer(String mac1, String mac2, int dimmer) {
 		
@@ -190,7 +205,7 @@ public class CommandCMAD {
 		}
 		int typ = 0;
 		int group = 0 ;
-		long millis = Instant.now().toEpochMilli();
+		long millis = getTimes();
 		int vali = 5;
 		
 		return CommandGeneric( mac1,  mac2,  typ,  command_code,  command_value,
@@ -208,7 +223,7 @@ public class CommandCMAD {
 		}
 		int typ = 0;
 		int group = 0 ;
-		long millis = Instant.now().toEpochMilli();
+		long millis = getTimes();
 		int vali = 5;
 		
 		return CommandGeneric( mac1,  mac2,  typ,  command_code,  command_value,
@@ -225,7 +240,7 @@ public class CommandCMAD {
 		}
 		int typ = 0;
 		int group = 0 ;
-		long millis = Instant.now().toEpochMilli();
+		long millis = getTimes();
 		int vali = 5;
 		
 		return CommandGeneric( mac,  mac2,  typ,  command_code,  command_value,
@@ -244,7 +259,7 @@ public class CommandCMAD {
 		}
 		int typ = 0;
 		int group = 0 ;
-		long millis = Instant.now().toEpochMilli();
+		long millis = getTimes();
 		int vali = 5;
 		
 		return CommandGeneric( mac,  mac2,  typ,  command_code,  command_value,
@@ -262,7 +277,7 @@ public class CommandCMAD {
 		}
 		int typ = 0;
 		int group = 0 ;
-		long millis = Instant.now().toEpochMilli();
+		long millis = getTimes();
 		int vali = 5;
 		
 		return CommandGeneric( mac,  mac2,  typ,  command_code,  command_value,

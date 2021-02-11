@@ -1,5 +1,6 @@
 package isti.mqtt.subscriber;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -117,8 +118,10 @@ public class Application implements MqttCallback {
 	public void messageArrived(String topic, MqttMessage message) throws MqttException {
 		try {
 			if (topic.contains("STINGRAY_")) {
-				log.error(topic);
+				//log.error(topic);
 				log.info(String.format("[%s] %s", topic, new String(message.getPayload())));
+				log.info(String.format("[%s] %s", topic, Base64.getEncoder().encodeToString(message.getPayload())));
+
 
 				if(message.getPayload().length>60){ 
 					MessageCMAD c = new MessageCMAD(message.getPayload());
@@ -158,13 +161,16 @@ public class Application implements MqttCallback {
 			  query.setParameter(ff.getMAC_ADR(), 100000).executeUpdate();*/
 
 							if(elementRead.equals(ff)) { 
-								System.out.println("Ritrasmissione");
+								log.info("Ritrasmissione");
 
 							}else { 
 								EntityTransaction t = em.getTransaction(); t.begin(); em.update(ff);
-								t.commit(); } System.out.println(); 
+								t.commit(); 
+								} 
+							System.out.println(); 
 						} 
-					} try {
+					} 
+					/*try {
 
 						JAXBContext jaxbContext = JAXBContext.newInstance(JCMAD.class);
 
@@ -179,7 +185,8 @@ public class Application implements MqttCallback {
 
 
 					} catch (JAXBException e) { // TODO Auto-generated catch block
-						e.printStackTrace(); } }
+						e.printStackTrace(); } */
+				}
 
 			}
 		} catch (Exception e) { // TODO Auto-generated catch block
