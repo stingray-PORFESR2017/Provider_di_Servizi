@@ -43,7 +43,8 @@ public class Application implements MqttCallback {
 	private final int qos = 1;
 	private String topic = "#";
 	private IMqttClient publisher;
-	private ExecutorService pool;   
+	private ExecutorService pool;  
+	private WeldContainer weld;
 
 	@Inject
 	private TokenPersistence em;
@@ -51,7 +52,7 @@ public class Application implements MqttCallback {
 	public void run() {
 		try {
 			log.debug("application initialized");
-			pool = Executors.newFixedThreadPool(10); 
+			pool = Executors.newFixedThreadPool(2); 
 			
 			String publisherId = UUID.randomUUID().toString();
 
@@ -187,14 +188,19 @@ public class Application implements MqttCallback {
 
 
 	private void checkAI(JCMAD elementRead) {
-		Weld weld = new Weld();
-		   WeldContainer container = weld.initialize();
-		 StingrayAI f = container.select(StingrayAI.class).get();//.get();
+		//Weld weld = new Weld();
+	//	   WeldContainer container = weld.initialize();
+		 StingrayAI f = weld.select(StingrayAI.class).get();//.get();
 		//StingrayAI stai = new StingrayAI(elementRead);
 		 f.setCMAD(elementRead);
 		 pool.execute(f);
 		
 
+	}
+
+	public void setWeld(WeldContainer container) {
+		weld = container;
+		
 	}
 
 }
