@@ -63,7 +63,7 @@ public class Publisher {
  
 		MqttClient mqttClient = null;
 		try {
-			String publisherId = UUID.randomUUID().toString();
+			String publisherId = "Stingray_cloud_pub_"+UUID.randomUUID().toString();
 
 			mqttClient = new MqttClient(serverUrl, publisherId, new MemoryPersistence());
 			MqttConnectOptions options = new MqttConnectOptions();
@@ -72,12 +72,12 @@ public class Publisher {
 			
 			options.setConnectionTimeout(80);
 			options.setKeepAliveInterval(80);
-			options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
+			options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
 
 			
-			SSLSocketFactory socketFactory = getSocketFactory(//caFilePath,
+		/*	SSLSocketFactory socketFactory = getSocketFactory(//caFilePath,
 					clientCrtFilePath, clientKeyFilePath, "");
-			options.setSocketFactory(socketFactory);
+			options.setSocketFactory(socketFactory);*/
 
 			log.trace("starting connect the server...");
 			mqttClient.connect(options);
@@ -86,7 +86,7 @@ public class Publisher {
 
 			MqttMessage messagemqtt = new MqttMessage(message);
 
-			messagemqtt.setQos(0);     //sets qos level 1
+			messagemqtt.setQos(1);     //sets qos level 1
 			messagemqtt.setRetained(true); //sets retained message 
 
 			MqttTopic topic2 = mqttClient.getTopic("STINGRAY_SUBS"+key);
@@ -100,7 +100,7 @@ public class Publisher {
 			log.trace("disconnected!");
 
 
-		} catch (MqttException | java.net.SocketTimeoutException e) {
+		} catch (MqttException e) {
 			log.error(e);
 			if(mqttClient!=null)
 				mqttClient.disconnect();

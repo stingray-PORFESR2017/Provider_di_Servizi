@@ -53,10 +53,10 @@ public class Application implements MqttCallback {
 
 	public void run() {
 		try {
-			log.debug("application initialized");
+			log.debug("Subscriber initialized");
 			pool = Executors.newFixedThreadPool(2); 
 			
-			String publisherId = UUID.randomUUID().toString();
+			String publisherId = "Stingray_cloud_sub_"+UUID.randomUUID().toString();
 
 			Config config = new Config();
 			String url = config.getMoqosquittoUrl();
