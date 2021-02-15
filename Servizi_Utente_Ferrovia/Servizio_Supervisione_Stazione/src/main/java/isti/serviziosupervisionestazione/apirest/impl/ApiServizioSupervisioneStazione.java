@@ -94,7 +94,9 @@ public class ApiServizioSupervisioneStazione {
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
 				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
-				return res;
+				res  = res.replaceAll("Copyright Trenitalia S.p.A. 2006.", "");
+				res  = res.replaceAll("Tutti i diritti riservati.", "");
+				 return res;
 				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
 				response.setHeader("Location", url);
 				response.sendRedirect(url);*/
