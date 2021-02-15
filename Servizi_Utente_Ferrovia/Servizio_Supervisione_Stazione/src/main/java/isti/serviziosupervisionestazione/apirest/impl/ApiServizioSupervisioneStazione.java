@@ -51,7 +51,7 @@ public class ApiServizioSupervisioneStazione {
 		return "<html><body>OK</body></html>";
 	}
 
-	
+	@PermitAll
 	@Path("/viaggiatreno/{key:.*}")
 	@GET
 	public void viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -70,7 +70,7 @@ public class ApiServizioSupervisioneStazione {
 		}
 		//return "<html><body>OK</body></html>";
 	}
-	
+	@PermitAll
 	@Path("/viaggiatreno/site/{key:.*}")
 	@GET
 	public String viaggiatrenosite(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -93,7 +93,7 @@ public class ApiServizioSupervisioneStazione {
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
-				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/viaggiatreno/site/");
+				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
 				return res;
 				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
 				response.setHeader("Location", url);
