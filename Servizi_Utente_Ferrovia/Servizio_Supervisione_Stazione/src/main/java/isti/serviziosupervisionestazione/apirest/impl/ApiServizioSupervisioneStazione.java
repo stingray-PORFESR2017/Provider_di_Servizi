@@ -14,8 +14,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.grizzly.utils.Pair;
 
@@ -65,6 +68,46 @@ public class ApiServizioSupervisioneStazione {
 			e.printStackTrace();
 			log.error(e);
 		}
+		//return "<html><body>OK</body></html>";
+	}
+	
+	@Path("/viaggiatreno/site/{key:.*}")
+	@GET
+	public String viaggiatrenosite(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		String path = "http://www.viaggiatreno.it/vt_pax_internet/";
+		String url  = path + key;
+
+		log.info(url+"\n\r");
+		
+		
+		String contenttype = null;
+		try {
+			if(request!=null)
+				contenttype = request.getContentType();
+			log.info(url+"\n\r");
+			
+
+				Client client = ClientBuilder.newClient();
+				if(contenttype==null)
+					contenttype = "application/json";
+				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
+				String responseAsString = response1.readEntity(String.class);
+				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
+				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/viaggiatreno/site/");
+				return res;
+				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
+				response.setHeader("Location", url);
+				response.sendRedirect(url);*/
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error(e);
+			}
+			String err =  "<html><body>ERROR</body></html>";
+			return err;
+		
+		
+		
 		//return "<html><body>OK</body></html>";
 	}
 
