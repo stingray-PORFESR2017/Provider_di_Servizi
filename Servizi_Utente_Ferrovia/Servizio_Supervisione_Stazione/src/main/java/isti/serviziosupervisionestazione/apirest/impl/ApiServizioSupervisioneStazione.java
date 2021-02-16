@@ -73,6 +73,9 @@ public class ApiServizioSupervisioneStazione {
 		}
 		//return "<html><body>OK</body></html>";
 	}
+	
+	
+	
 	@PermitAll
 	@Path("/viaggiatreno/site/{key:.*}")
 	@GET
@@ -89,13 +92,14 @@ public class ApiServizioSupervisioneStazione {
 		//List<String> listparametri = new ArrayList<String>();
 		String tmp = "";
 		if(stazione!=null)
-			tmp = "stazione"+stazione;
+			if(stazione!="")
+				tmp = "stazione="+stazione;
 			//listparametri.add("stazione="+stazione);
 		if(lang!=null)
 			if(tmp!="")
-				tmp = tmp+"&lang"+lang;
+				tmp = tmp+"&lang="+lang;
 			else
-				tmp = "lang"+lang;
+				tmp = "lang="+lang;
 			//listparametri.add("lang="+lang);
 		
 		String url  = path + key + tmp;
