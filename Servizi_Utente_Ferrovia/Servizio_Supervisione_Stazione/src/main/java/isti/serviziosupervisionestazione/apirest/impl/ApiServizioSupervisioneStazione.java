@@ -5,14 +5,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,10 +24,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.grizzly.utils.Pair;
 
@@ -81,29 +87,17 @@ public class ApiServizioSupervisioneStazione {
 	@Path("/viaggiatreno/site/{key:.*}")
 	@POST
 	public String postviaggiatrenosite(@PathParam("key") String key, 
-			@QueryParam("stazione") String stazione, 
-			@QueryParam("lang") String lang, 
+			@FormParam("stazione") String stazione, 
+			@FormParam("lang") String lang, 
+			@FormParam("codiceStazione") String codiceStazione,
+			
 			
 			@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/vt_pax_internet/";
 		
 		
 		
-		
-		//List<String> listparametri = new ArrayList<String>();
-		String tmp = "";
-		if(stazione!=null)
-			if(stazione!="")
-				tmp = "stazione="+stazione;
-			//listparametri.add("stazione="+stazione);
-		if(lang!=null)
-			if(tmp!="")
-				tmp = tmp+"&lang="+lang;
-			else
-				tmp = "?lang="+lang;
-			//listparametri.add("lang="+lang);
-		
-		String url  = path + key + tmp;
+		String url  = path + key;
 
 		log.info(url+"\n\r");
 		
@@ -120,16 +114,17 @@ public class ApiServizioSupervisioneStazione {
 					contenttype = "application/json";
 				
 				Form form = new Form();
-				form.param("stazione", stazione)
-		           .param("lang", lang);
-				
+				if(stazione!=null)
+				form.param("stazione", stazione).param("lang", lang);
+				if(codiceStazione!=null)
+					form.param("codiceStazione", codiceStazione);
 				//javax.ws.rs.client.Entity<String> e = javax.ws.rs.client.Entity.entity( tmp , "text/html");
 				
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).post(javax.ws.rs.client.Entity.form(form));
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
-				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
-				 res = res.replaceAll("/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
 				 res = res.replaceAll("../images/iconaRicerca.png","http://www.viaggiatreno.it/vt_pax_internet/images/iconaRicerca.png");
 				 res  = res.replaceAll("Copyright Trenitalia S.p.A. 2006.", "");
 				res  = res.replaceAll("Tutti i diritti riservati.", "");
@@ -155,9 +150,10 @@ public class ApiServizioSupervisioneStazione {
 	@Path("/viaggiatreno/site/{key:.*}")
 	@GET
 	public String viaggiatrenosite(@PathParam("key") String key, 
-			@QueryParam("stazione") String stazione, 
-			@QueryParam("lang") String lang, 
-			
+			@QueryParam("numeroTreno") String numeroTreno, 
+			@QueryParam("codLocOrig") String codLocOrig, 
+			@QueryParam("tipoRicerca") String tipoRicerca,
+			@Context UriInfo uriInfo,
 			@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/vt_pax_internet/";
 		
@@ -165,19 +161,9 @@ public class ApiServizioSupervisioneStazione {
 		
 		
 		//List<String> listparametri = new ArrayList<String>();
-		String tmp = "";
-		if(stazione!=null)
-			if(stazione!="")
-				tmp = "stazione="+stazione;
-			//listparametri.add("stazione="+stazione);
-		if(lang!=null)
-			if(tmp!="")
-				tmp = tmp+"&lang="+lang;
-			else
-				tmp = "?lang="+lang;
-			//listparametri.add("lang="+lang);
 		
-		String url  = path + key + tmp;
+		
+		String url  = path + key;
 
 		log.info(url+"\n\r");
 		
@@ -188,15 +174,46 @@ public class ApiServizioSupervisioneStazione {
 				contenttype = request.getContentType();
 			log.info(url+"\n\r");
 			
+			
 
 				Client client = ClientBuilder.newClient();
 				if(contenttype==null)
 					contenttype = "application/json";
-				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
+				
+				
+				 WebTarget target = client.target(url);
+				    
+				    // Instance variable uriInfo.
+				    MultivaluedMap<String, String> parameters = uriInfo.getQueryParameters();
+				    
+				    if (parameters != null && parameters.size() > 0) {
+				    	
+				    	
+				        Iterator it = parameters.keySet().iterator();
+				        String k = null;
+				        StringTokenizer st = null;
+				        
+				        while (it.hasNext()) {
+				            k = (String)it.next();
+				            
+				            // RESTEasy API is quirky, here. It wraps the values in square 
+				            // brackets; moreover, each value is separated by a comma and  
+				            // padded by a space as well. ([one, two, three, etc])
+				            
+				            st = new StringTokenizer(parameters.get(k).toString(), "[,]");
+				            while (st.hasMoreTokens()) {
+				                target = target.queryParam(k, st.nextToken().trim());
+				            }
+				        }
+				    }
+				
+				
+				
+				Response response1 = target.request().header("Content-Type", contenttype).get();
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
-				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
-				 res = res.replaceAll("/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
 				 res = res.replaceAll("../images/iconaRicerca.png","http://www.viaggiatreno.it/vt_pax_internet/images/iconaRicerca.png");
 				 res  = res.replaceAll("Copyright Trenitalia S.p.A. 2006.", "");
 				res  = res.replaceAll("Tutti i diritti riservati.", "");
