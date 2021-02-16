@@ -99,7 +99,7 @@ public class ApiServizioSupervisioneStazione {
 			if(tmp!="")
 				tmp = tmp+"&lang="+lang;
 			else
-				tmp = "lang="+lang;
+				tmp = "?lang="+lang;
 			//listparametri.add("lang="+lang);
 		
 		String url  = path + key + tmp;
