@@ -1,6 +1,7 @@
 package isti.serviziosupervisionestazione.apirest.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.grizzly.utils.Pair;
@@ -152,6 +154,18 @@ public class ApiServizioSupervisioneStazione {
 		//return "<html><body>OK</body></html>";
 	}
 	
+	@PermitAll
+	@Path("/viaggiatreno/site/images/{key:.*}")
+	@Produces("image/png")
+	@GET
+	public InputStream images(@PathParam("key") String key) {
+
+		InputStream is = ApiServizioSupervisioneStazione.class.getClassLoader().getResourceAsStream(key);
+		if(is!=null) {
+			
+		}
+		return is;
+	}
 	
 	@PermitAll
 	@Path("/viaggiatreno/site/{key:.*}")
