@@ -90,6 +90,10 @@ public class ApiServizioSupervisioneStazione {
 			@FormParam("stazione") String stazione, 
 			@FormParam("lang") String lang, 
 			@FormParam("codiceStazione") String codiceStazione,
+			@FormParam("partenza") String partenza,
+			@FormParam("swPartenzaTxt") String swPartenzaTxt,
+			@FormParam("arrivo") String arrivo,
+			@FormParam("swArrivoTxt") String swArrivoTxt,
 			
 			
 			@Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -118,6 +122,9 @@ public class ApiServizioSupervisioneStazione {
 				form.param("stazione", stazione).param("lang", lang);
 				if(codiceStazione!=null)
 					form.param("codiceStazione", codiceStazione);
+				if(partenza!=null)
+					form.param("partenza", partenza).param("swPartenzaTxt", swPartenzaTxt)
+					.param("arrivo", arrivo).param("swArrivoTxt", swArrivoTxt);
 				//javax.ws.rs.client.Entity<String> e = javax.ws.rs.client.Entity.entity( tmp , "text/html");
 				
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).post(javax.ws.rs.client.Entity.form(form));
@@ -182,7 +189,7 @@ public class ApiServizioSupervisioneStazione {
 				
 				
 				 WebTarget target = client.target(url);
-				    
+				
 				    // Instance variable uriInfo.
 				    MultivaluedMap<String, String> parameters = uriInfo.getQueryParameters();
 				    
