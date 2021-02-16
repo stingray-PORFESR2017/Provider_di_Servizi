@@ -2,8 +2,10 @@ package isti.serviziosupervisionestazione.apirest.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.security.PermitAll;
@@ -14,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Context;
@@ -73,9 +76,29 @@ public class ApiServizioSupervisioneStazione {
 	@PermitAll
 	@Path("/viaggiatreno/site/{key:.*}")
 	@GET
-	public String viaggiatrenosite(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public String viaggiatrenosite(@PathParam("key") String key, 
+			@QueryParam("stazione") String stazione, 
+			@QueryParam("lang") String lang, 
+			
+			@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/vt_pax_internet/";
-		String url  = path + key;
+		
+		
+		
+		
+		//List<String> listparametri = new ArrayList<String>();
+		String tmp = "";
+		if(stazione!=null)
+			tmp = "stazione"+stazione;
+			//listparametri.add("stazione="+stazione);
+		if(lang!=null)
+			if(tmp!="")
+				tmp = tmp+"&lang"+lang;
+			else
+				tmp = "lang"+lang;
+			//listparametri.add("lang="+lang);
+		
+		String url  = path + key + tmp;
 
 		log.info(url+"\n\r");
 		
