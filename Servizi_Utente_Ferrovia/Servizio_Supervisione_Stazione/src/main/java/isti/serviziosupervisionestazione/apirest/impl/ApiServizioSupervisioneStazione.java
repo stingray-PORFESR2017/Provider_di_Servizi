@@ -123,8 +123,8 @@ public class ApiServizioSupervisioneStazione {
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).post(javax.ws.rs.client.Entity.form(form));
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
-				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
-				 res = res.replaceAll("/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
 				 res = res.replaceAll("../images/iconaRicerca.png","http://www.viaggiatreno.it/vt_pax_internet/images/iconaRicerca.png");
 				 res  = res.replaceAll("Copyright Trenitalia S.p.A. 2006.", "");
 				res  = res.replaceAll("Tutti i diritti riservati.", "");
@@ -212,8 +212,8 @@ public class ApiServizioSupervisioneStazione {
 				Response response1 = target.request().header("Content-Type", contenttype).get();
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
-				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
-				 res = res.replaceAll("/vt_pax_internet/","https://localhost:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
+				 res = res.replaceAll("/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
 				 res = res.replaceAll("../images/iconaRicerca.png","http://www.viaggiatreno.it/vt_pax_internet/images/iconaRicerca.png");
 				 res  = res.replaceAll("Copyright Trenitalia S.p.A. 2006.", "");
 				res  = res.replaceAll("Tutti i diritti riservati.", "");
