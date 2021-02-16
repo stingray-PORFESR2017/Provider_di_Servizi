@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,6 +22,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -106,7 +108,7 @@ public class ApiServizioSupervisioneStazione {
 		log.info(url+"\n\r");
 		
 		
-		String contenttype = null;
+		String contenttype = "text/html";
 		try {
 			if(request!=null)
 				contenttype = request.getContentType();
@@ -116,7 +118,14 @@ public class ApiServizioSupervisioneStazione {
 				Client client = ClientBuilder.newClient();
 				if(contenttype==null)
 					contenttype = "application/json";
-				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
+				
+				Form form = new Form();
+				form.param("stazione", stazione)
+		           .param("lang", lang);
+				
+				//javax.ws.rs.client.Entity<String> e = javax.ws.rs.client.Entity.entity( tmp , "text/html");
+				
+				Response response1 = client.target(url).request().header("Content-Type", contenttype).post(javax.ws.rs.client.Entity.form(form));
 				String responseAsString = response1.readEntity(String.class);
 				String res = responseAsString.replaceAll("background-image: url(\"../images/header_mobile.png\");","");
 				 res = res.replaceAll("http://www.viaggiatreno.it/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
