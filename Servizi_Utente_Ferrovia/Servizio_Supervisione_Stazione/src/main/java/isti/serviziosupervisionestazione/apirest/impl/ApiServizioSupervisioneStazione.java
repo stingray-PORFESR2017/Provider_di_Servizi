@@ -68,21 +68,38 @@ public class ApiServizioSupervisioneStazione {
 	@PermitAll
 	@Path("/viaggiatreno/{key:.*}")
 	@GET
-	public void viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public String viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/";
 		String url  = path + key;
 
 		log.info(url+"\n\r");
 		try {
-			response.setStatus(response.SC_MOVED_TEMPORARILY);
-			response.setHeader("Location", url);
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.error(e);
-		}
-		//return "<html><body>OK</body></html>";
+			String contenttype = "";
+			if(request!=null)
+				contenttype  = request.getContentType();
+			log.info(url+"\n\r");
+			
+
+				Client client = ClientBuilder.newClient();
+				if(contenttype==null)
+					contenttype = "application/json";
+				
+				
+				
+				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
+				String responseAsString = response1.readEntity(String.class);
+				
+				 return responseAsString;
+				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
+				response.setHeader("Location", url);
+				response.sendRedirect(url);*/
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error(e);
+			}
+			String err =  "<Error>ERROR</Error>";
+			return err;
 	}
 	
 	@PermitAll
