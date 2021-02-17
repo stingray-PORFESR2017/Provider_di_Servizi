@@ -96,6 +96,8 @@ public class ApiServizioSupervisioneStazione {
 			@FormParam("swPartenzaTxt") String swPartenzaTxt,
 			@FormParam("arrivo") String arrivo,
 			@FormParam("swArrivoTxt") String swArrivoTxt,
+			@FormParam("numeroTreno") String numeroTreno,
+			@FormParam("tipoRicerca") String tipoRicerca,
 			
 			
 			@Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -127,6 +129,8 @@ public class ApiServizioSupervisioneStazione {
 				if(partenza!=null)
 					form.param("partenza", partenza).param("swPartenzaTxt", swPartenzaTxt)
 					.param("arrivo", arrivo).param("swArrivoTxt", swArrivoTxt);
+				if(numeroTreno!=null)
+					form.param("numeroTreno", numeroTreno).param("tipoRicerca", tipoRicerca);
 				//javax.ws.rs.client.Entity<String> e = javax.ws.rs.client.Entity.entity( tmp , "text/html");
 				
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).post(javax.ws.rs.client.Entity.form(form));
