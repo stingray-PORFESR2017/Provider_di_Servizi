@@ -68,13 +68,13 @@ public class ApiServizioSupervisioneStazione {
 	@PermitAll
 	@Path("/viaggiatreno/{key:.*}")
 	@GET
-	public String viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public Response viaggiatreno(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/";
 		String url  = path + key;
 
 		log.info(url+"\n\r");
 		try {
-			String contenttype = "";
+			String contenttype = "text/html";
 			if(request!=null)
 				contenttype  = request.getContentType();
 			log.info(url+"\n\r");
@@ -87,9 +87,9 @@ public class ApiServizioSupervisioneStazione {
 				
 				
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
-				String responseAsString = response1.readEntity(String.class);
+				//String responseAsString = response1.readEntity(String.class);
 				
-				 return responseAsString;
+				 return response1;
 				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
 				response.setHeader("Location", url);
 				response.sendRedirect(url);*/
@@ -98,8 +98,8 @@ public class ApiServizioSupervisioneStazione {
 				e.printStackTrace();
 				log.error(e);
 			}
-			String err =  "<Error>ERROR</Error>";
-			return err;
+			//String err =  "<Error>ERROR</Error>";
+			return null;
 	}
 	
 	@PermitAll
