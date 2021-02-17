@@ -98,7 +98,7 @@ public class ApiServizioSupervisioneStazione {
 			@FormParam("swArrivoTxt") String swArrivoTxt,
 			@FormParam("numeroTreno") String numeroTreno,
 			@FormParam("tipoRicerca") String tipoRicerca,
-			
+			@FormParam("cbxTreno") String cbxTreno,
 			
 			@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		String path = "http://www.viaggiatreno.it/vt_pax_internet/";
@@ -131,6 +131,8 @@ public class ApiServizioSupervisioneStazione {
 					.param("arrivo", arrivo).param("swArrivoTxt", swArrivoTxt);
 				if(numeroTreno!=null)
 					form.param("numeroTreno", numeroTreno).param("tipoRicerca", tipoRicerca);
+				if(cbxTreno!=null)
+					form.param("cbxTreno", cbxTreno).param("tipoRicerca", tipoRicerca);
 				//javax.ws.rs.client.Entity<String> e = javax.ws.rs.client.Entity.entity( tmp , "text/html");
 				
 				Response response1 = client.target(url).request().header("Content-Type", contenttype).post(javax.ws.rs.client.Entity.form(form));
