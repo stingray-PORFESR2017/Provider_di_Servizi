@@ -214,7 +214,7 @@ public class ApiServizioCMAD {
 			TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAllMac", JCMAD.class);
 			r.setParameter(1, kmac);
 			List<JCMAD> temp = r.getResultList();
-			if(key!=null) {
+			if(key.length()>0 ) {
 				if(kmac.equals(key)) {
 					res.add(temp.get(0));
 				}
