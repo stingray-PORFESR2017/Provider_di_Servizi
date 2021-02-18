@@ -64,6 +64,43 @@ public class ApiServizioSupervisioneStazione {
 		log.info("Test OK\n\r");
 		return "<html><body>OK</body></html>";
 	}
+	
+	@PermitAll
+	@Path("/viaggiatreno/meteo/{key:.*}")
+	@GET
+	public Response meteo(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+		String path = "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/datimeteo/";
+		String url  = path + key;
+
+		log.info(url+"\n\r");
+		try {
+			String contenttype = "text/html";
+			if(request!=null)
+				contenttype  = request.getContentType();
+			log.info(url+"\n\r");
+			
+
+				Client client = ClientBuilder.newClient();
+				if(contenttype==null)
+					contenttype = "application/json";
+				
+				
+				
+				Response response1 = client.target(url).request().header("Content-Type", contenttype).get();
+				//String responseAsString = response1.readEntity(String.class);
+				
+				 return response1;
+				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
+				response.setHeader("Location", url);
+				response.sendRedirect(url);*/
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error(e);
+			}
+			//String err =  "<Error>ERROR</Error>";
+			return null;
+	}
 
 	@PermitAll
 	@Path("/viaggiatreno/{key:.*}")
@@ -183,6 +220,19 @@ public class ApiServizioSupervisioneStazione {
 	public InputStream images(@PathParam("key") String key) {
 
 		InputStream is = ApiServizioSupervisioneStazione.class.getClassLoader().getResourceAsStream(key);
+		if(is!=null) {
+			
+		}
+		return is;
+	}
+	
+	@PermitAll
+	@Path("/viaggiatreno/elencostazioni/{key:.*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@GET
+	public InputStream eleconstazioni(@PathParam("key") String key) {
+
+		InputStream is = ApiServizioSupervisioneStazione.class.getClassLoader().getResourceAsStream("stazioni_coord.geojson");
 		if(is!=null) {
 			
 		}
