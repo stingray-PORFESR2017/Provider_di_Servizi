@@ -312,6 +312,7 @@ public class ApiServizioSupervisioneStazione {
 				 res = res.replaceAll("/vt_pax_internet/","https://stingray.isti.cnr.it:8443/serviziosupervisionestazione/pis/viaggiatreno/site/");
 				 res  = res.replaceAll("Copyright Trenitalia S.p.A. 2006.", "");
 				res  = res.replaceAll("Tutti i diritti riservati.", "");
+				res  = res.replaceAll("DD2038", "2042dd");
 				 return res;
 				/*response.setStatus(response.SC_MOVED_TEMPORARILY);
 				response.setHeader("Location", url);
