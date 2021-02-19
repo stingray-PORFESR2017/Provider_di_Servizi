@@ -36,9 +36,12 @@ import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.grizzly.utils.Pair;
 
+import io.swagger.annotations.Api;
+
 
 //@Consumes(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
+@Api(value = "Passenger Information System")
 @Path("/pis")
 public class ApiServizioSupervisioneStazione {
 
