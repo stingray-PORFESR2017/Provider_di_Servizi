@@ -17,6 +17,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +36,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import isti.message.config.ConfigCommand;
-
+import isti.message.config.StationConfig;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
 
 @Api(value = "conf")
@@ -57,12 +60,12 @@ public class ApiConfigurazione {
 	
 	
 	@RolesAllowed("ADMIN")
-	@Operation(summary = "Service Ricezione Configurazione XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@Operation(summary = "Service Ricezione Configurazione XML", description = "Service demo with authentication.", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Ricezione Configurazione XML", 
 			authorizations = {
 		            @Authorization(value = "basicAuth", scopes={})
 		        }
-	  , notes = "Service demo with authentication. Login is 'guest' and password is 'password'"
+	  , notes = "Service demo with authentication."
 	)
 	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
 	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
@@ -73,7 +76,43 @@ public class ApiConfigurazione {
 		log.trace(message);
 		EntityTransaction trans = em.getTransaction();
 		trans.begin();
-		em.persist2(message);
+		em.persistConfigCommand(message);
+		trans.commit();
+		return "OK";
+	}
+	
+	@RolesAllowed("ADMIN")
+	@Operation(summary = "Service Ricezione Configurazione XML", description = "Service demo with authentication. ", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Ricezione Configurazione XML", 
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        }
+	  , notes = "Service demo with authentication. "
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
+	@Path("/update/station/{key:.*}")
+	@POST
+	public String receiveConfig(StationConfig message, @PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) throws JAXBException {
+		
+		log.trace(message);
+		
+		message.getListCMAD().add("eee");
+		message.getListCMAD().add("444");
+		JAXBContext jaxbContext = JAXBContext.newInstance(StationConfig.class);
+
+			
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); //
+		//NOI18N
+		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,
+				Boolean.TRUE);
+
+		marshaller.marshal( message, System.out );
+		
+		EntityTransaction trans = em.getTransaction();
+		trans.begin();
+		em.persistStationConfing(message);
 		trans.commit();
 		return "OK";
 	}

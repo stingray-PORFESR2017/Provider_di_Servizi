@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import isti.message.config.ConfigCommand;
+import isti.message.config.StationConfig;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADID;
 
@@ -78,14 +79,6 @@ public class RelationDBPersistence implements TokenPersistence {
 		return em.find(class1, value);
 	}
 	
-	
-
-
-	@Override
-	public void persist2(ConfigCommand ar) {
-		em.persist(ar);
-		
-	}
 
 	@Override
 	public ConfigCommand findimei(Class<ConfigCommand> class1, String value) {
@@ -105,6 +98,18 @@ public class RelationDBPersistence implements TokenPersistence {
 		
 		
 		return false;
+	}
+
+	@Override
+	public void persistConfigCommand(ConfigCommand ar) {
+		em.persist(ar);
+		
+	}
+
+	@Override
+	public void persistStationConfing(StationConfig ar) {
+		em.persist(ar);
+		
 	}
 
 }

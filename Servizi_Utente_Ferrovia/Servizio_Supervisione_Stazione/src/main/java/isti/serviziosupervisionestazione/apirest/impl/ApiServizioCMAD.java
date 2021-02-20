@@ -292,12 +292,12 @@ public class ApiServizioCMAD {
 	}*/
 	
 	@RolesAllowed("ADMIN")
-	@Operation(summary = "Service Ricezione Commandi XML", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@Operation(summary = "Service Ricezione Commandi XML", description = "Service demo with authentication. ", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Ricezione Commandi XML", 
 			authorizations = {
 		            @Authorization(value = "basicAuth", scopes={})
 		        }
-	  , notes = "Service demo with authentication. Login is 'guest' and password is 'password'"
+	  , notes = "Service demo with authentication. "
 	)
 	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
 	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
@@ -338,12 +338,12 @@ public class ApiServizioCMAD {
 	
 	
 	@RolesAllowed("ADMIN")
-	@Operation(summary = "Service AuthInfo", description = "Service demo with authentication. Login is 'guest' and password is 'password'", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@Operation(summary = "Service AuthInfo", description = "Service demo with authentication. ", security = { @SecurityRequirement(name = "basicAuth") }, responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service AuthInfo", 
 			authorizations = {
 		            @Authorization(value = "basicAuth", scopes={})
 		        }
-	  , notes = "Service demo with authentication. Login is 'guest' and password is 'password'"
+	  , notes = "Service demo with authentication. "
 	)
 	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
 	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })

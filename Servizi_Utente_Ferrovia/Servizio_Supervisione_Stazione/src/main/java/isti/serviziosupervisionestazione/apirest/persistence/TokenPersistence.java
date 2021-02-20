@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import isti.message.config.ConfigCommand;
+import isti.message.config.StationConfig;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADID;
 
@@ -25,7 +26,9 @@ void persist(JCMAD ar);
 
 boolean update(JCMAD ar);
 
-void persist2(ConfigCommand ar);
+void persistConfigCommand(ConfigCommand ar);
+
+void persistStationConfing(StationConfig ar);
 
 JCMAD find(
 		Class<JCMAD> class1, String value);
