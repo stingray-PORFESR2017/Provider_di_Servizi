@@ -22,9 +22,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity(name="StationConfig" )
 @Table(name = "StationConfig") 
 @NamedQueries({
-	@NamedQuery(name="ConfigCommand.findAll",
+	@NamedQuery(name="StationConfig.findAll",
 			query="SELECT c FROM config c"),
-	@NamedQuery(name="ConfigCommand.findAllimei",
+	@NamedQuery(name="StationConfig.findAllimei",
 	query="SELECT c FROM config c WHERE c.id= ?1 "),
 	
 }) 

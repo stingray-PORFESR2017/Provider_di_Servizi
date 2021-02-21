@@ -3,6 +3,7 @@
 	 <persistence-unit name="jcmad_pers" transaction-type="RESOURCE_LOCAL">
       <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
        <class>isti.message.config.ConfigCommand</class>
+        <class>isti.message.config.StationConfig</class>
       <class>isti.message.impl.ill.JMADILL</class>
       <class>isti.message.impl.red.JMadRed</class>
       <class>isti.message.impl.cmad.JCMAD</class>

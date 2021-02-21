@@ -97,8 +97,7 @@ public class ApiConfigurazione {
 		
 		log.trace(message);
 		
-		message.getListCMAD().add("eee");
-		message.getListCMAD().add("444");
+		
 		JAXBContext jaxbContext = JAXBContext.newInstance(StationConfig.class);
 
 			
@@ -116,6 +115,26 @@ public class ApiConfigurazione {
 		trans.commit();
 		return "OK";
 	}
+	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
+			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
+	@ApiOperation(value = "Service Lista Configurazioni Attive XML", 
+			
+	  notes = "Service demo without authentication."
+	)
+	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
+	        @io.swagger.annotations.ApiResponse(code = 401, message = "Unauthorized") })
+	@Path("/station/all")
+	@GET
+	public List<StationConfig> getStationAll(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+		
+
+		
+		TypedQuery<StationConfig>	r = 	em.createNamedQueryStationConfig("StationConfig.findAll", StationConfig.class);
+		List<StationConfig> res3 = r.getResultList();
+		log.trace(res3);
+		return res3;
+	}
+	
 	
 	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })

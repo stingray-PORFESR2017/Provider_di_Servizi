@@ -112,4 +112,10 @@ public class RelationDBPersistence implements TokenPersistence {
 		
 	}
 
+	@Override
+	public TypedQuery<StationConfig> createNamedQueryStationConfig(String string, Class<StationConfig> class1) {
+		// TODO Auto-generated method stub
+		return em.createNamedQuery(string,class1);
+	}
+
 }

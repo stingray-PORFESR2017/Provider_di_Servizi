@@ -47,5 +47,7 @@ TypedQuery<String> createNamedQueryS(String string, Class<String> class1);
 
 TypedQuery<ConfigCommand> createNamedQuery2(String string, Class<ConfigCommand> class1);
 
+TypedQuery<StationConfig> createNamedQueryStationConfig(String string, Class<StationConfig> class1);
+
 
 }
