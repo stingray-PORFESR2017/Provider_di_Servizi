@@ -23,9 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "StationConfig") 
 @NamedQueries({
 	@NamedQuery(name="StationConfig.findAll",
-			query="SELECT c FROM config c"),
+			query="SELECT c FROM StationConfig c"),
 	@NamedQuery(name="StationConfig.findAllimei",
-	query="SELECT c FROM config c WHERE c.id= ?1 "),
+	query="SELECT c FROM StationConfig c WHERE c.id= ?1 "),
 	
 }) 
 public class StationConfig implements Serializable{
@@ -37,7 +37,7 @@ public class StationConfig implements Serializable{
 	@XmlElement(name = "Descrizione", required = true)
 	String Descrizione;
 	@XmlElementWrapper(name="ListCMAD")
-    @XmlElement(name="CMAD")
+    @XmlElement(name="MacCMAD")
 	List<String> ListCMAD;
 	
 	

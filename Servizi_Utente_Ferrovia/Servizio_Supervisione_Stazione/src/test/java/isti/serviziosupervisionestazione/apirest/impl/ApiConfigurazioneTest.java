@@ -83,8 +83,8 @@ public class ApiConfigurazioneTest extends JerseyTest {
 				"    <id>string</id>\n" + 
 				"    <Descrizione>string</Descrizione>\n" + 
 				"    <ListCMAD>\n" + 
-				"        <CMAD>eee</CMAD>\n" + 
-				"        <CMAD>444</CMAD>\n" + 
+				"        <MacCMAD>eee</MacCMAD>\n" + 
+				"        <MacCMAD>444</MacCMAD>\n" + 
 				"    </ListCMAD>\n" + 
 				"</StationConfig>";
 		
@@ -105,6 +105,20 @@ public class ApiConfigurazioneTest extends JerseyTest {
 		});
 		//Thread.sleep(5000);
 		System.out.print(res2);
+	}
+	
+	@Test
+	public void test2() throws JAXBException {
+		
+		
+		Response response = target("/conf/station/all/").request().get();
+		int x = response.getStatus();
+		//assertEquals(200, x);
+		String res = response.readEntity(new GenericType<String>() {
+		});
+		log.info(res);
+		
+		
 	}
 
 }
