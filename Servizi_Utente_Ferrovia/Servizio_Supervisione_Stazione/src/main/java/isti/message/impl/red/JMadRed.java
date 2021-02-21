@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import isti.message.impl.cmad.JCMADID;
+import isti.message.util.Service;
 
 @XmlRootElement(name = "DatiMadRed", namespace = "http://stingray.isti.cnr.it/docs/xsd/v1.0")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -64,6 +65,55 @@ public class JMadRed  implements java.io.Serializable {
 	})
 	     JCMAD localJCMAD;
 */
+	
+	public byte[] getByte(int t) {
+		byte[] message = new byte[128] ;
+		char[] temp = HEADER.toCharArray();
+		message[0] = (byte)temp[0];
+		byte[] m = Service.parseMacAddress(Id.getMAC_ADR());
+		for(int i=0;i<m.length;i++) {
+			message[1+i] = m[i];
+		}
+		
+		message[7] = (byte)TYPE;
+		//message[7] = (byte)temp[0];
+		
+		message[8] = (byte)REVISION;
+		//message[8] = (byte)temp[0];
+		
+		m = Service.intToBytes(Integer.valueOf(POSITION));
+		for(int i=0;i<m.length;i++) {
+			message[8+i] = m[i];
+		}
+		m = DESCRIPTION.getBytes();
+		for(int i=0;i<m.length;i++) {
+			message[11+i] = m[i];
+		}
+		m = Service.longToByte(Integer.valueOf(LONGITUDE)*10000);
+		for(int i=0;i<m.length;i++) {
+			message[31+i] = m[i];
+		}
+		m = Service.longToByte(Integer.valueOf(LATITUDE)*10000);
+		for(int i=0;i<m.length;i++) {
+			message[35+i] = m[i];
+		}
+		
+		m = Service.intToBytes(Integer.valueOf(DIGITAL_INFO));
+		for(int i=0;i<m.length;i++) {
+			message[39+i] = m[i];
+		}
+		
+		m = Service.intToBytes(t);
+		for(int i=0;i<m.length;i++) {
+			message[49+i] = m[i];
+		}
+		return message;
+		
+		//t1Service.TwobytesToint(Arrays.copyOfRange(message, 49, 51));//2
+		//t2 Service.TwobytesToint(Arrays.copyOfRange(message, 51, 53));//2
+		
+		//log.debug("");
+	}
 
 	public JMadRed(){
 

@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -25,6 +27,7 @@ import isti.message.impl.cmad.L;
 import isti.message.impl.ill.JMADILL;
 import isti.message.impl.red.JMadRed;
 import isti.message.util.Service;
+import sun.print.resources.serviceui;
 
 
 
@@ -52,6 +55,59 @@ public class MessageCMAD {
 	byte[] mess;
 	List<JMadRed> listred = new ArrayList<>();
 	List<JMADILL> listill = new ArrayList<>();
+	
+	public byte[] getByte(int t) {
+		byte[] message = new byte[1024] ;
+		char[] temp = CMAD_HEADER.toCharArray();
+		message[0] = (byte)temp[0];
+		byte[] m = Service.parseMacAddress(MAC_ADR);
+		for(int i=0;i<m.length;i++) {
+			message[1+i] = m[i];
+		}
+		
+		message[7] = (byte)CMAD_TYPE;
+		//message[7] = (byte)temp[0];
+		
+		message[8] = (byte)CMAD_REVISION;
+		//message[8] = (byte)temp[0];
+		
+		m = Service.intToBytes(CMAD_POSITION);
+		for(int i=0;i<m.length;i++) {
+			message[8+i] = m[i];
+		}
+		m = CMAD_DESCRIPTION.getBytes();
+		for(int i=0;i<m.length;i++) {
+			message[11+i] = m[i];
+		}
+		m = Service.longToByte(CMAD_LONGITUDE*10000);
+		for(int i=0;i<m.length;i++) {
+			message[31+i] = m[i];
+		}
+		m = Service.longToByte(CMAD_LATITUDE*10000);
+		for(int i=0;i<m.length;i++) {
+			message[35+i] = m[i];
+		}
+		m = Service.intToBytes(CMAD_DIGITAL_INFO);
+		for(int i=0;i<m.length;i++) {
+			message[39+i] = m[i];
+		}
+		int bandiera = 102;
+		for(JMadRed red :listred) {
+			m = red.getByte( t);
+			for(int i=0;i<m.length;i++) {
+				int ele = bandiera + i;
+				message[ele] = m[i];
+			}
+		}
+		
+		log.debug("");
+		
+		return message;
+	}
+	
+	
+			
+	
 	
 	public MessageCMAD(byte[] message) {
        try {
@@ -201,7 +257,7 @@ public class MessageCMAD {
  				log.info(message.length);
  				bandiera+=67;
  			}
- 			if(!CMAD_HEADER2.equals("R") || !CMAD_HEADER2.equals("L") ) {
+ 			if(!(CMAD_HEADER2.equals("R") || CMAD_HEADER2.equals("L")) ) {
  				break;
  			}
  			
