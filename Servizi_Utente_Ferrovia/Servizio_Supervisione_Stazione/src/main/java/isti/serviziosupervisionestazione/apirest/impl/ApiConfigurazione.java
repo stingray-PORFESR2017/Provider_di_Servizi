@@ -120,7 +120,9 @@ public class ApiConfigurazione {
 	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Lista Configurazioni Attive XML", 
-			
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        },
 	  notes = "Service demo without authentication."
 	)
 	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
@@ -141,7 +143,9 @@ public class ApiConfigurazione {
 	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Lista Configurazioni Attive XML", 
-			
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        },
 	  notes = "Service demo without authentication."
 	)
 	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
@@ -162,7 +166,9 @@ public class ApiConfigurazione {
 	@Operation(summary = "Service Configurazioni Attive per specifico ID", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service onfigurazioni Attive per specifico ID", 
-			
+			authorizations = {
+		            @Authorization(value = "basicAuth", scopes={})
+		        },
 	  notes = "Service demo without authentication."
 	)
 	@ApiResponses(value = { @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation"),
