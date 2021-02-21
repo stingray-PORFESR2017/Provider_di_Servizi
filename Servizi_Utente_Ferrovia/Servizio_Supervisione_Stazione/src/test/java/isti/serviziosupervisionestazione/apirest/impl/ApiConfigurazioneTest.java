@@ -80,11 +80,12 @@ public class ApiConfigurazioneTest extends JerseyTest {
 	@Test
 	public void test() throws JAXBException {
 		String commandstatiion  = "<StationConfig>\n" + 
-				"    <id>string</id>\n" + 
-				"    <Descrizione>string</Descrizione>\n" + 
+				"    <id>STINGRAY_2020-x3edc</id>\n" + 
+				"    <Descrizione>Pistoia STINGRAY_DMG_2020</Descrizione>\n" + 
 				"    <ListCMAD>\n" + 
-				"        <MacCMAD>eee</MacCMAD>\n" + 
-				"        <MacCMAD>444</MacCMAD>\n" + 
+				"        <MacCMAD>0001D167A458</MacCMAD>\n" + 
+				"        <MacCMAD>0001D167A459</MacCMAD>\n" + 
+				"		 <MacCMAD>0001D167A460</MacCMAD>\n"+
 				"    </ListCMAD>\n" + 
 				"</StationConfig>";
 		
