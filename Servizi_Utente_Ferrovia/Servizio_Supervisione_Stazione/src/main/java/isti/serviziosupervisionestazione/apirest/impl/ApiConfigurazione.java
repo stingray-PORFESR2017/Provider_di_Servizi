@@ -115,6 +115,8 @@ public class ApiConfigurazione {
 		trans.commit();
 		return "OK";
 	}
+	
+	@RolesAllowed("ADMIN")
 	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Lista Configurazioni Attive XML", 
@@ -135,7 +137,7 @@ public class ApiConfigurazione {
 		return res3;
 	}
 	
-	
+	@RolesAllowed("ADMIN")
 	@Operation(summary = "Service Lista di tutte le Configurazioni Attive XML", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service Lista Configurazioni Attive XML", 
@@ -155,6 +157,8 @@ public class ApiConfigurazione {
 		log.trace(res3);
 		return res3;
 	}
+	
+	@RolesAllowed("ADMIN")
 	@Operation(summary = "Service Configurazioni Attive per specifico ID", description = "Service demo without authentication. ",
 			responses = { @ApiResponse(responseCode = "200", description = "Success"), @ApiResponse(responseCode = "401", description = "Unauthorized") })
 	@ApiOperation(value = "Service onfigurazioni Attive per specifico ID", 
