@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.annotation.WebFilter;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
@@ -23,6 +24,7 @@ import org.glassfish.jersey.internal.util.Base64;
  * This filter verify the access permissions for a user
  * based on username and passowrd provided in request
  * */
+@WebFilter(urlPatterns = {"/CMAD/*"}, filterName = "authFilter")
 @Provider
 public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequestFilter
 {
@@ -104,7 +106,10 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
         //Access the database and do this part yourself
         //String userRole = userMgr.getUserRole(username);
          
-        if(username.equals("guest") && password.equals("password"))
+        if((username.equals("guest") && password.equals("password")) ||
+        		
+        		(username.equals("admin") && password.equals("stingray2020"))
+        		)
         {
             String userRole = "ADMIN";
              
