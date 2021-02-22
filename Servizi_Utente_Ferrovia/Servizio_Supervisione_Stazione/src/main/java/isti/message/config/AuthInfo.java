@@ -30,9 +30,12 @@ public class AuthInfo {
 		this.Id = authInfo;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Id: " + Id;
+		return (Id != null ? "Id: " + Id + ", \\n " : "") + (user != null ? "user: " + user + ", \\n " : "")
+				+ (FirebaseToken != null ? "FirebaseToken: " + FirebaseToken : "");
 	}
 
 	public String getUser() {
