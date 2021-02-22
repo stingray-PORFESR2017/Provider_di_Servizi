@@ -66,12 +66,12 @@ public class StingrayAI implements Runnable {
 					String macreds =  madred.getId().getMAC_ADR();
 					int temp1 = madred.getWIRE_ANALOG_INFO().getTemperatura1();
 
-					if (temp1 < 10 ||temp1 > 200 ) {
+					if (temp1 < 6 ||temp1 > 200 ) {
 						flag = true;
 					}
 				}
 			}
-			if(flag | true) {
+			if(flag ) {
 				checkAI(jmad);
 			}
 		}catch (Exception e) {
@@ -120,7 +120,7 @@ public class StingrayAI implements Runnable {
 
 					thread.start();
 
-					AndroidSender.sendToToken(mac+" "+macreds, "Speghimento Automatico MADRED");
+					AndroidSender.sendToToken(mac+" "+macreds, "Pericolo Rottura - Speghimento Automatico MADRED");
 
 				}
 			}

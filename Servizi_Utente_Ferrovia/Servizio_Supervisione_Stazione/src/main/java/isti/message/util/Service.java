@@ -154,7 +154,7 @@ public class Service {
 	public static byte[] longToByte(long value)
 	{
 	    byte [] data = new byte[4];
-	    data[3] = (byte) (value >>> 32);
+	    data[3] = (byte) (value >>> 24);
 	    data[2] = (byte) (value >>> 16);
 	    data[1] = (byte) (value >>> 8);
 	    data[0] = (byte) (value );
