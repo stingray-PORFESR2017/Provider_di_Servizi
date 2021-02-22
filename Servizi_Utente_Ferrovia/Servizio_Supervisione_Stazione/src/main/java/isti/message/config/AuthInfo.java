@@ -15,6 +15,8 @@ public class AuthInfo {
 	String Id;
 	@XmlAttribute(name = "User")
 	String user;
+	@XmlElement(name = "FirebaseToken", required = true)
+	String FirebaseToken;
 	
 	AuthInfo(){
 		
@@ -39,6 +41,14 @@ public class AuthInfo {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public String getFirebaseToken() {
+		return FirebaseToken;
+	}
+
+	public void setFirebaseToken(String firebaseToken) {
+		FirebaseToken = firebaseToken;
 	}
 	
 	
