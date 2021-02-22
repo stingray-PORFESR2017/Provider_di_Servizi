@@ -24,6 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 			query="SELECT c FROM config c"),
 	@NamedQuery(name="ConfigCommand.findAllimei",
 	query="SELECT c FROM config c WHERE c.id= ?1 "),
+	@NamedQuery(name="ConfigCommand.findTokenAuthLevel",
+	query="SELECT c.FirebaseToken FROM config c WHERE c.AuthLevel= ?1 "),
+	@NamedQuery(name="ConfigCommand.findToken",
+	query="SELECT c.FirebaseToken FROM config c"),
 	
 }) 
 public class ConfigCommand implements Serializable{
