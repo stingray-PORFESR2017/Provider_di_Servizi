@@ -93,6 +93,7 @@ public class StingrayAI implements Runnable {
 
 				if (temp1 < 10) {
 					JCMADCommand messae = new JCMADCommand();
+					messae.setMAC_ADR_CMAD(mac);
 					messae.setMAC_ADR_RED(madred.getId().getMAC_ADR());
 					CommandType com = new CommandType();
 					com.setCommandred(FormatoType.fromValue("ON"));
@@ -108,6 +109,7 @@ public class StingrayAI implements Runnable {
 
 				if (temp1 > 200) {
 					JCMADCommand messae = new JCMADCommand();
+					messae.setMAC_ADR_CMAD(mac);
 					messae.setMAC_ADR_RED(madred.getId().getMAC_ADR());
 					CommandType com = new CommandType();
 					com.setCommandred(FormatoType.fromValue("OFF"));
