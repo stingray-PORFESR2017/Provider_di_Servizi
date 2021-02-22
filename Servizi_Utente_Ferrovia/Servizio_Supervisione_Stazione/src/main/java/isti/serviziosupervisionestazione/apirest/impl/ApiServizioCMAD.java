@@ -15,7 +15,8 @@ import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletContext;
@@ -39,6 +40,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -258,9 +260,9 @@ public class ApiServizioCMAD {
 	)
 	@PermitAll
 	@Path("/ALL/{key:.*}")
-	//@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	//@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@GET
-	public Response alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response, @Context
+	public Response alldaticmad(@PathParam("key") String key, @Context UriInfo uriInfo, @Context HttpServletRequest request, @Context HttpServletResponse response, @Context
 			   ServletContext servletContext) {
 		try {
 		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAll", JCMAD.class);
@@ -418,7 +420,29 @@ public class ApiServizioCMAD {
 		p.send(command.getMessage(message),key);*/
 		log.trace(message);
 		
+		try {
+			TypedQuery<ConfigCommand>	r = 	em.createNamedQuery2("ConfigCommand.findAllimei", ConfigCommand.class);
+			String imei = message.getId();
+			r.setParameter(1, imei);
+			try {
+				ConfigCommand res3 = r.getSingleResult();
+				if(res3!=null) {
+					res3.setFirebaseToken(message.getFirebaseToken());
+					em.update(res3);
+				}
+			}catch (NoResultException e) {
+				EntityTransaction trans = em.getTransaction(); 
+				ConfigCommand res = new ConfigCommand(message);
+				trans.begin(); 
+				em.persistConfigCommand(res);
+				trans.commit();
+			}
+			
+			
 		
+		}catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+		}
 		return "OK";
 	}
 	

@@ -36,11 +36,20 @@ public class ConfigCommand implements Serializable{
 	String AuthLevel;
 	@XmlAttribute(name = "User")
 	String user;
+	@XmlElement(name = "FirebaseToken", required = true)
+	String FirebaseToken;
 	
 	public ConfigCommand(){
 		
 	}
 	
+	public ConfigCommand(AuthInfo message) {
+		setId(message.getId());
+		setUser(message.getUser());
+		setFirebaseToken(message.getFirebaseToken());
+		setAuthLevel("GOD");
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -73,6 +82,14 @@ public class ConfigCommand implements Serializable{
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getFirebaseToken() {
+		return FirebaseToken;
+	}
+
+	public void setFirebaseToken(String firebaseToken) {
+		FirebaseToken = firebaseToken;
 	}
 	
 	

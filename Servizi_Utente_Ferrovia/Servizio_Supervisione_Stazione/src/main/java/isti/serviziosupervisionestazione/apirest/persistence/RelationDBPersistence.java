@@ -99,6 +99,13 @@ public class RelationDBPersistence implements TokenPersistence {
 		
 		return false;
 	}
+	@Override
+	public boolean update(ConfigCommand class1) {
+		em.merge(class1);
+		
+		
+		return false;
+	}
 
 	@Override
 	public void persistConfigCommand(ConfigCommand ar) {

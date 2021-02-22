@@ -26,6 +26,8 @@ void persist(JCMAD ar);
 
 boolean update(JCMAD ar);
 
+boolean update(ConfigCommand class1);
+
 void persistConfigCommand(ConfigCommand ar);
 
 void persistStationConfing(StationConfig ar);
