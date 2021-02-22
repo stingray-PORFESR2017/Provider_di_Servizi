@@ -32,8 +32,12 @@ public class AndroidSender {
     				  .setCredentials(GoogleCredentials.fromStream(is))
     				  .build();
 
-    		FirebaseApp fb = FirebaseApp.initializeApp(options);
-    		
+    		FirebaseApp app = null;
+    	    if(FirebaseApp.getApps().isEmpty()) {
+    	        app = FirebaseApp.initializeApp(options, "appName");
+    	    }else {
+    	        app = FirebaseApp.initializeApp(options);
+    	    }
     		
         String registrationToken = "epnR__qJvcQ:APA91bGqeoJ_YvYuBr5q7KpIgbAig51sc1uunjqo7kpOTHt0GX6k8NQHwS3z1sIX5gMDimxfCAQsK2e3bmSUqwU-e8FoQSDjY1oim1pmOqHYDokaaBkadtn2ExkNnCfQEVnd287tUYzC";
 
@@ -55,7 +59,7 @@ public class AndroidSender {
 
         // Send a message to the device corresponding to the provided
         // registration token.
-        String response = FirebaseMessaging.getInstance(fb).send(message);
+        String response = FirebaseMessaging.getInstance(app).send(message);
         // Response is a message ID string.
         System.out.println("Successfully sent message: " + response);
         // [END send_to_token]
