@@ -32,14 +32,13 @@ public class AndroidSender {
     				  .setCredentials(GoogleCredentials.fromStream(is))
     				  .build();
 
-    		FirebaseApp app = null;
-    	    if(FirebaseApp.getApps().isEmpty()) {
-    	        app = FirebaseApp.initializeApp(options, "appName");
-    	    }else {
-    	        app = FirebaseApp.initializeApp(options);
-    	    }
+    		FirebaseApp app = FirebaseApp.initializeApp(options);
+    	    
+    	    
+    	    
     		
-        String registrationToken = "epnR__qJvcQ:APA91bGqeoJ_YvYuBr5q7KpIgbAig51sc1uunjqo7kpOTHt0GX6k8NQHwS3z1sIX5gMDimxfCAQsK2e3bmSUqwU-e8FoQSDjY1oim1pmOqHYDokaaBkadtn2ExkNnCfQEVnd287tUYzC";
+       // String registrationToken = "epnR__qJvcQ:APA91bGqeoJ_YvYuBr5q7KpIgbAig51sc1uunjqo7kpOTHt0GX6k8NQHwS3z1sIX5gMDimxfCAQsK2e3bmSUqwU-e8FoQSDjY1oim1pmOqHYDokaaBkadtn2ExkNnCfQEVnd287tUYzC";
+    		String registrationToken = "AAAA0RsheDo:APA91bHsMFA-PUXukeJrJY-aTBiYch4MuRvPfxpAOicC8oQfOcb2ttrkMhJrP1Hr3OxJcT9kKzdd3c86xkK3VtfZW_0XlWtheJSLZhc5gTrxrU4OUHVgdrjx8CQ694x-GQDvFxkyQE0Q";
 
 
         
@@ -54,7 +53,8 @@ public class AndroidSender {
                         .setColor("#f45342")*/
                         .build())
                     .build())
-                .setToken(registrationToken)
+                //.setToken(registrationToken)
+                .setTopic("Stingray")
                 .build();
 
         // Send a message to the device corresponding to the provided
