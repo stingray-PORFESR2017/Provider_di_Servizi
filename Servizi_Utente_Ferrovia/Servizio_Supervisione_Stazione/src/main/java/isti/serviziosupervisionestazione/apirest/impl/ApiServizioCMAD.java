@@ -1,5 +1,10 @@
 package isti.serviziosupervisionestazione.apirest.impl;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +18,7 @@ import javax.inject.Inject;
 
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.border.TitledBorder;
@@ -23,8 +29,20 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.ext.Provider;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -40,6 +58,7 @@ import isti.message.config.ConfigCommand;
 import isti.message.config.AuthInfo;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADCommand;
+import isti.message.impl.cmad.ListJCMAD;
 import isti.mqtt.publisher.Publisher;
 import isti.mqtt.publisher.thread.PubThread;
 import isti.serviziosupervisionestazione.apirest.persistence.TokenPersistence;
@@ -239,12 +258,56 @@ public class ApiServizioCMAD {
 	)
 	@PermitAll
 	@Path("/ALL/{key:.*}")
+	//@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@GET
-	public List<JCMAD> alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public Response alldaticmad(@PathParam("key") String key, @Context HttpServletRequest request, @Context HttpServletResponse response, @Context
+			   ServletContext servletContext) {
 		try {
 		TypedQuery<JCMAD>	r = 	em.createNamedQuery("JCMAD.findAll", JCMAD.class);
 		List<JCMAD> res = r.getResultList();
-		return res;
+		log.info("dimensione All cmad "+ res.size());
+		
+		if(res.size()<40) {
+			GenericEntity<List<JCMAD>> gen = new GenericEntity<List<JCMAD>>(res) {};
+			return Response.ok(gen).header("X-Content-Length", res.size()).build();
+
+		}
+		
+		
+		
+
+		ListJCMAD lcmad = new ListJCMAD();
+		lcmad.setList(res);
+		 
+		 StreamingOutput stream = new StreamingOutput() {
+			    @Override
+			    public void write(OutputStream os) throws IOException,
+			    WebApplicationException {
+			      Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+			      JAXBContext jaxbCtx;
+				try {
+					jaxbCtx = javax.xml.bind.JAXBContext.newInstance(ListJCMAD.class);
+					Marshaller marshaller = jaxbCtx.createMarshaller();
+					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"); // NOI18N
+					marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+					
+					 marshaller.marshal( lcmad,writer  );
+					 
+				     
+				      writer.flush();  // <-- This is very important.  Do not forget.
+				} catch (JAXBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
+					 
+				
+			    }
+			  };
+		 
+		 
+		
+		return Response.ok(stream).header("X-Content-Length", res.size()).header("content-disposition","attachment; filename = listacmad.xml").build();
 		//return new ArrayList<JCMAD>();
 		}catch (Exception e) {
 			log.error(e.getLocalizedMessage());
@@ -358,6 +421,8 @@ public class ApiServizioCMAD {
 		
 		return "OK";
 	}
+	
+	
 	
 	
 }
