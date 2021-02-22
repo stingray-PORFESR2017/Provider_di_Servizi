@@ -37,6 +37,7 @@ import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.Test;
 
 import isti.message.MessageCMAD;
+import isti.message.config.AuthInfo;
 import isti.message.config.ConfigCommand;
 import isti.message.impl.cmad.JCMAD;
 import isti.message.impl.cmad.JCMADCommand;
@@ -276,9 +277,9 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		res = response.readEntity(new GenericType<String>() {
 		});
 		log.info(res);
-
 		
-
+		
+		
 	}
 	
 	@Test
@@ -292,16 +293,34 @@ String encodedString = "Q6qu/6CIBwABWABDTUFEIERJIFRFU1QgICAgICAgIAA1DADQ3QYACAAA
 		
 		
 		Entity<JCMADCommand> rex = Entity.entity(jcmadcommand, MediaType.APPLICATION_XML_TYPE);
+		
+		String username_typed = "ss";
+		String secureId = "22";
+		String finalToken = "222";
+		String postData = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<AuthInfo User=\""+ username_typed +"\">\n" +
+                "\t<Id>"+ secureId +"</Id>\n" +
+                "\t<FirebaseToken>"+ finalToken +"</FirebaseToken>\n" +
+                "</AuthInfo>";
 
+		
+		 jaxbContext = JAXBContext.newInstance(AuthInfo.class);
+		 unmarshaller = jaxbContext.createUnmarshaller();
+		 reader = new StringReader(postData);//.replaceAll("\\n", "").trim());
+		AuthInfo aut = (AuthInfo) unmarshaller.unmarshal(reader);
+		
+		Entity<AuthInfo> re = Entity.entity(aut, MediaType.APPLICATION_XML_TYPE);
+
+		Response response = target("/CMAD/AuthInfo/").request(MediaType.APPLICATION_XML).post(re);
 
 		/*Response response = target("/CMAD/update/000000000034").request(MediaType.APPLICATION_XML).post(rex);
 
-
+*/
 
 		String res2 = response.readEntity(new GenericType<String>() {
 		});
-		Thread.sleep(5000);
-		System.out.print(res2);*/
+		//Thread.sleep(5000);
+		System.out.print(res2);
 		System.out.println();
 	}
 	
