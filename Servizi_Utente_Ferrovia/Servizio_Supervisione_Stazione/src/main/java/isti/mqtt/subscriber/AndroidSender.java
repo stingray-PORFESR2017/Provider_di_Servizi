@@ -42,7 +42,7 @@ public class AndroidSender {
     	    
     		
        // String registrationToken = "epnR__qJvcQ:APA91bGqeoJ_YvYuBr5q7KpIgbAig51sc1uunjqo7kpOTHt0GX6k8NQHwS3z1sIX5gMDimxfCAQsK2e3bmSUqwU-e8FoQSDjY1oim1pmOqHYDokaaBkadtn2ExkNnCfQEVnd287tUYzC";
-    		String registrationToken = "AAAA0RsheDo:APA91bHsMFA-PUXukeJrJY-aTBiYch4MuRvPfxpAOicC8oQfOcb2ttrkMhJrP1Hr3OxJcT9kKzdd3c86xkK3VtfZW_0XlWtheJSLZhc5gTrxrU4OUHVgdrjx8CQ694x-GQDvFxkyQE0Q";
+    	//	String registrationToken = "AAAA0RsheDo:APA91bHsMFA-PUXukeJrJY-aTBiYch4MuRvPfxpAOicC8oQfOcb2ttrkMhJrP1Hr3OxJcT9kKzdd3c86xkK3VtfZW_0XlWtheJSLZhc5gTrxrU4OUHVgdrjx8CQ694x-GQDvFxkyQE0Q";
 
 
         
