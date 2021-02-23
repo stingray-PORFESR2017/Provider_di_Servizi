@@ -1,7 +1,6 @@
 package isti.ai;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +62,7 @@ public class StingrayAI implements Runnable {
 			for(JCMAD jm : temp) {
 				List<JMadRed> madreds = jm.getListred();
 				for (JMadRed madred : madreds) {
-					String macreds =  madred.getId().getMAC_ADR();
+					//String macreds =  madred.getId().getMAC_ADR();
 					int temp1 = madred.getWIRE_ANALOG_INFO().getTemperatura1();
 
 					if (temp1 < 6 ||temp1 > 200 ) {
