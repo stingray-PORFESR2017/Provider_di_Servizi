@@ -44,7 +44,8 @@ public class AndroidSender {
         
         Message message = Message.builder()
                 .setAndroidConfig(AndroidConfig.builder()
-                    .setTtl(3600 * 1000) // 1 hour in milliseconds
+                		.setTtl(60 * 1000) // 1 minute in milliseconds
+                  //  .setTtl(300 * 1000) // 5 minutes in milliseconds
                     .setPriority(AndroidConfig.Priority.NORMAL)
                     .setNotification(AndroidNotification.builder()
                         .setTitle(title)
