@@ -32,7 +32,11 @@ public class AndroidSender {
     				  .setCredentials(GoogleCredentials.fromStream(is))
     				  .build();
 
-    		FirebaseApp app = FirebaseApp.initializeApp(options);
+    				FirebaseApp app;
+    		if(FirebaseApp.getApps().size()>0) {
+    			app = FirebaseApp.getInstance();
+    		}else
+    			 app = FirebaseApp.initializeApp(options);
     	    
     	    
     	    
