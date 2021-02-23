@@ -17,7 +17,7 @@ import com.google.firebase.messaging.Message;
 
 public class AndroidSender {
 	
-	
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(AndroidSender.class);
 	
 	public static void sendToToken(String title, String msg)  {
         // [START send_to_token]
@@ -66,17 +66,15 @@ public class AndroidSender {
         // registration token.
         String response = FirebaseMessaging.getInstance(app).send(message);
         // Response is a message ID string.
-        System.out.println("Successfully sent message: " + response);
+        log.info("Successfully sent message: " + response);
         // [END send_to_token]
         
     	}catch (FirebaseMessagingException e) {
-			System.out.print(e.getLocalizedMessage());
+    		log.error(e.getLocalizedMessage());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getLocalizedMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error(e.getLocalizedMessage());
 		}
       }
 
