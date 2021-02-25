@@ -119,7 +119,7 @@ public class StingrayAI implements Runnable {
 
 					thread.start();
 
-					AndroidSender.sendToToken(mac+" "+macreds, "Pericolo Rottura - Speghimento Automatico MADRED");
+					AndroidSender.sendToToken(mac+" "+macreds, "Pericolo Rottura - Spegnimento Automatico MADRED");
 
 				}
 			}
