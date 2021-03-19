@@ -37,8 +37,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 //@Consumes(MediaType.APPLICATION_XML)
 //@Produces(MediaType.APPLICATION_JSON)
-@Api(value = "RFI")
-@Path("/rfi")
+@Api(value = "OLDRFI")
+@Path("/old_rfi")
 public class ApiServizioSupervisioneStazioneRFI {
 
 	// @Inject

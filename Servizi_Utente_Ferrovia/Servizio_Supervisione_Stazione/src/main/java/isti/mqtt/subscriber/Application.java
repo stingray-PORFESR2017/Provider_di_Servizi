@@ -74,10 +74,10 @@ public class Application implements MqttCallback {
 
 			publisher.setCallback(this);
 			publisher.connect(options);
-
+			log.info("Subcriber Conected...");
 			publisher.subscribe(this.topic, qos);
 		} catch (Exception e) {
-			System.out.print(e);
+			log.error(e.getLocalizedMessage());
 		}
 
 	}
