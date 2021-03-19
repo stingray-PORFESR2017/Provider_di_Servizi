@@ -99,6 +99,8 @@ public class SufRFIEndpoint {
 				depRFI.setPlatform(depVT.getBinarioEffettivoPartenzaDescrizione());
 				depRFI.setTime(Instant.ofEpochMilli(depVT.getOrarioPartenza()).atZone(ZoneId.of("Europe/Rome")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 				depRFI.setDelay(Long.toString(depVT.getRitardo()));
+				depRFI.setTrainNumber(Integer.toString(depVT.getNumeroTreno()));
+
 				 JourneyDto journeyDto = null;
 try {
 				 journeyDto = client.target(apiVT)
