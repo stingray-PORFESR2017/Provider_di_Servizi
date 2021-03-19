@@ -109,7 +109,7 @@ try {
 				if (journeyDto == null)
 					continue;
 }catch (Exception e) {
-	//TODO::
+	continue;
 }
 				MessagesDto messagesDto = new MessagesDto();
 				AdditionalDataDto additionalDataDto = new AdditionalDataDto();
