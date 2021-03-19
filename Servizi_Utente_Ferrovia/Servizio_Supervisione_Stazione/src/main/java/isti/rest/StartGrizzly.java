@@ -7,12 +7,17 @@ import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+
+import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import isti.serviziosupervisionestazione.apirest.aut.AuthenticationFilter;
+import isti.serviziosupervisionestazione.apirest.impl.HeaderFilter;
 
 public class StartGrizzly {
 	// Base URI the Grizzly HTTP server will listen on
@@ -76,11 +81,14 @@ public class StartGrizzly {
         
         ResourceConfig rc = new ResourceConfig().packages(resources);
         rc.register(AuthenticationFilter.class);
+        //rc.register(HeaderFilter.class);
         OpenApiResource openApiResource = new OpenApiResource();
         rc.register(openApiResource);
         rc.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         rc.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
-        
+       // rc.register(LoggingFilter.class);
+        rc.register(JacksonFeature.class);     
+        rc.register(JacksonXMLProvider.class); 
       
         final HttpServer grizzlyServer = GrizzlyHttpServerFactory.createHttpServer(
         		URI.create(BASEH_URI),
