@@ -32,7 +32,7 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 @Api(value = "RFI")
-@Path("/rfi/FrontEnd/Train")
+@Path("/rfi/")
 public class SufRFIEndpoint {
 
 	@PermitAll
@@ -49,7 +49,7 @@ public class SufRFIEndpoint {
 	)
 	@PermitAll
 	@GET
-	@Path("/GetDepartures")
+	@Path("/FrontEnd/{key:.*}")
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getDeparturingTrains(@QueryParam("PlaceId") String placeId) {
 
@@ -57,7 +57,8 @@ public class SufRFIEndpoint {
 
 		final String now = Instant.now().atZone(ZoneId.of("Europe/Rome"))
 		                          .format(DateTimeFormatter.ofPattern("EEE MMM dd YYYY HH:mm:ss", Locale.ENGLISH));
-
+		String xml = null;
+		try {
 		Client client = ClientBuilder.newClient();
 		final List<DeparturingTrain> departuringTrains = client.target(apiVT)
 		                                                       .path(placeId + "/" + now)
@@ -68,12 +69,12 @@ public class SufRFIEndpoint {
 		final TrainsDeparturesResponseDTO trainsDeparturesResponseDTO = convertVTtoRFI(departuringTrains, placeId);
 
 		XmlMapper xmlMapper = new XmlMapper();
-		String xml = null;
-		try {
+		
+		
 			xml = xmlMapper.writeValueAsString(trainsDeparturesResponseDTO);
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			Logger.getAnonymousLogger().info("Conversione in XML fallita.");
-			e.printStackTrace();
+			Logger.getAnonymousLogger().info(e.getLocalizedMessage());
 		}
 
 		return Response.ok().entity(xml).build();
@@ -98,15 +99,18 @@ public class SufRFIEndpoint {
 				depRFI.setPlatform(depVT.getBinarioEffettivoPartenzaDescrizione());
 				depRFI.setTime(Instant.ofEpochMilli(depVT.getOrarioPartenza()).atZone(ZoneId.of("Europe/Rome")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 				depRFI.setDelay(Long.toString(depVT.getRitardo()));
-
-				final JourneyDto journeyDto = client.target(apiVT)
+				 JourneyDto journeyDto = null;
+try {
+				 journeyDto = client.target(apiVT)
 				                                    .path(placeId + "/" + depVT.getNumeroTreno())
 				                                    .request(MediaType.APPLICATION_JSON)
-				                                    .get(JourneyDto.class);
+				                                    .get(new GenericType<JourneyDto>() {});
 
 				if (journeyDto == null)
 					continue;
-
+}catch (Exception e) {
+	//TODO::
+}
 				MessagesDto messagesDto = new MessagesDto();
 				AdditionalDataDto additionalDataDto = new AdditionalDataDto();
 				String content = "Ferma a: ";

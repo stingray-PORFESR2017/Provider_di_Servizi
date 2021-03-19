@@ -91,29 +91,34 @@
 		</dependency>
 		<!-- End Swagger -->
 
- <dependency>
+  <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.10.0</version>
+            <version>2.9.8</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.10.0</version>
+            <version>2.9.8</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.10.0</version>
+            <version>2.9.8</version>
         </dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.10.0</version>
+			<version>2.9.8</version>
 		</dependency>
+		  <dependency>
+        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <artifactId>jackson-jaxrs-xml-provider</artifactId>
+        <version>2.9.8</version>
+    </dependency>
 
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
@@ -300,7 +305,7 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<!--<version>8.1.14.v20131031</version> -->
-				<version>9.4.15.v20190215</version>
+				<version>9.4.38.v20210224</version>
 				<configuration>
 					<jettyXml>${project.basedir}/src/main/resources/jetty.xml,${project.basedir}/src/main/resources/jetty-http.xml,${project.basedir}/src/main/resources/jetty-ssl.xml,${project.basedir}/src/main/resources/jetty-https.xml</jettyXml>
 					<jettyEnvXml>${project.basedir}/src/main/resources/jetty-env.xml</jettyEnvXml>
