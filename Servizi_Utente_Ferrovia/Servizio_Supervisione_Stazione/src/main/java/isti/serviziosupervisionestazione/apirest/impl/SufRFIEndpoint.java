@@ -91,10 +91,10 @@ public class SufRFIEndpoint {
 
 				TrainHeaderDto trainHeaderDto = new TrainHeaderDto();
 				trainHeaderDto.setId(Integer.toString(depVT.getNumeroTreno()));
-				trainHeaderDto.setBrandCustomer("Trenitalia");
+				trainHeaderDto.setBrandCustomer("TRENITALIA");
 				trainHeaderDto.setBrandCategory(depVT.getCategoria());
 				depRFI.setTrainHeaders(trainHeaderDto);
-
+				
 				depRFI.setCancelled(Boolean.FALSE);
 				depRFI.setPlatform(depVT.getBinarioEffettivoPartenzaDescrizione());
 				depRFI.setTime(Instant.ofEpochMilli(depVT.getOrarioPartenza()).atZone(ZoneId.of("Europe/Rome")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
@@ -113,6 +113,8 @@ try {
 }catch (Exception e) {
 	continue;
 }
+				depRFI.setCancelled(journeyDto.getProvvedimento() == 1 ? Boolean.TRUE : Boolean.FALSE);
+
 				MessagesDto messagesDto = new MessagesDto();
 				AdditionalDataDto additionalDataDto = new AdditionalDataDto();
 				String content = "Ferma a: ";

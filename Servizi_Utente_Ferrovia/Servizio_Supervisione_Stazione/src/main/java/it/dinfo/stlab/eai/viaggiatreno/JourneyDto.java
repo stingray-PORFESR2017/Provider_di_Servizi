@@ -14,6 +14,9 @@ public class JourneyDto {
         @JsonProperty("fermate")
         private List<JourneyStopDto> fermate;
 
+        @JsonProperty("provvedimento")
+        private Integer provvedimento;
+
         @JsonIgnore
         private Map<String, Object> additionalProperties = new HashMap<String,Object>();
 
@@ -27,7 +30,17 @@ public class JourneyDto {
             this.fermate = fermate;
         }
 
-        @JsonAnyGetter
+        @JsonProperty("provvedimento")
+        public Integer getProvvedimento() {
+            return provvedimento;
+        }
+
+        @JsonProperty("provvedimento")
+        public void setProvvedimento(Integer provvedimento) {
+            this.provvedimento = provvedimento;
+        }
+
+    @JsonAnyGetter
         public Map<String, Object> getAdditionalProperties() {
             return this.additionalProperties;
         }
