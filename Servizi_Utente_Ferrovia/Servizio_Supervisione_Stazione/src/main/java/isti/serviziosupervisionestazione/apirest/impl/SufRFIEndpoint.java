@@ -92,43 +92,38 @@ public class SufRFIEndpoint {
 				TrainHeaderDto trainHeaderDto = new TrainHeaderDto();
 				trainHeaderDto.setId(Integer.toString(depVT.getNumeroTreno()));
 				trainHeaderDto.setBrandCustomer("TRENITALIA");
-				trainHeaderDto.setBrandCategory(depVT.getCategoria());
+				trainHeaderDto.setBrandCategory(depVT.getCategoria() == null ? depVT.getCategoria() : depVT.getCategoriaDescrizione());
 				depRFI.setTrainHeaders(trainHeaderDto);
-				
-				depRFI.setCancelled(Boolean.FALSE);
 				depRFI.setPlatform(depVT.getBinarioEffettivoPartenzaDescrizione());
 				depRFI.setTime(Instant.ofEpochMilli(depVT.getOrarioPartenza()).atZone(ZoneId.of("Europe/Rome")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 				depRFI.setDelay(Long.toString(depVT.getRitardo()));
 				depRFI.setTrainNumber(Integer.toString(depVT.getNumeroTreno()));
 
-				 JourneyDto journeyDto = null;
-try {
-				 journeyDto = client.target(apiVT)
-				                                    .path(placeId + "/" + depVT.getNumeroTreno())
-				                                    .request(MediaType.APPLICATION_JSON)
-				                                    .get(new GenericType<JourneyDto>() {});
+				JourneyDto journeyDto = null;
+				try {
+					journeyDto = client.target(apiVT).path(depVT.getCodOrigine() + "/" + depVT.getNumeroTreno())
+					                                 .request(MediaType.APPLICATION_JSON)
+					                                 .get(JourneyDto.class);
+				} catch (Exception e) {continue;}
 
-				if (journeyDto == null)
-					continue;
-}catch (Exception e) {
-	continue;
-}
-				depRFI.setCancelled(journeyDto.getProvvedimento() == 1 ? Boolean.TRUE : Boolean.FALSE);
+				depRFI.setCancelled(journeyDto != null ? (journeyDto.getProvvedimento() == 1 ? Boolean.TRUE :
+						Boolean.FALSE) : Boolean.FALSE);
 
 				MessagesDto messagesDto = new MessagesDto();
 				AdditionalDataDto additionalDataDto = new AdditionalDataDto();
 				String content = "Ferma a: ";
-				for (JourneyStopDto stopDto : journeyDto.getFermate()) {
-					LocalDateTime hour =
-							Instant.ofEpochMilli(stopDto.getProgrammata()).atZone(ZoneId.of("Europe/Rome")).toLocalDateTime();
+				if (journeyDto != null)
+					for (JourneyStopDto stopDto : journeyDto.getFermate()) {
+						LocalDateTime hour =
+								Instant.ofEpochMilli(stopDto.getProgrammata()).atZone(ZoneId.of("Europe/Rome")).toLocalDateTime();
 
-					String stazioneEOrario = stopDto.getStazione().toUpperCase() +
-							" " +
-							hour.format(DateTimeFormatter.ofPattern("(HH:mm)", Locale.ENGLISH));
+						String stazioneEOrario = stopDto.getStazione().toUpperCase() +
+								" " +
+								hour.format(DateTimeFormatter.ofPattern("(HH:mm)", Locale.ENGLISH));
 
-					content = content + stazioneEOrario + " - ";
-				}
-				content = content.substring(0, content.length()-3);
+						content = content + stazioneEOrario + " - ";
+					}
+				content = content.substring(0, Math.max(9, content.length() - 3));
 				additionalDataDto.setContent(content);
 				messagesDto.setAdditionalData(additionalDataDto);
 				depRFI.setMessages(messagesDto);
@@ -139,5 +134,4 @@ try {
 		trainsDeparturesResponseDTO.setDepartures(departures);
 		return trainsDeparturesResponseDTO;
 	}
-
 }
