@@ -9,14 +9,14 @@ public class AmbientalDataControllerTest {
 
 	@Test
 	public void testGetAmbientalDataInfo() {
-		AmbientalDataController ambientalDataController = new AmbientalDataController();
+	/*	AmbientalDataController ambientalDataController = new AmbientalDataController();
 		try {
 			AmbientalDataDTO ambientalDataInfo = ambientalDataController.getAmbientalDataInfo("abff100009e8");
 			System.out.println( ambientalDataInfo.getCmadAnalogInfo().getTempEst() );
 			System.out.println( ambientalDataInfo.getCmadAnalogInfo().getTempSuolo() );
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }
