@@ -99,12 +99,22 @@ public class SufRFIEndpoint {
 				depRFI.setDelay(Long.toString(depVT.getRitardo()));
 				depRFI.setTrainNumber(Integer.toString(depVT.getNumeroTreno()));
 
+				LocalDateTime now = LocalDateTime.now();
+				LocalDateTime today_midnight = LocalDateTime.of(now.getYear(),now.getMonth(),now.getDayOfMonth(),0,0,0,0);
+				today_midnight.atZone(ZoneId.of("Europe/Rome"));
+
+
 				JourneyDto journeyDto = null;
 				try {
-					journeyDto = client.target(apiVT).path(depVT.getCodOrigine() + "/" + depVT.getNumeroTreno())
+					journeyDto = client.target(apiVT).path(
+									depVT.getCodOrigine() +
+									"/" +
+									depVT.getNumeroTreno()+
+									"/" +
+									today_midnight.atZone(ZoneId.of("Europe/Rome")).toInstant().toEpochMilli())
 					                                 .request(MediaType.APPLICATION_JSON)
 					                                 .get(JourneyDto.class);
-				} catch (Exception e) {continue;}
+				} catch (Exception e) {}
 
 				depRFI.setCancelled(journeyDto != null ? (journeyDto.getProvvedimento() == 1 ? Boolean.TRUE :
 						Boolean.FALSE) : Boolean.FALSE);
