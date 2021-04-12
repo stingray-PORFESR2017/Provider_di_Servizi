@@ -114,7 +114,7 @@ public class SufRFIEndpoint {
 									today_midnight.atZone(ZoneId.of("Europe/Rome")).toInstant().toEpochMilli())
 					                                 .request(MediaType.APPLICATION_JSON)
 					                                 .get(JourneyDto.class);
-				} catch (Exception e) {}
+				} catch (Exception e) {continue;}
 
 				depRFI.setCancelled(journeyDto != null ? (journeyDto.getProvvedimento() == 1 ? Boolean.TRUE :
 						Boolean.FALSE) : Boolean.FALSE);
