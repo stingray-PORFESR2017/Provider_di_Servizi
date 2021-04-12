@@ -1,0 +1,84 @@
+<div *ngIf="canRender; else loading">
+  <div class="filter-container">
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca per nome, latitudine o longitudine (e.g. 43.7792)...">
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isMobile; else mobileView" class="municipality-container mat-elevation-z8" (window:resize)="onResize($event)">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Nome</h5></th>
+        <td mat-cell *matCellDef="let row"> {{row?.name}}</td>
+      </ng-container>
+      <!-- Latitude Column -->
+      <ng-container matColumnDef="lat">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Latitudine</h5></th>
+        <td mat-cell *matCellDef="let row"> {{row?.lat | latitude}} </td>
+      </ng-container>
+      <!-- Longitude Column -->
+      <ng-container matColumnDef="lon">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Longitudine</h5></th>
+        <td mat-cell *matCellDef="let row"> {{row?.lon | longitude}} </td>
+      </ng-container>
+      <!--Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell  *matCellDef="let row">
+          <div class="button-container">
+            <button style="outline: none" [routerLink]="[row.id]" mat-icon-button aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button style="outline: none" mat-icon-button aria-label="Delete">
+              <mat-icon (click)="openDialog(row?.id, row?.name)">delete_sweep</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+</div>
+
+<ng-template #mobileView>
+  <!--MOBILE VIEW-->
+  <div class="card-container" (window:resize)="onResize($event)">
+    <mat-card *ngFor="let municipality of filteredMunicipalities">
+      <!--CARD HEADER-->
+      <mat-card-header>
+        <div class="first-row">
+          <div class="first-block">
+          <mat-icon>location_city</mat-icon>
+          <mat-card-title>{{municipality.name}}</mat-card-title>
+          </div>
+        </div>
+      </mat-card-header>
+      <!-- CARD CONTENT-->
+      <mat-card-content>
+        <div class="card-row" *ngIf="municipality.lat && municipality.lon">
+          <mat-icon>explore</mat-icon>
+          <span>{{municipality.lat | latitude}}</span>
+          <span>{{municipality.lon | longitude}}</span>
+        </div>
+
+      </mat-card-content>
+      <!--CARD ACTIONS-->
+      <mat-card-actions>
+        <button style="outline: none" [routerLink]="[municipality.id]" mat-icon-button aria-label="Edit">
+              <mat-icon>edit</mat-icon>
+        </button>
+        <button style="outline: none" mat-icon-button aria-label="Delete">
+          <mat-icon (click)="openDialog(municipality.id, municipality.name)">delete_sweep</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ng-template>
+<div class="filter-container">
+  <app-add-button addUrl='addMunicipality' class="add-button"></app-add-button>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

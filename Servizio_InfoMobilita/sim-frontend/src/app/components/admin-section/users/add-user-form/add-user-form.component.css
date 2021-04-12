@@ -1,0 +1,39 @@
+.container {
+  margin-top: 2%;
+  overflow: auto;
+  width: 80%;
+  margin-bottom: 2%;
+}
+.container > * {
+  width: 100%;
+}
+.sub-container {
+  display: flex;
+  flex-direction: column;
+}
+.button-fields {
+  width: 100%;
+}
+.button-confirm {
+  float: right;
+}
+.button-goback {
+  float: left;
+}
+.require {
+  margin-bottom: 2%;
+}
+.spinner-container {
+  width: 100%;
+}
+.loading-spinner {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}

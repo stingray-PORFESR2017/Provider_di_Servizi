@@ -1,0 +1,59 @@
+<div *ngIf="canRender; else loading">
+  <div class="main-content">
+    <div class="filter-container">
+      <mat-form-field class="filter">
+        <input matInput type="text" placeholder="Cerca servizio per nome..." [(ngModel)]="searchText">
+      </mat-form-field>
+    </div>
+    <div class="card-container" (window:resize)="onResize($event)">
+      <mat-grid-list [cols]="cols" rowHeight="2:1" [gutterSize]="'20px'">
+        <mat-grid-tile *ngFor="let i of infomobilities | filter: searchText : 'name'" (click)="onCardClick(i)" class="card"
+                      style="background-position: center; background-size: cover; background-repeat: no-repeat;"
+                      [style.backgroundImage]="'url('+this._infomobilityService.getUrl()+'/'+i.id +'/picture)'">
+          <mat-grid-tile-header>
+            <div *ngFor="let mt of i?.mobilityTypes">
+              <div *ngIf="mt == 'CAR'" class="mobility-icon">
+                <mat-icon>directions_car</mat-icon>
+              </div>
+              <div *ngIf="mt == 'BUS'" class="mobility-icon">
+                <mat-icon>directions_bus</mat-icon>
+              </div>
+              <div *ngIf="mt == 'BIKE'" class="mobility-icon">
+                <mat-icon>directions_bike</mat-icon>
+              </div>
+              <div *ngIf="mt == 'E_SCOOTER'" class="mobility-icon">
+                <mat-icon>electric_scooter</mat-icon>
+              </div>
+              <div *ngIf="mt == 'TAXI'" class="mobility-icon">
+                <mat-icon>local_taxi</mat-icon>
+              </div>
+              <div *ngIf="mt == 'TRAIN'" class="mobility-icon">
+                <mat-icon>train</mat-icon>
+              </div>
+              <div *ngIf="mt == 'POLY'" class="mobility-icon">
+                <mat-icon>directions_walk</mat-icon>
+              </div>
+            </div>
+            <div [ngSwitch]="i.serviceProviderType" style="margin-left:8px;">
+              <div *ngSwitchCase="'API'" class="mobility-icon">
+                <mat-icon>code</mat-icon>
+              </div>
+              <div *ngSwitchCase="'EMBEDDABLE'" class="mobility-icon">
+                <mat-icon>picture_in_picture_alt</mat-icon>
+              </div>
+              <div *ngSwitchCase="'REDIRECTABLE'" class="mobility-icon">
+                <mat-icon>link</mat-icon>
+              </div>
+            </div>
+            <div class="service-name"><h6>{{i?.name}}</h6></div>
+          </mat-grid-tile-header>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+  <app-go-back-button class="go-back"></app-go-back-button>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>
+

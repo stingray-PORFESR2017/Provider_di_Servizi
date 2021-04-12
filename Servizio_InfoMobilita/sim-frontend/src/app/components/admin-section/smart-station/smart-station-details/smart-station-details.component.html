@@ -1,0 +1,74 @@
+<div *ngIf="canRender; else loading">
+  <mat-card class="container">
+    <form [formGroup]="smartStationForm">
+      <div class="sub-container">
+        <h4>Aggiorna Smart Station</h4>
+        <!--NAME FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Name" formControlName="name" required>
+          <mat-error *ngIf="smartStationForm.get('name').invalid">{{getErrorMessageName()}}</mat-error>
+        </mat-form-field>
+        <!--CMAD MAC ADDRESS FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Cmad Mac Address</mat-label>
+          <input matInput placeholder="CmadMacAddress" formControlName="cmadMacAddress">
+        </mat-form-field>
+        <!--EXTERNAL PLACE ID FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Codice Esterno Stazione</mat-label>
+          <input matInput placeholder="ExternalPlaceID" formControlName="externalPlaceId">
+        </mat-form-field>
+        <!--LATITUDE FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Latitudine</mat-label>
+          <input type="number" matInput placeholder="Latitude" formControlName="lat" required>
+          <mat-error *ngIf="smartStationForm.get('lat').invalid">{{getErrorMessageLat()}}</mat-error>
+        </mat-form-field>
+        <!--LONGITUDE FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Longitudine</mat-label>
+          <input type="number" matInput placeholder="Longitude" formControlName="lon" required>
+          <mat-error *ngIf="smartStationForm.get('lon').invalid">{{getErrorMessageLon()}}</mat-error>
+        </mat-form-field>
+        <!--MUNICIPALITY FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Mucipalità</mat-label>
+          <mat-select formControlName="municipality" required>
+            <mat-option *ngFor="let m of municipalities" [value]="m.id">{{m.name}}</mat-option>
+            <mat-error *ngIf="smartStationForm.get('municipality').invalid">{{getErrorMessageMunicipality()}}</mat-error>
+          </mat-select>
+        </mat-form-field>
+        <!--SERVICE FIELD-->
+        <mat-form-field appearance="outline">
+          <mat-label>Servizi offerti</mat-label>
+          <mat-select formControlName="infomobility" multiple>
+            <mat-option *ngFor="let info of selectedEnabledInfomobilityServices" [value]="info">{{info.name}}</mat-option>
+            <mat-option *ngFor="let info of selectedDisabledInfomobilityServices" [value]="info">{{info.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--IMAGE FIELD-->
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>insert_photo</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Modifica immagine (max 16 KB)
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+              <input type="file" (change)="onFileChange($event)">
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div class="button-fields">
+        <button mat-raised-button color="accent" style="outline: none" (click)="goBack()">ANNULLA</button>
+        <button mat-raised-button color="primary" style="outline: none" (click)="updateSmartStation()" [disabled]="!smartStationForm.valid">SALVA</button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

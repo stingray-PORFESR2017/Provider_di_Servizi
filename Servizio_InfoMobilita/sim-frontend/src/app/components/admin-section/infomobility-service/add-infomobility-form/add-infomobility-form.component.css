@@ -1,0 +1,27 @@
+.container {
+  margin-top: 2%;
+  overflow: auto;
+  width: 80%;
+  margin-bottom: 2%;
+}
+.container > * {
+  width: 100%;
+}
+.sub-container {
+  display: flex;
+  flex-direction: column;
+}
+.sub-container h4 {
+  margin-bottom: 16px;
+}
+.button-fields{
+  margin-top: 32px;
+}
+.spinner-container {
+  width: 100%;
+}
+.loading-spinner {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+}

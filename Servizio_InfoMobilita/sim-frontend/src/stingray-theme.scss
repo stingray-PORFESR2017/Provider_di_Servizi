@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+
+$stringray-primary: mat-palette($mat-teal);
+$stringray-accent: mat-palette($mat-amber, A200, A100, A400);
+
+
+$stringray-warn: mat-palette($mat-red);
+
+
+$stringray-theme: mat-dark-theme($stringray-primary, $stringray-accent, $stringray-warn);
+
+
+@include angular-material-theme($stingray-theme);

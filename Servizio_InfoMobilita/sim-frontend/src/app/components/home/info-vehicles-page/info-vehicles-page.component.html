@@ -1,0 +1,288 @@
+<div *ngIf="canRender; else loading">
+
+  <div id="map-button" class="map-buttons-container">
+    <button mat-button class="main-map-button" (click)="onMapButtonClick()"
+            *ngIf="!mapService.isMapActive(); else mapCloseButton">
+      <mat-icon>map</mat-icon>
+    </button>
+    <ng-template #mapCloseButton>
+      <button mat-button (click)="mapService.closeMap(); singleVehicle = null;" class="main-map-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+
+  <ng-container *ngIf="mapService.isMapActive()">
+    <app-map [mapCenterLocation]="mapCenterLocation" [vehicles]="singleVehicle && singleVehicle.length>0 ? singleVehicle : vehicles" mat-elevation-z8></app-map>
+  </ng-container>
+
+  <ng-container *ngIf="!mapService.isMapActive()">
+    <div (window:resize)="onResize($event)" *ngIf="!isMobile; else mobileView">
+      <div class="table-container" *ngIf="!mapService.isMapActive()">
+        <ng-container *ngIf="['BIKE','CAR','TAXI'].includes(vehicles[0].mobilityType); else fixedTrackVehiclesTable">
+          <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+            <!-- Mobility Type -->
+            <ng-container matColumnDef="Tipo">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Tipo</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle" class="train-info-cell">
+                <ng-container style="color: whitesmoke" [ngSwitch]="vehicle.mobilityType">
+                  <mat-icon *ngSwitchCase="'BIKE'">directions_bike</mat-icon>
+                  <mat-icon *ngSwitchCase="'BUS'">directions_bus</mat-icon>
+                  <mat-icon *ngSwitchCase="'CAR'">directions_car</mat-icon>
+                  <mat-icon *ngSwitchCase="'E_SCOOTER'">electric_scooter</mat-icon>
+                  <mat-icon *ngSwitchCase="'TAXI'">local_taxi</mat-icon>
+                  <mat-icon *ngSwitchCase="'TRAIN'">train</mat-icon>
+                  <mat-icon *ngSwitchCase="'METRO'">subway</mat-icon>
+                  <mat-icon *ngSwitchCase="'TRAM'">tram</mat-icon>
+                  <mat-icon *ngSwitchCase="'POLY'">commute</mat-icon>
+                </ng-container>
+              </td>
+            </ng-container>
+            <!-- Number Column -->
+            <ng-container matColumnDef="Numero">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Numero</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">{{vehicle.number}}</td>
+            </ng-container>
+            <!-- Location Column-->
+            <ng-container matColumnDef="Locazione">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Locazione</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                <span>{{vehicle.currentLocation.lat | latitude}}</span>
+                <span>{{vehicle.currentLocation.lon | longitude}}</span>
+              </td>
+            </ng-container>
+            <!-- Hourly Cost-->
+            <ng-container matColumnDef="Costo orario">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Costo orario</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                {{vehicle.hourlyCost}}/h
+              </td>
+            </ng-container>
+            <!-- Power Type Column-->
+            <ng-container matColumnDef="Trazione">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Trazione</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                {{vehicle.powerType}}
+              </td>
+            </ng-container>
+            <!--Actions Column-->
+            <ng-container matColumnDef="Azioni">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let vehicle">
+                <div class="button-container">
+                  <a href="vehicle.bookingLink" target="_blank">
+                    <button mat-icon-button style="outline: none" aria-label="Shop ticket">
+                      <mat-icon>shopping_cart</mat-icon>
+                    </button>
+                  </a>
+                  <span target="_blank">
+                    <button mat-icon-button style="outline: none" aria-label="Shop ticket" (click)="onVehicleMapButtonClick(vehicle);">
+                      <mat-icon>map</mat-icon>
+                    </button>
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let vehicle; columns: displayedColumns;"></tr>
+          </table>
+        </ng-container>
+
+        <!-- FIXEX TRACK VEHICLES TABLE-->
+        <ng-template #fixedTrackVehiclesTable>
+          <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+            <!-- Mobility Type -->
+            <ng-container matColumnDef="Tipo">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Tipo</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle" class="vehicle-info-cell">
+                <ng-container style="color: whitesmoke" [ngSwitch]="vehicle.mobilityType">
+                  <mat-icon *ngSwitchCase="'BIKE'">directions_bike</mat-icon>
+                  <mat-icon *ngSwitchCase="'BUS'">directions_bus</mat-icon>
+                  <mat-icon *ngSwitchCase="'CAR'">directions_car</mat-icon>
+                  <mat-icon *ngSwitchCase="'E_SCOOTER'">electric_scooter</mat-icon>
+                  <mat-icon *ngSwitchCase="'TAXI'">local_taxi</mat-icon>
+                  <mat-icon *ngSwitchCase="'TRAIN'">train</mat-icon>
+                  <mat-icon *ngSwitchCase="'METRO'">subway</mat-icon>
+                  <mat-icon *ngSwitchCase="'TRAM'">tram</mat-icon>
+                  <mat-icon *ngSwitchCase="'POLY'">commute</mat-icon>
+                </ng-container>
+              </td>
+            </ng-container>
+            <!-- Number Column -->
+            <ng-container matColumnDef="Linea">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Numero</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">{{vehicle.number}}</td>
+            </ng-container>
+            <!-- Stop Column-->
+            <ng-container matColumnDef="Fermata">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Fermata</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                {{vehicle.currentLocation.label}}
+              </td>
+            </ng-container>
+            <!-- Time Column-->
+            <ng-container matColumnDef="Orario">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Orario</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                {{vehicle.nominalDepartureTime | date: 'HH:mm'}}
+              </td>
+            </ng-container>
+            <!-- Ritardo Column-->
+            <ng-container matColumnDef="Ritardo">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Ritardo</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                {{vehicle.delay ? vehicle.delay + "'" : "ND" }}
+              </td>
+            </ng-container>
+            <!-- Power Type Column-->
+            <ng-container matColumnDef="Trazione">
+              <th mat-header-cell *matHeaderCellDef>
+                <h5>Trazione</h5>
+              </th>
+              <td mat-cell *matCellDef="let vehicle">
+                {{vehicle.powerType}}
+              </td>
+            </ng-container>
+            <!-- Expanded row with stops-->
+            <ng-container matColumnDef="expandedDetail">
+              <td mat-cell class="expanded-cell" *matCellDef="let vehicle" [attr.colspan]="displayedColumns.length">
+                <div class="vehicle-detail" [@detailExpand]="vehicle == expandedVehicle ? 'expanded' : 'collapsed'">
+                  <h6>Fermate intermedie</h6>
+                  <mat-list role="list" dense>
+                    <mat-list-item role="listitem"
+                                   *ngFor="let stop of vehicle?.upcomingStops">{{stop.label}}</mat-list-item>
+                  </mat-list>
+                </div>
+              </td>
+            </ng-container>
+            <!--Actions Column-->
+            <ng-container matColumnDef="Azioni">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let vehicle">
+                <div class="button-container">
+                  <a href="vehicle.bookingLink" target="_blank">
+                    <button mat-icon-button style="outline: none" aria-label="Shop ticket">
+                      <mat-icon>shopping_cart</mat-icon>
+                    </button>
+                  </a>
+                  <span href="vehicle.bookingLink" target="_blank">
+                    <button mat-icon-button style="outline: none" aria-label="Shop ticket" (click)="onVehicleMapButtonClick(vehicle);">
+                      <mat-icon>map</mat-icon>
+                    </button>
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let vehicle; columns: displayedColumns;"
+                class="example-expanded-row"
+                [class.example-expanded-row]="expandedVehicle === vehicle"
+                (click)="expandedVehicle = expandedVehicle === vehicle ? null : vehicle"></tr>
+            <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class="example-detail-row"></tr>
+          </table>
+        </ng-template>
+      </div>
+    </div>
+
+    <ng-template #mobileView>
+      <div class="card-container" (window:resize)="onResize($event)">
+        <ng-container *ngIf="!mapService.isMapActive()">
+          <mat-card *ngFor="let vehicle of vehicles">
+            <mat-card-header>
+              <div mat-card-avatar>
+                <mat-icon style="font-size:2rem">
+                  <ng-container style="color: whitesmoke" [ngSwitch]="vehicle.mobilityType">
+                    <mat-icon *ngSwitchCase="'BIKE'">directions_bike</mat-icon>
+                    <mat-icon *ngSwitchCase="'BUS'">directions_bus</mat-icon>
+                    <mat-icon *ngSwitchCase="'CAR'">directions_car</mat-icon>
+                    <mat-icon *ngSwitchCase="'E_SCOOTER'">electric_scooter</mat-icon>
+                    <mat-icon *ngSwitchCase="'TAXI'">local_taxi</mat-icon>
+                    <mat-icon *ngSwitchCase="'TRAIN'">train</mat-icon>
+                    <mat-icon *ngSwitchCase="'METRO'">subway</mat-icon>
+                    <mat-icon *ngSwitchCase="'TRAM'">tram</mat-icon>
+                    <mat-icon *ngSwitchCase="'POLY'">commute</mat-icon>
+                  </ng-container>
+                </mat-icon>
+              </div>
+              <mat-card-title>
+                {{vehicle.number}}
+              </mat-card-title>
+              <mat-card-subtitle *ngIf="['BUS', 'METRO', 'TRAM', 'POLY'].includes(vehicle.mobilityType)">
+                <span *ngIf="vehicle.currentLocation.label">{{vehicle.currentLocation.label}} </span>
+                <span *ngIf="vehicle.nominalDepartureTime">{{vehicle.nominalDepartureTime | date: 'HH:mm'}}</span>
+                <span *ngIf="vehicle.delay">
+                  <mat-icon>history</mat-icon>
+                  <span>{{vehicle.delay}}'</span>
+                </span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+              <div class="card-row" *ngIf="vehicle.currentLocation.lat && vehicle.currentLocation.lon ">
+                <mat-icon>explore</mat-icon>
+                <span>{{vehicle.currentLocation.lat | latitude}}</span>
+                <span>{{vehicle.currentLocation.lon | longitude}}</span>
+              </div>
+              <mat-accordion class="card-row" *ngIf="['BUS', 'METRO', 'TRAM', 'POLY'].includes(vehicle.mobilityType)">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <span>Fermate intermedie</span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <mat-list role="list" *ngFor="let stop of vehicle.upcomingStops">
+                    <mat-list-item role="listitem">{{stop.label}}</mat-list-item>
+                  </mat-list>
+                </mat-expansion-panel>
+              </mat-accordion>
+
+              <div class="row">
+
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <a href="vehicle.bookingLink" target="_blank" *ngIf="vehicle.bookingLink">
+                <button mat-icon-button style="outline: none">
+                  <mat-icon>shopping_cart</mat-icon>
+                </button>
+              </a>
+              <button mat-icon-button (click)="onVehicleMapButtonClick(vehicle)">
+                <mat-icon>map</mat-icon>
+              </button>
+
+            </mat-card-actions>
+          </mat-card>
+
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <app-go-back-button class="go-back" *ngIf="!mapService.isMapActive()"></app-go-back-button>
+
+</div>
+
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

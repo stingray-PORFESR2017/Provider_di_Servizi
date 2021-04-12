@@ -1,0 +1,52 @@
+<mat-card class="container">
+  <form [formGroup]="userForm" *ngIf="canRender; else loading">
+    <div class="sub-container">
+      <h4>{{user.name}} {{user.surname}}</h4>
+      <!--NAME FIELD -->
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput placeholder="Nome" formControlName="name" required>
+        <mat-error *ngIf="userForm.get('name').invalid">{{getErrorMessageName()}}</mat-error>
+      </mat-form-field>
+      <!--SURNAME FIELD -->
+      <mat-form-field appearance="outline">
+        <mat-label>Cognome</mat-label>
+        <input matInput placeholder="Cognome" formControlName="surname" required>
+        <mat-error *ngIf="userForm.get('surname').invalid">{{getErrorMessageSurname()}}</mat-error>
+      </mat-form-field>
+      <!--EMAIL FIELD -->
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required>
+        <mat-error *ngIf="userForm.get('email').invalid">{{getErrorMessageEmail()}}</mat-error>
+      </mat-form-field>
+      <!--USER ROLE FIELD -->
+      <mat-form-field appearance="outline">
+        <mat-label>Ruolo utente</mat-label>
+        <mat-select formControlName="userRole" required>
+          <mat-option value="SUPER_ADMIN">SUPER ADMIN</mat-option>
+          <mat-option value="ADMIN">ADMIN</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--PASSWORD FIELD -->
+      <mat-form-field appearance="outline" [hidden]="show">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div class="hide-show"><button mat-stroked-button color="accent" (click)="pswField()">MODIFICA PASSWORD</button></div>
+    </div>
+    <div class="button-fields">
+      <button mat-raised-button color="accent" style="outline: none" [routerLink]="['..']">ANNULLA</button>
+      <button mat-raised-button color="primary" style="outline: none" (click)="updateUser()" [disabled]="!userForm.valid">SALVA</button>
+    </div>
+  </form>
+</mat-card>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>
+
+
+

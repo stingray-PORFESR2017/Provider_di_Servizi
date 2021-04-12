@@ -1,0 +1,126 @@
+/* TITLE */
+
+.button-row {
+  margin-left: 40%;
+}
+
+.title {
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* FILTER */
+
+mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.filter-container {
+  margin-top: 2%;
+  margin-left: 5%;
+  width: 90%;
+}
+
+.filter {
+  width: 100%;
+}
+
+/* TILE CONTAINER */
+.main-content {
+  width: 100%;
+}
+.card-container {
+  margin-top: 2%;
+  margin-left:5%;
+  width: 90%;
+  margin-bottom: 4%;
+}
+
+/* TILE */
+mat-grid-tile {
+  max-width: 380px;
+}
+
+.card {
+  background-color: #6e6e6e;
+}
+.card:hover {
+  background-color: #505050;
+  cursor: pointer;
+}
+
+.header-grid {
+  height: 50px;
+  width: 100%;
+}
+
+.header-container mat-icon {
+  font-size: 30px;
+}
+
+.mobility-icon {
+  float: left;
+  width: 65%;
+  height: 50px;
+}
+.icon {
+  padding-top: 8px;
+  float: left;
+  height: 50px;
+  width: 15%;
+}
+.station {
+  text-align: center;
+  padding-top: 12px;
+  float: left;
+  height: 50px;
+  width: 85%;
+}
+
+
+/* AMBIENTAL DATA */
+
+.ambiental-icon {
+  float: right;
+  height: 50px;
+  width: 35%;
+}
+
+.temp-est{
+  text-align: center;
+  padding-top: 14px;
+  float: left;
+  height: 50px;
+  width: 60%;
+}
+.weather-icon {
+  padding-left: 5px;
+  padding-top: 8px;
+  float: left;
+  height: 50px;
+  width: 40%;
+}
+.cloudy{
+  color: #9aceff;
+}
+.sun{
+  color: #f6da63;
+}
+
+
+/* SPINNER */
+
+.spinner-container {
+  width: 100%;
+}
+.loading-spinner {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+}

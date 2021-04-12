@@ -1,0 +1,8 @@
+.confirm-delete-button {
+  background-color: #B90000;
+  outline: none;
+}
+.confirm-delete-button:hover {
+  transition-duration: 0.5s;
+  background-color: red;
+}

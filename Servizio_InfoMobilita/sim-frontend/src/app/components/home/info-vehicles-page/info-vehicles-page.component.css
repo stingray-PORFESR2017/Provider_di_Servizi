@@ -1,0 +1,160 @@
+a {
+  color: white;
+}
+span{
+  margin-right: 8px;
+}
+
+.map-buttons-container{
+  margin: 16px auto;
+  display: flex;
+  width: 95%;
+  justify-content: flex-end;
+}
+
+.main-map-button{
+  display: inline;
+}
+
+.table-container{
+  margin: 32px auto 0 auto;
+  width: 95%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-cell{
+  width: auto;
+  max-width: 50px;
+}
+
+.vehicle-detail{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.vehicle-detail h6{
+  margin-top: 8px;
+  display: block;
+  width: 100%;
+}
+
+.vehicle-detail mat-list{
+  display: block;
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+.button-container {
+  margin-top: 2%;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.filter {
+  width: 100%;
+}
+
+.button-row {
+  margin-left: 40%;
+}
+
+.spinner-container {
+  width: 100%;
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.vehicle-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+  /* MOBILE VIEW */
+
+  mat-card{
+  margin: 16px auto;
+  width: 95%;
+  }
+
+  mat-card mat-icon, .card-row span{
+  margin-right: 1rem;
+  }
+
+  mat-card-header{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  }
+
+  mat-card-title, mat-card-subtitle{
+  white-space: nowrap;
+  }
+
+  mat-card-content{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  }
+
+  .card-row{
+  width: 100%;
+  padding: 16px 0 0 0;
+  }
+
+  mat-card-actions{
+  display: flex;
+  justify-content: flex-end;
+  }
+
+  mat-card-header>.first-row{
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  }
+
+  .first-row>.first-block{
+  max-width: 50%;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  }
+
+  .first-row>mat-slide-toggle{
+  max-width: 10%;
+  }
+
+  .card-container{
+  margin: 0 auto;
+  width: 90vw;
+  }
+
+
+
