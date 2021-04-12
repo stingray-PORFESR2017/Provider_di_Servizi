@@ -1,0 +1,46 @@
+<div class="example-container" (window:resize)="onResize($event)">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <h1 class="example-app-name">Stringray</h1>
+  </mat-toolbar>
+  <mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav-content>
+      <div [ngClass]="{
+        'container-desktop': !mobileView,
+        'container-mobile': mobileView
+      }">
+        <mat-card class="example-card">
+          <mat-card-header class="card-content">
+            <div [ngClass]="{
+              'header-desktop': !mobileView,
+              'header-mobile': mobileView
+            }">
+              <div><mat-icon class="account">account_circle</mat-icon></div>
+              <div><h2>LOGIN</h2></div>
+            </div>
+          </mat-card-header>
+          <form [formGroup]="loginForm">
+            <mat-card-content class="card-content">
+              <mat-form-field appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input matInput placeholder="Email" formControlName="email" (keydown)="onKeyDown($event)">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Enter the password" [type]="hidePassword ? 'password' : 'text'" formControlName="password" (keydown)="onKeyDown($event)">
+                <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'" [attr.aria-pressed]="!hidePassword">
+                  <mat-icon (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </button>
+              </mat-form-field>
+            </mat-card-content>
+          </form>
+          <div class="button-fields">
+            <button mat-raised-button color="primary" style="outline: none; float: left;" class="link"
+                    [routerLink]="['/main/home']"><mat-icon>location_city</mat-icon> &nbsp; TORNA ALLA HOME</button>
+            <button mat-raised-button color="primary" style="outline: none; float: right;" (click)="LogIn()" [disabled]="loginForm.invalid">LOGIN</button>
+          </div>
+        </mat-card>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

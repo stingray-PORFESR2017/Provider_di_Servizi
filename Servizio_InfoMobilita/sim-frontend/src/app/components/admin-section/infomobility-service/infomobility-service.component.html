@@ -1,0 +1,213 @@
+<div *ngIf="canRender; else loading">
+  <div class="filter-container">
+    <mat-form-field class="filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Cerca per nome o tipo di servizio...">
+    </mat-form-field>
+  </div>
+
+  <!-- DESKTOP-TABLET VIEW-->
+  <div class="infomobility-container mat-elevation-z8" (window:resize)="onResize($event)" *ngIf="!isMobile; else mobileView">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><h5>Nome</h5></th>
+        <td mat-cell *matCellDef="let row"> {{row?.name}}</td>
+      </ng-container>
+      <!-- Service Provider Column -->
+      <ng-container matColumnDef="service provider">
+        <th mat-header-cell *matHeaderCellDef><h5>Tipo del servizio</h5></th>
+        <td mat-cell *matCellDef="let row">{{row?.serviceProviderType}}</td>
+      </ng-container>
+      <!-- Enabled Column -->
+      <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <mat-slide-toggle [checked]="row?.enabled" (click)="patchEnabled(row?.id, row?.enabled)"></mat-slide-toggle>
+        </td>
+      </ng-container>
+      <!-- Mobility Type Column -->
+      <ng-container matColumnDef="mobilityTypes">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5>Tipi di Mobilità</h5>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-expansion-panel class="exp-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title><mat-icon class="icon">directions_run</mat-icon> Tipi di mobilità</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list role="list" *ngFor="let mt of row?.mobilityTypes">
+              <mat-list-item role="listitem">
+                <ng-container style="color: whitesmoke" [ngSwitch]="mt">
+                  <span *ngSwitchCase="'BIKE'">
+                    <mat-icon >directions_bike</mat-icon>
+                    <span>BICI</span>
+                  </span>
+                  <span *ngSwitchCase="'BUS'">
+                    <mat-icon >directions_bus</mat-icon>
+                    <span>BUS</span>
+                  </span>
+                  <span *ngSwitchCase="'CAR'">
+                    <mat-icon >directions_car</mat-icon>
+                    <span>MACCHINA</span>
+                  </span>
+                  <span *ngSwitchCase="'E_SCOOTER'">
+                    <mat-icon >electric_scooter</mat-icon>
+                    <span>MONOPATTINO ELETTRICO</span>
+                  </span>
+                  <span *ngSwitchCase="'METRO'">
+                    <mat-icon >subway</mat-icon>
+                    <span>METRO</span>
+                  </span>
+                  <span *ngSwitchCase="'TAXI'">
+                    <mat-icon >directions_taxi</mat-icon>
+                    <span>TAXI</span>
+                  </span>
+                  <span *ngSwitchCase="'TRAIN'">
+                    <mat-icon >train</mat-icon>
+                    <span>TRENO</span>
+                  </span>
+                  <span *ngSwitchCase="'TRAM'">
+                    <mat-icon >tram</mat-icon>
+                    <span>TRAM</span>
+                  </span>
+                  <span *ngSwitchCase="'POLY'">
+                    <mat-icon >commute</mat-icon>
+                    <span>MULTIMODALE</span>
+                  </span>
+                </ng-container>
+              </mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+        </td>
+      </ng-container>
+      <!-- Station Column -->
+      <ng-container matColumnDef="stations">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5>Stazioni</h5>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-expansion-panel class="exp-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title><mat-icon class="icon">directions_transit</mat-icon> Stazioni</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list role="list" *ngFor="let ss of row?.smartStations">
+              <mat-list-item role="listitem">{{ss.name}}</mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+        </td>
+      </ng-container>
+      <!--Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell  *matCellDef="let row">
+          <div class="button-container">
+            <button style="outline: none" [routerLink]="[row.id]" mat-icon-button aria-label="Edit">
+              <mat-icon class="edit-button">edit</mat-icon>
+            </button>
+            <button style="outline: none" mat-icon-button aria-label="Delete">
+              <mat-icon (click)="openDialog(row?.id, row?.name)">delete_sweep</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <ng-template #mobileView>
+    <!--MOBILE VIEW-->
+    <div class="card-container" (window:resize)="onResize($event)">
+      <mat-card *ngFor="let infoService of filteredInfomobilityServices">
+        <!--CARD HEADER-->
+        <mat-card-header>
+          <div class="first-row">
+            <div class="first-block">
+              <ng-container [ngSwitch]="infoService.serviceProviderType">
+                <mat-icon *ngSwitchCase="'API'">code</mat-icon>
+                <mat-icon *ngSwitchCase="'EMBEDDABLE'">picture_in_picture_alt</mat-icon>
+                <mat-icon *ngSwitchCase="'REDIRECTABLE'">link</mat-icon>
+              </ng-container>
+
+            <mat-card-title>{{infoService.name}}</mat-card-title>
+            </div>
+            <mat-slide-toggle [checked]="infoService.enabled" (click)="patchEnabled(infoService.id, infoService.enabled)"></mat-slide-toggle>
+          </div>
+        </mat-card-header>
+        <!-- CARD CONTENT-->
+        <mat-card-content>
+          <!-- <div class="card-row">
+            <mat-icon>location_city</mat-icon>
+            <span> {{smartStation.municipality.name}}</span>
+          </div> -->
+
+          <!-- Mobility Types -->
+          <mat-accordion class="card-row">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>directions_run</mat-icon>
+                  <span>Tipi di Mobilità</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list role="list" *ngFor="let mobilityType of infoService.mobilityTypes">
+                <mat-list-item role="listitem">
+                  <ng-container [ngSwitch]="mobilityType">
+                    <mat-icon *ngSwitchCase="'BIKE'">directions_bike</mat-icon>
+                    <mat-icon *ngSwitchCase="'BUS'">directions_bus</mat-icon>
+                    <mat-icon *ngSwitchCase="'CAR'">directions_car</mat-icon>
+                    <mat-icon *ngSwitchCase="'METRO'">directions_subway</mat-icon>
+                    <mat-icon *ngSwitchCase="'TAXI'">local_taxi</mat-icon>
+                    <mat-icon *ngSwitchCase="'TRAIN'">train</mat-icon>
+                    <mat-icon *ngSwitchCase="'TRAM'">tram</mat-icon>
+                    <mat-icon *ngSwitchCase="'POLY'">commute</mat-icon>
+                  </ng-container>
+                  <ng-container style="color: whitesmoke" [ngSwitch]="mobilityType">
+                    <span *ngSwitchCase="'BIKE'">BICI</span>
+                    <span *ngSwitchCase="'BUS'">BUS</span>
+                    <span *ngSwitchCase="'CAR'"> AUTO</span>
+                    <span *ngSwitchCase="'TAXI'">TAXI</span>
+                    <span *ngSwitchCase="'TRAIN'">TRENO</span>
+                    <span *ngSwitchCase="'METRO'">METRO</span>
+                    <span *ngSwitchCase="'TRAM'">TRAM</span>
+                    <span *ngSwitchCase="'POLY'">MULTIMODALE</span>
+                  </ng-container>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <!-- Smart Stations -->
+          <mat-accordion class="card-row">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>train</mat-icon>
+                  <span>Stazioni</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list role="list" *ngFor="let smartStation of infoService.smartStations">
+                <mat-list-item role="listitem">{{smartStation.name}}</mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-content>
+        <!--CARD ACTIONS-->
+        <mat-card-actions>
+          <button style="outline: none" [routerLink]="[infoService.id]" mat-icon-button aria-label="Edit" class="edit-button">
+                <mat-icon>edit</mat-icon>
+          </button>
+          <button style="outline: none" mat-icon-button aria-label="Delete" class="delete-button">
+            <mat-icon (click)="openDialog(infoService.id, infoService.name)">delete_sweep</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-template>
+  <div class="filter-container" *ngIf="_jwtService.getRole() == 'SUPER_ADMIN'">
+    <app-add-button addUrl='addInfomobilityService' class="add-button"></app-add-button>
+  </div>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>
+

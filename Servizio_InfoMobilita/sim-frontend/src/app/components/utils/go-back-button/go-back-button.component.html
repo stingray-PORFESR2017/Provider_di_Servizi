@@ -1,0 +1,4 @@
+<button mat-fab *ngIf="previousPageUrl && titleService"  color="accent"
+        [routerLink]="previousPageUrl" (click)="onClick()">
+            <mat-icon>arrow_back</mat-icon>
+</button>

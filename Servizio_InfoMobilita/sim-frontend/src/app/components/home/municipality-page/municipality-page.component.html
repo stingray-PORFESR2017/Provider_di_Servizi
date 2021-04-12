@@ -1,0 +1,53 @@
+<div *ngIf="canRender; else loading">
+  <div class="main-content">
+    <div class="filter-container">
+      <mat-form-field class="filter">
+        <input matInput type="text" placeholder="Cerca stazione per nome..." [(ngModel)]="searchText">
+      </mat-form-field>
+    </div>
+    <div class="card-container" (window:resize)="onResize($event)">
+      <mat-grid-list [cols]="cols" rowHeight="2:1" [gutterSize]="'20px'">
+        <mat-grid-tile *ngFor="let s of smartStations | filter: searchText : 'name'"
+                      (click)="titleService.appendToTitle(s.name)" [routerLink]="[s.id]" class="card"
+                      style="background-position: center; background-size: cover;" 
+                      [style.backgroundImage]="'url('+this._smartStationService.getUrl()+'/'+s.id +'/picture)'">
+          <mat-grid-tile-header>
+            <div class="header-grid">
+              <div class="mobility-icon">
+                <div class="icon"><mat-icon>directions_transit</mat-icon></div>
+                <div class="station"><p>{{s?.name}}</p></div>
+              </div>
+              <div class="ambiental-icon" *ngIf="s?.tempEst">
+                <div class="temp-est">
+                  <h6>{{s?.tempEst}}°C</h6>
+                </div>
+                <div class="weather-icon" >
+                  <ng-container *ngIf="s?.tempEst >= 12.0; else cloudyIcon">
+                    <mat-icon class="sun">wb_sunny</mat-icon>
+                  </ng-container>
+                  <ng-template #cloudyIcon>
+                    <mat-icon class="cloudy">wb_cloudy</mat-icon>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </mat-grid-tile-header>
+          <mat-grid-tile-footer>
+            <div class="tile-content" >
+              <div class="location-info" *ngIf="s.lat && s.lon">
+                <mat-icon>explore</mat-icon>
+                <span>{{s?.lat | latitude}}</span>
+                <span>{{s?.lon | longitude}}</span>
+              </div>
+            </div>
+          </mat-grid-tile-footer>
+
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+  <app-go-back-button class="go-back"></app-go-back-button>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

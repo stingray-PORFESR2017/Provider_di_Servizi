@@ -1,0 +1,112 @@
+.auth-container {
+  margin-top: 2%;
+  margin-left: 5%;
+  max-height: 400px;
+  overflow: auto;
+  width: 90%;
+}
+.filter {
+  width: 100%;
+}
+.filter-container {
+  margin-top: 2%;
+  width: 90%;
+  margin-left: 5%;
+}
+.button-row {
+  margin-left: 40%;
+}
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.button-containers{
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.icon-btn {
+  font-size: 60px;
+}
+.spinner-container {
+  width: 100%;
+}
+.loading-spinner {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.mobility-icon {
+  width: 40px;
+  height: 40px;
+}
+mat-icon {
+  font-size: 25px;
+}
+
+/* MOBILE VIEW */
+mat-card{
+  margin: 16px auto;
+  width: 100%;
+}
+mat-card mat-icon, .card-row span{
+  margin-right: 1rem;
+}
+mat-card-header{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+}
+mat-card-title, mat-card-subtitle{
+  white-space: nowrap;
+}
+mat-card-content{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.card-row{
+  width: 100%;
+  padding: 16px 0 0 0;
+}
+mat-card-actions{
+  display: flex;
+  justify-content: flex-end;
+}
+mat-card-header>.first-row{
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+}
+.first-row>.first-block{
+  max-width: 50%;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.first-row>mat-slide-toggle{
+  max-width: 10%;
+}
+.card-container{
+  margin: 0 auto;
+  width: 90vw;
+}

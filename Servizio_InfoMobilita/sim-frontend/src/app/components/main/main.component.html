@@ -1,0 +1,63 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" (window:resize)="onResize($event)">
+    <mat-toolbar id="main-toolbar" color="primary" class="example-toolbar">
+      <button mat-icon-button (click)="snav.toggle()" style="outline: none" *ngIf="_jwtStorageService.isLoggedIn()">
+        <mat-icon class="menu-icon">menu</mat-icon>
+      </button>
+      <!-- <button mat-button id="menu-logo" (click)="snav.toggle()" style="outline: none" [disabled]="!_jwtStorageService.isLoggedIn()" >
+        <img src="assets/logo.png" width="60px" height="60px">
+      </button> -->
+      <h1 class="example-app-name">{{title}}</h1>
+    
+      <div class="login" *ngIf="!_jwtStorageService.isLoggedIn(); else loggedUser">
+        <button mat-icon-button style="outline: none" [routerLink]="['/login']">
+          <mat-icon>system_update_alt</mat-icon>
+        </button>
+      </div>
+      <ng-template #loggedUser>
+        <button mat-mini-fab  class="userInitial" (click)="snav.toggle()">
+          <strong>{{userName.charAt(0) | uppercase}}</strong>
+        </button>
+      </ng-template>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container"
+                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        <mat-nav-list>
+          <mat-list-item class="user-infos">
+            <mat-icon class="icon">account_circle</mat-icon>
+            <h5 class="sidenav-elements">{{userName}}</h5>
+            <button mat-icon-button (click)="[logout(),snav.close()]">
+              <mat-icon>launch</mat-icon>
+            </button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item [routerLinkActive]="['active']" [routerLink]="['/main/home']" (click)="snav.toggle()">
+            <mat-icon class="icon">home</mat-icon>
+            <h5 class="sidenav-elements">Home</h5>
+          </mat-list-item>
+          <mat-list-item [routerLinkActive]="['active']" [routerLink]="['/main/smartStation']" *ngIf="userRole == 'SUPER_ADMIN' || userRole == 'ADMIN'" (click)="snav.toggle()">
+            <mat-icon class="icon">directions_transit</mat-icon>
+            <h5 class="sidenav-elements">Smart Stations</h5>
+          </mat-list-item>
+          <mat-list-item [routerLinkActive]="['active']" [routerLink]="['/main/infomobilityService']" *ngIf="userRole == 'SUPER_ADMIN' || userRole == 'ADMIN'" (click)="snav.toggle()">
+            <mat-icon class="icon">directions_run</mat-icon>
+            <h5 class="sidenav-elements">Servizi di Infomobilità</h5>
+          </mat-list-item>
+          <mat-list-item [routerLinkActive]="['active']" [routerLink]="['/main/municipality']" *ngIf="userRole == 'SUPER_ADMIN'" (click)="snav.toggle()">
+            <mat-icon class="icon">location_city</mat-icon>
+            <h5 class="sidenav-elements">Municipalità</h5>
+          </mat-list-item>
+          <mat-list-item [routerLinkActive]="['active']" [routerLink]="['/main/users']" *ngIf="userRole == 'SUPER_ADMIN'" (click)="snav.toggle()">
+            <mat-icon class="icon">supervisor_account</mat-icon>
+            <h5 class="sidenav-elements">Utenti</h5>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+
+    </mat-sidenav-container>
+</div>

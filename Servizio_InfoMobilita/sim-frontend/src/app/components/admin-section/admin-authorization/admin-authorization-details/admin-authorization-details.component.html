@@ -1,0 +1,38 @@
+<div *ngIf="canRender; else loading">
+  <mat-card class="container">
+    <form [formGroup]="adminAuthorizationForm">
+      <div class="sub-container">
+        <h2>{{adminAuth.userAccount.name}} {{adminAuth.userAccount.surname}}</h2>
+        <mat-form-field appearance="outline">
+          <mat-label>Municipalità</mat-label>
+          <mat-select formControlName="municipality_id" required>
+            <mat-option *ngFor="let m of municipalities" [value]="m.id">{{m.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="adminAuthorizationForm.get('municipality_id').invalid">{{getErrorMessageMunicipality()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Infomobility Service</mat-label>
+          <mat-select formControlName="info_id" required>
+            <mat-option *ngFor="let i of infomobilities" [value]="i.id">{{i.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="adminAuthorizationForm.get('info_id').invalid">{{getErrorMessageInfomobility()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Data di Scadenza</mat-label>
+          <input matInput placeholder="Expire Date" formControlName="expire_date" [matDatepicker]="picker" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+          <mat-error *ngIf="adminAuthorizationForm.get('expire_date').invalid">{{getErrorMessageExpireDate()}}</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="checkbox"><mat-checkbox [(ngModel)]="disabled" (click)="disable()">Nessuna data di scadenza</mat-checkbox></div>
+    <div class="button-fields">
+      <button mat-raised-button color="accent" style="outline: none" (click)="goBack()">ANNULLA</button>
+      <button mat-raised-button color="primary" style="outline: none" (click)="updateAdminAuthorization()" [disabled]="!adminAuthorizationForm.valid">SALVA</button>
+    </div>
+  </mat-card>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>

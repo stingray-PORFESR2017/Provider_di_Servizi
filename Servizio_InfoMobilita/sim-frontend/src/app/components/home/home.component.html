@@ -1,0 +1,40 @@
+<div *ngIf="municipalities; else loading">
+  <div class="main-content">
+    <div class="filter-container">
+      <mat-form-field class="filter">
+        <input matInput type="text" placeholder="Cerca municipalità per nome..." [(ngModel)]="searchText">
+      </mat-form-field>
+    </div>
+    <div class="card-container" (window:resize)="onResize($event)">
+      <mat-grid-list [cols]="cols" rowHeight="2:1" [gutterSize]="'20px'">
+        <mat-grid-tile *ngFor="let m of municipalities | filter: searchText : 'name'" 
+                        (click)="titleService.appendToTitle(m.name)" [routerLink]="[m.id]" class="card" 
+                        style="background-position: center; background-size: cover;" 
+                        [style.backgroundImage]="'url('+this._municipalityService.getUrl()+'/'+m.id +'/picture)'">
+          <mat-grid-tile-header>
+            <div class="header-container">
+              <div class="mobility-icon">
+                <mat-icon>location_city</mat-icon>
+              </div>
+              <div class="service-name">
+                <h4>{{m?.name}}</h4>
+              </div>
+            </div>
+          </mat-grid-tile-header>
+          <mat-grid-tile-footer>
+            <div class="tile-content">
+              <div class="location-info" *ngIf="m.lat && m.lon">
+                <mat-icon>explore</mat-icon>
+                <span>{{m?.lat | latitude}}</span>
+                <span>{{m?.lon | longitude}}</span>
+              </div>
+            </div>
+          </mat-grid-tile-footer>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>
+<ng-template #loading class="spinner-container">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</ng-template>
