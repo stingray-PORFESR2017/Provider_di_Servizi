@@ -25,7 +25,7 @@ public class PubThread implements Runnable {
 		byte[] messagebyte = command.getMessage(message);
 		p.send(messagebyte,key);
 		log.trace(Base64.getEncoder().encodeToString(messagebyte));
-		try {
+		/*try {
 			//Thread.sleep(1000);
 			//messagebyte = command.getMessageNull(message);
 			//p.send(messagebyte,key);
@@ -34,7 +34,7 @@ public class PubThread implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		
 	}
 
