@@ -254,10 +254,12 @@ public class CommandCMAD {
 		
 		String command_code = "00009020";
 		String command_value = "F10057002800BB32";
+		int typ = 0;
 		if(!mac.equals(mac2)){
 			command_value = "F1005700280032BB";
+			typ = 1;
 		}
-		int typ = 0;
+		
 		int group = 0 ;
 		long millis = getTimes();
 		int vali = 5;
@@ -272,10 +274,12 @@ public class CommandCMAD {
 		
 		String command_code = "00009020";
 		String command_value = "C267D400993859A5";
+		int typ = 0;
 		if(!mac.equals(mac2)){
 			command_value = "C267D4009938A559";
+			typ = 1;
 		}
-		int typ = 0;
+		
 		int group = 0 ;
 		long millis = getTimes();
 		int vali = 5;
