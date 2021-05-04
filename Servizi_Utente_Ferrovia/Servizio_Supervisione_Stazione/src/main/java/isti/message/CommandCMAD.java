@@ -218,10 +218,11 @@ public class CommandCMAD {
 		
 		String command_code = "00009001";
 		String command_value = "0000570028007E00";
+		int typ = 0;
 		if(!mac1.equals(mac2)){
 			command_value = "000057002800007E";
+			typ = 1;
 		}
-		int typ = 0;
 		int group = 0 ;
 		long millis = getTimes();
 		int vali = 5;
@@ -235,10 +236,12 @@ public class CommandCMAD {
 		
 		String command_code = "00009001";
 		String command_value = "00230500009AC428";
+		int typ = 0;
 		if(!mac.equals(mac2)){
 			command_value = "00230500009A28C4";
+			typ = 1;
 		}
-		int typ = 0;
+		
 		int group = 0 ;
 		long millis = getTimes();
 		int vali = 5;
@@ -257,7 +260,7 @@ public class CommandCMAD {
 		int typ = 0;
 		if(!mac.equals(mac2)){
 			command_value = "F1005700280032BB";
-			typ = 1;
+			typ = 2;
 		}
 		
 		int group = 0 ;
@@ -277,7 +280,7 @@ public class CommandCMAD {
 		int typ = 0;
 		if(!mac.equals(mac2)){
 			command_value = "C267D4009938A559";
-			typ = 1;
+			typ = 2;
 		}
 		
 		int group = 0 ;
