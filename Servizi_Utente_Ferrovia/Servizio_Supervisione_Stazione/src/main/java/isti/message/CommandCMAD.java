@@ -203,7 +203,7 @@ public class CommandCMAD {
 		if(!mac1.equals(mac2)){
 			command_value = "000057002800007E";
 		}
-		int typ = 0;
+		int typ = 2;
 		int group = 0 ;
 		long millis = getTimes();
 		int vali = 5;
