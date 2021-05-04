@@ -196,7 +196,7 @@ public class MessageCMAD {
 		   Instant epoch = Instant.parse("2000-01-01T00:00:00.00Z");
 		   Instant later = epoch.plusSeconds( Times ) ; 
 		   
-		   ZoneOffset offset = ZoneOffset.of("+01:00");
+		   ZoneOffset offset = ZoneOffset.of("+00:00");
 		   
 		   OffsetDateTime odt = later.atOffset( offset ) ;
 		   
