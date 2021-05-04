@@ -26,10 +26,10 @@ public class PubThread implements Runnable {
 		p.send(messagebyte,key);
 		log.trace(Base64.getEncoder().encodeToString(messagebyte));
 		try {
-			Thread.sleep(1000);
-			messagebyte = command.getMessageNull(message);
-			p.send(messagebyte,key);
-			log.trace(Base64.getEncoder().encodeToString(messagebyte));
+			//Thread.sleep(1000);
+			//messagebyte = command.getMessageNull(message);
+			//p.send(messagebyte,key);
+			//log.trace(Base64.getEncoder().encodeToString(messagebyte));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
