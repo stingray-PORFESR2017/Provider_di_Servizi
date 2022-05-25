@@ -27,7 +27,7 @@
     "angular-bootstrap-md": "^8.3.0",
     "angular2-jwt": "^0.2.3",
     "bootstrap": "^4.4.1",
-    "bootstrap-table": "^1.16.0",
+    "bootstrap-table": "^1.20.2",
     "concurrently": "^5.0.2",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
