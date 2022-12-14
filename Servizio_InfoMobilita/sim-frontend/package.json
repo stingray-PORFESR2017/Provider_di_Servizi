@@ -30,7 +30,7 @@
     "bootstrap-table": "^1.16.0",
     "concurrently": "^5.0.2",
     "cookie-parser": "^1.4.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "jwks-rsa": "^1.6.2",
     "jwt-decode": "^2.2.0",
